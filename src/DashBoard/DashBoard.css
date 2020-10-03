@@ -1,0 +1,18 @@
+.leftView{
+    padding-top: 50px;
+    padding-bottom: 39px;
+    background-color: #343a40;
+    text-align: center;
+    height : 100vh;
+}
+
+#navbar {
+    transform: translateX(-220px);
+    transition: transform 800ms ease-in;
+  }
+  #navbar.slideIn {
+    transform: translateX(0);
+  }
+  #navbar.slideOut {
+    transform: translateX(0px);
+  }

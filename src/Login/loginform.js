@@ -99,7 +99,7 @@ class LoginForm extends React.Component {
 
     let requestBody = {
       query: ` query{
-        ValidateUser(input:{
+        validateUser(input:{
           emailId:"${this.state.emailId}",password :"${this.state.password}"
         }){
           token,
@@ -122,7 +122,7 @@ class LoginForm extends React.Component {
   render() {
     return (
       <div>
-        <aside className="col">
+        <aside className="col mt-4">
           {this.state.signup ? (
             <RegisterUser triggerSignup={this.triggerSignup} />
           ) : (

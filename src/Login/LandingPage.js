@@ -12,8 +12,8 @@ export const LandingPage = () => {
         </a>
       </nav>
 
-      <div className="row d-flex h-100 ">
-        <div className="col-md-4 mx-auto my-auto center-align">
+      <div className="row d-inline">
+        <div className="col-md-4 mx-auto mt-4">
           <LoginForm />
         </div>
       </div>

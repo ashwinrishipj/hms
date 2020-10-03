@@ -40,21 +40,13 @@ class RegisterUser extends React.Component {
         }
         `,
     };
-    if (
-      this.state.error === "" &&
-      this.state.emailId !== "" &&
-      this.state.password !== "" &&
-      this.state.confirmPassword !== ""
-    ) {
+
       this.setState({ spinner: true });
       FetchData(requestBody).then((response) => {
         return response === true
           ? this.props.history.push("/home")
           : this.changeAlert(response);
       });
-    } else {
-      this.setState({ Alert: true, error: "enter valid data:" });
-    }
   };
 
   validateField = (e) => {

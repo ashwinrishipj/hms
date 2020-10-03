@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { LandingPage } from "./Login/LandingPage";
+import DashBoard from "./DashBoard/DashBoard";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <LandingPage/>
         </Route>
         <Route path="/home" strict exact>
-          {/* <Home /> */}
+           <DashBoard/>
         </Route>
       </Switch>
     </BrowserRouter>
