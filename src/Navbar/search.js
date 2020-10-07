@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 
 function Search(props) {
   const [show, setShow] = useState(false);
@@ -21,7 +22,7 @@ function Search(props) {
     <React.Fragment>
       {show ? (
         <form
-          className="form-inline input-wrapper"
+          className="form-inline input-wrapper ml-4"
           onSubmit={(e) => validateSearch(e)}
         >
           <input
@@ -30,9 +31,10 @@ function Search(props) {
             aria-label="Search"
             onChange={(e) => intializeSearchContent(e)}
           />
+         <Button variant="outline-info" onClick={() => setShow(!show)}>close</Button>
         </form>
       ) : (
-        <li className="nav-item" name="blogs" onClick={() => setShow(!show)}>
+        <li className="nav-item ml-4" name="blogs" onClick={() => setShow(!show)}>
           <a className="nav-link pointer fa fa-fw fa-search " href>
             Search
           </a>
