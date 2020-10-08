@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter,Switch,Redirect } from "react-router-dom";
 import "./DashBoard.css";
 import {
   Nav,
@@ -9,6 +9,7 @@ import {
   Navbar,
 } from "../../node_modules/react-bootstrap";
 import Navigation from "../Navbar/navbar";
+import PageNavigation from "../Navbar/pageNavigation";
 
 const UserData = React.createContext();
 export const UserConsumer = UserData.Consumer;
@@ -36,7 +37,6 @@ class DashBoard extends React.Component {
   };
 
   handleSearch = (searchedContent) => {
-    alert(searchedContent);
     this.setState({ loadContent: "home", searchedContent: searchedContent });
   };
 
@@ -73,6 +73,7 @@ class DashBoard extends React.Component {
   };
 
   render() {
+    if (localStorage.getItem("userToken")) {
     return (
       <React.Fragment>
         <Container fluid="true">
@@ -95,7 +96,7 @@ class DashBoard extends React.Component {
                   </Nav>
                   </div>
                  
-                  <Nav className="flex-css mt-4">
+                  <Nav className="flex_css_for_navigation mt-4">
                     <span className="text-warning">Basics:</span>
                     <Nav.Link className="fa fa-home mt-2"> Home</Nav.Link>
                     <Nav.Link className="fa fa-hospital-o mt-2">
@@ -108,17 +109,17 @@ class DashBoard extends React.Component {
                     </Nav.Link>
                   </Nav>
 
-                  <Nav className="flex-css mt-4">
+                  <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
                     <span className="text-warning">Apps & chat:</span>
-                    <Nav.Link className="fa fa-tasks mt-2">
+                    <Nav.Link name="toDoList" className="fa fa-tasks mt-2">
                       {" "}
                       To-do List
                     </Nav.Link>
-                    <Nav.Link className="fa fa-calendar mt-2">
+                    <Nav.Link name= "calendar" className="fa fa-calendar mt-2">
                       {" "}
                       Calendar
                     </Nav.Link>
-                    <Nav.Link className="fa fa-sticky-note-o mt-2">
+                    <Nav.Link name= "notes" className="fa fa-sticky-note-o mt-2">
                       {" "}
                       Notes
                     </Nav.Link>
@@ -128,21 +129,33 @@ class DashBoard extends React.Component {
               ""
             )}
             <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
-              <UserData.Provider value={this.state}>
                 <Navbar bg="dark" variant="dark">
                   <Navbar.Brand onClick={this.handleMenu}>
                     <i className="fa fa-bars" aria-hidden="true"></i>
                   </Navbar.Brand>
                   <Nav className="mr-auto">
+                  <UserData.Provider value={this.state}>
                     <Navigation />
+                    </UserData.Provider>
                   </Nav>
                 </Navbar>
-              </UserData.Provider>
+                <div className="display-content">
+                  <PageNavigation navigate={this.state.loadContent}/>
+                </div>
             </Col>
           </Row>
         </Container>
       </React.Fragment>
     );
+  }
+        else {
+        return (
+        <Switch>
+          <Redirect to="/" />
+        </Switch>
+      );
+    }
+ 
   }
 }
 

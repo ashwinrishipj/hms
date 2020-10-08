@@ -21,6 +21,7 @@ function Search(props) {
   return (
     <React.Fragment>
       {show ? (
+        <>
         <form
           className="form-inline input-wrapper ml-4"
           onSubmit={(e) => validateSearch(e)}
@@ -31,8 +32,9 @@ function Search(props) {
             aria-label="Search"
             onChange={(e) => intializeSearchContent(e)}
           />
-         <Button variant="outline-info" onClick={() => setShow(!show)}>close</Button>
         </form>
+         <Button variant="outline-info ml-2" onClick={() => setShow(!show)}>close</Button>
+         </>
       ) : (
         <li className="nav-item ml-4" name="blogs" onClick={() => setShow(!show)}>
           <a className="nav-link pointer fa fa-fw fa-search " href>

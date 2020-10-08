@@ -35,9 +35,7 @@ function Navigation() {
                   Blog
                 </Nav.Link>
               </li>
-              <li>
                 <Search displayImages={handleSearch} />
-              </li>
               </ul>
               <OverlayTrigger
                 trigger="click"

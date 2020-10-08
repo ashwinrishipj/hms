@@ -12,11 +12,13 @@
     list-style-type: none !important;
 }
 .navbar-flex-css :focus, :hover{
-    color: white !important;
     -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;
 }
 .navbar-flex-css :active{
     transform: translateY(4px) !important;
+}
+.text{
+    color : red !important;
 }

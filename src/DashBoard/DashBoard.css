@@ -5,13 +5,13 @@
     text-align: center;
     height : 100vh;
 }
-.flex-css{
+.flex_css_for_navigation{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items : baseline;
 }
-.flex-css :hover , :focus{
+.flex_css_for_navigation :hover{
   color: white !important;
   -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -21,7 +21,7 @@
 .sidebar-profile{
   color: #007bff;
 }
-.flex-css :active{
+.flex_css_for_navigation :active{
   transform: translateY(4px);
 }
 
@@ -31,14 +31,35 @@
   align-items: flex-start;
 }
 .sidebar-profile-navbar-align :hover , :focus{
-  color: white !important;
   -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
-.nav-link{
-  color: #17a2b8 !important;
-}
+
 .scroll-bar{
   overflow-y:scroll !important;
+}
+input[type=text] :active {
+  width: 80%;
+  padding: 15px 22px;
+  margin: 10px 5px;
+  box-sizing: border-box; 
+  color: red; 
+}
+.to_do_list_box-shadow{
+  box-shadow: 5px grey;
+  border : none !important;
+  outline: none !important;
+}
+.to_do_list_box-shadow  :active{
+  transform: translateY(4px);
+  border : none !important;
+  outline: none !important;
+}
+.to_do_list_box-shadow :hover{
+  background-color: khaki;
+}
+.card{
+  border-radius: 2px;
+  box-shadow: 5px grey;
 }
