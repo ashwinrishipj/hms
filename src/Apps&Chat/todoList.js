@@ -7,10 +7,6 @@ export default function TodoList() {
 	const [displayTask, setDisplayTask] = useState('');
 	const [taskVisible, setTaskVisible] = useState(false);
 
-	const handleSubmit = () => {
-		alert('submitted');
-	};
-
 	const completeTask = (taskData) => {
 		alert(JSON.stringify(taskData));
 		fetch(`http://localhost:3004/completed/`, {
@@ -53,35 +49,6 @@ export default function TodoList() {
 			.catch((err) => console.log('err', err));
 	};
 
-	const displayToDoList = ({ data }) => {
-		return (
-			<>
-				<ListGroup vertical className="to_do_list_box-shadow">
-					<ListGroup.Item onClick={setDisplayTask(data)}>
-						{data.content} <i className="fa fa-chevron-right float-right" aria-hidden="true"></i>
-					</ListGroup.Item>
-				</ListGroup>
-			</>
-		);
-	};
-
-	const insertTask = () => {
-		return (
-			<Form>
-				<Form.Group controlId="formBasicEmail" className="mt-2 ml-4">
-					<Row>
-						<Col sm={5}>
-							<Form.Control className="md" type="text" placeholder="Add new task" />
-						</Col>
-						<Col sm={2}>
-							<Button variant="info">submit </Button>
-						</Col>
-					</Row>
-				</Form.Group>
-			</Form>
-		);
-	};
-
 	const displayTodo = () => {
 		return (
 			<>
@@ -107,7 +74,15 @@ export default function TodoList() {
 							</Nav>
 						</Card.Header>
 						{taskVisible
-							? taskContent.map((data) => displayToDoList({ data }))
+							? taskContent.map((data) => {
+								return(
+									<ul className="list-group to_do_list_box-shadow">
+  									<li className="list-group-item list-group-item-action" aria-disabled="true">
+									{data.content}
+									</li>
+									</ul>
+								)	
+							  })
 							: 'no Task for the selected date'}
 					</Card>
 				</div>
@@ -115,28 +90,51 @@ export default function TodoList() {
 		);
 	};
 
-  const briefTodoTask = () =>{
-    return (
-      <Card style={{ width: '18rem' }}>
-  <Card.Body>
-    <Card.Title>Card Title</Card.Title>
-    <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-    <Card.Text>
-      {displayTask}
-    </Card.Text>
-    <Card.Link href="#">Card Link</Card.Link>
-    <Card.Link href="#">Another Link</Card.Link>
-  </Card.Body>
-</Card>
-    );
-  }
+	const briefTodoTask = () => {
+		return (
+			<Card style={{ width: '18rem' }}>
+				<Card.Body>
+					<Card.Title>Card Title</Card.Title>
+					<Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+					<Card.Text>{displayTask}</Card.Text>
+					<Card.Link href="#">Card Link</Card.Link>
+					<Card.Link href="#">Another Link</Card.Link>
+				</Card.Body>
+			</Card>
+		);
+	};
 
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-md-3"><h3><i className="fa fa-tasks mt-2">ToDo</i></h3></div>
-				<div className="col-md-7">{insertTask()}</div>
-				<div className="col-md-2"><input type="search" name="tasks" placeholder="Search Tasks..." className="form-control mt-2" required=""/></div>
+				<div className="col-md-3">
+					<h3>
+						<i className="fa fa-tasks mt-2">ToDo</i>
+					</h3>
+				</div>
+				<div className="col-md-7">
+					<Form>
+						<Form.Group controlId="formBasicEmail" className="mt-2 ml-4">
+							<Row>
+								<Col sm={5}>
+									<Form.Control className="md" type="text" placeholder="Add new task" />
+								</Col>
+								<Col sm={2}>
+									<Button variant="info">submit </Button>
+								</Col>
+							</Row>
+						</Form.Group>
+					</Form>
+				</div>
+				<div className="col-md-2">
+					<input
+						type="search"
+						name="tasks"
+						placeholder="Search Tasks..."
+						className="form-control mt-2"
+						required=""
+					/>
+				</div>
 			</div>
 
 			<div className="row">
