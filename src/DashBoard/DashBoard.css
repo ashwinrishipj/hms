@@ -51,16 +51,31 @@ input[type=text] :active {
   border : none !important;
   outline: none !important;
   cursor:  pointer !important;
+  background-color: #dee2e6 !important;
 }
-.to_do_list_box-shadow  :active{
+.to_do_list_box-shadow :active{
   transform: translateY(4px);
   border : none !important;
   outline: none !important;
 }
 .to_do_list_box-shadow :hover{
-  background-color: khaki;
+  background-color:#8ce2f0;
 }
 .card{
   border-radius: 2px;
-  box-shadow: 5px grey;
+  box-shadow: 4px 4px 8px 4px grey;
+}
+
+.to-do-list-nav-css :hover{
+  background-color: khaki !important;
+}
+.to-do-list-nav-css :active{
+  transform: translateY(4px) ;
+  background-color: #8ce2f0 !important;
+  color: white !important;
+}
+
+.navifitsactive :active{
+  color: khaki;
+  background-color: white;
 }

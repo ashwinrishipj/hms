@@ -1,132 +1,191 @@
 import React, { useState, useEffect } from 'react';
-import { ListGroup, Nav, Form, Card, Button, Modal, Col, Row } from 'react-bootstrap';
+import { Nav, Modal, Card, Button, Col, Row } from 'react-bootstrap';
 import Calendar from 'react-calendar';
+import TodoTaskDescription from './displayToDo';
 
 export default function TodoList() {
-	const [taskContent, setTaskContent] = useState('');
-	const [displayTask, setDisplayTask] = useState('');
-	const [taskVisible, setTaskVisible] = useState(false);
+	const [show, setShow] = useState(false);
+	const [taskContent, setTaskContent] = useState([]);
+	const [toDoDescription, setToDoDescription] = useState({});
+	const [taskCategory,setTaskCategory] = useState("");
+	const [toDoDescriptionVisible, setToDoDescriptionVisible] = useState(false);
 
-	const completeTask = (taskData) => {
-		alert(JSON.stringify(taskData));
-		fetch(`http://localhost:3004/completed/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(taskData),
-		})
-			.then((response) => console.log(response))
-			.catch((err) => console.log(err));
-	};
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
 
 	const validate = (apiResponse) => {
-		if (apiResponse.length === 0) {
+		alert(JSON.stringify(apiResponse));
+		if (apiResponse.data.getTodoList.length === 0) {
 			console.log('failed:', JSON.stringify(apiResponse));
-			setTaskVisible(false);
 		} else {
-			setTaskContent(apiResponse);
-			setTaskVisible(true);
+			setTaskContent(apiResponse.data.getTodoList);
 			console.log('Success:', JSON.stringify(apiResponse));
 		}
 	};
 
-	useEffect(() => {
-		fetch(`http://localhost:3004/tasks/`)
-			.then((response) => response.json())
-			.then((data) => {
-				validate(data);
-			})
-			.catch((error) => console.error('Error:', error));
-	}, []);
-
-	const fetchData = (taskType) => {
-		fetch(`http://localhost:3004/${taskType}`)
-			.then((response) => response.json())
-			.then((data) => {
-				validate(data);
-			})
-			.catch((err) => console.log('err', err));
+	const updateTaskContent = (taskType) => {
+		var updateToDo = JSON.parse(localStorage.getItem('todoTasks'));
+		setToDoDescriptionVisible(false);
+		switch (taskType) {
+			case 'tasks':
+				setTaskCategory("tasks");
+				setTaskContent(updateToDo.data.getTodoList.tasks);
+				break;
+			case 'completed':
+				setTaskCategory("completed");
+				setTaskContent(updateToDo.data.getTodoList.completed);
+				break;
+			case 'deleted':
+				setTaskCategory("deleted");
+				setTaskContent(updateToDo.data.getTodoList.deleted);
+				break;
+			default:
+				break;
+		}
 	};
+
+	const handleTaskOnClick = (data) => {
+		setToDoDescription(data);
+		setToDoDescriptionVisible(true);
+	};
+
+	useEffect(() => {
+		let requestBody = {
+			query: ` query{
+				getTodoList(userId: "5e9df7a7327a33165026b98f"){
+				  userId,
+				  tasks{
+					_id
+					title,
+					content,
+					date,
+				  },
+				  completed{
+					_id,
+					title,
+					content,
+					date
+				  },
+				  deleted{
+					_id,
+					 title,
+					content,
+					date
+				  }
+				}
+			  }
+			`,
+		};
+		
+		const storedData = JSON.parse(localStorage.getItem('todoTasks'));
+	 	if (!storedData){
+		fetch('http://localhost:4000/graphql', {
+			method: 'POST',
+			body: JSON.stringify(requestBody),
+			headers: {
+				Accept: 'appliction/json',
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((response) => response.json())
+			.then((responseJSON) => {
+				validate(responseJSON);
+				localStorage.setItem('todoTasks', JSON.stringify(responseJSON));
+			})
+			.catch((error) => console.error('error in fetching todo:', error));
+		}
+	}, []);
 
 	const displayTodo = () => {
 		return (
-			<>
-				<div className="row justify-content-center mt-2 ml-1">
-					<Card>
-						<Card.Header>
-							<Nav fill variant="tabs" defaultActiveKey="#1" text="info">
-								<Nav.Item>
-									<Nav.Link href="#1" onClick={() => fetchData('tasks')} id="tasks">
-										Active Tasks
-									</Nav.Link>
-								</Nav.Item>
-								<Nav.Item>
-									<Nav.Link href="#2" onClick={() => fetchData('completed')}>
-										Completed Tasks
-									</Nav.Link>
-								</Nav.Item>
-								<Nav.Item>
-									<Nav.Link href="#3" onClick={() => fetchData('deleted')}>
-										Deleted Tasks
-									</Nav.Link>
-								</Nav.Item>
-							</Nav>
-						</Card.Header>
-						{taskVisible
-							? taskContent.map((data) => {
-								return(
-									<ul className="list-group to_do_list_box-shadow">
-  									<li className="list-group-item list-group-item-action" aria-disabled="true">
-									{data.content}
+			<div className="row justify-content-center mt-4 ml-1">
+				<Card>
+					<Card.Header>
+						<Nav fill variant="tabs" defaultActiveKey="#1" text="danger">
+							<Nav.Item>
+								<Nav.Link eventKey="#1" onClick={() => updateTaskContent('tasks')}>Active Tasks</Nav.Link>
+							</Nav.Item>
+							<Nav.Item>
+								<Nav.Link 
+									eventKey="#2"
+									onClick={() => updateTaskContent('completed')}
+									
+								>
+									Completed Tasks
+								</Nav.Link>
+							</Nav.Item>
+							<Nav.Item>
+								<Nav.Link
+								eventKey="#3"
+									onClick={() => updateTaskContent('deleted')}
+									
+								>
+									Deleted Tasks
+								</Nav.Link>
+							</Nav.Item>
+						</Nav>
+					</Card.Header>
+					{taskContent.length > 0 && taskContent.length !== (null || undefined) ? (
+						taskContent.map((data, index) => {
+							return (
+								<ul key={index} className=" list-group to_do_list_box-shadow">
+									<li
+										className="list-group-item list-group-item-action"
+										onClick={() => handleTaskOnClick(data)}
+										aria-disabled="true"
+									>
+										{data.content}
+										<i className="mt-2 float-right fa fa-chevron-right"></i>
 									</li>
-									</ul>
-								)	
-							  })
-							: 'no Task for the selected date'}
-					</Card>
-				</div>
-			</>
-		);
-	};
-
-	const briefTodoTask = () => {
-		return (
-			<Card style={{ width: '18rem' }}>
-				<Card.Body>
-					<Card.Title>Card Title</Card.Title>
-					<Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-					<Card.Text>{displayTask}</Card.Text>
-					<Card.Link href="#">Card Link</Card.Link>
-					<Card.Link href="#">Another Link</Card.Link>
-				</Card.Body>
-			</Card>
+								</ul>
+							);
+						})
+					) : (
+						<li
+							className="list-group-item list-group-item-action bg-secondary disabled text-white"
+							aria-disabled="true"
+						>
+							There are no task. Please create/add new task
+							<i className="mt-2 float-right fas fa-hand-point-up"></i>
+						</li>
+					)}
+				</Card>
+			</div>
 		);
 	};
 
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-md-3">
+				<div className="col-md-5">
 					<h3>
 						<i className="fa fa-tasks mt-2">ToDo</i>
 					</h3>
 				</div>
-				<div className="col-md-7">
-					<Form>
-						<Form.Group controlId="formBasicEmail" className="mt-2 ml-4">
-							<Row>
-								<Col sm={5}>
-									<Form.Control className="md" type="text" placeholder="Add new task" />
-								</Col>
-								<Col sm={2}>
-									<Button variant="info">submit </Button>
-								</Col>
-							</Row>
-						</Form.Group>
-					</Form>
+				<div className="col-md-4 mx-auto">
+					<Button variant="outline-info mt-2 " className="button-search" onClick={handleShow}>
+						<i className="fa fa-plus-circle fa-1x" aria-hidden="true">
+							{' '}
+							new task{' '}
+						</i>
+					</Button>
+
+					<Modal show={show} aria-labelledby="contained-modal-title-vcenter" centered onHide={handleClose}>
+						<Modal.Header closeButton>
+							<Modal.Title>Modal heading</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+						<Modal.Footer>
+							<Button variant="secondary" onClick={handleClose}>
+								Close
+							</Button>
+							<Button variant="primary" onClick={handleClose}>
+								Save Changes
+							</Button>
+						</Modal.Footer>
+					</Modal>
 				</div>
-				<div className="col-md-2">
+				<div className="col-md-3 ml-auto">
 					<input
 						type="search"
 						name="tasks"
@@ -138,10 +197,12 @@ export default function TodoList() {
 			</div>
 
 			<div className="row">
-				<div className="col-lg-4">{displayTodo()}</div>
-				<div className="col-lg-5 mt-4 ">{briefTodoTask()} </div>
 				<div className="col-lg-3  mt-4 ">
 					<Calendar className=" bg-info calendar-width sticky-top" />
+				</div>
+				<div className="col-lg-4">{displayTodo()}</div>
+				<div className="col-lg-5 mt-4 ">
+					{toDoDescriptionVisible ? <TodoTaskDescription validate={() => validate()} category={taskCategory} data={toDoDescription} /> : ''}{' '}
 				</div>
 			</div>
 		</div>
