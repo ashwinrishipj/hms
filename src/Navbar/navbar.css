@@ -4,21 +4,6 @@
     top: 1%;
 }
 
-.navbar-flex-css{
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    list-style-type: none !important;
-}
-.navbar-flex-css :focus, :hover{
-    -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-}
-.navbar-flex-css :active{
-    transform: translateY(4px) !important;
-}
 .text{
     color : red !important;
 }

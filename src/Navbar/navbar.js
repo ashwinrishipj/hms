@@ -14,8 +14,8 @@ function Navigation() {
     <React.Fragment>
       <UserConsumer>
         {({ handleCall, profileClick, handleLogout, handleSearch }) => (
-          <div id="navbarSupportedContent">
-            <ul className="navbar-nav navbar-flex-css ml-4">
+          <div id="navbarSupportedContent ">
+            <ul className="navbar-nav ml-4">
               <li className="nav-item ml-4">
                 <Nav.Link
                   className="nav-link pointer fa fa-home"
@@ -36,7 +36,7 @@ function Navigation() {
                 </Nav.Link>
               </li>
                 <Search displayImages={handleSearch} />
-              </ul>
+              <li>
               <OverlayTrigger
                 trigger="click"
                 key="bottom"
@@ -105,14 +105,13 @@ function Navigation() {
                   </Popover>
                 }
               >
-                <Button  className="profile-flex-css" variant="outline-dark pointer text-white">
-                  <span className="fa fa-user fa-lg" aria-hidden="true"></span>
-                  <span
-                    className="fa fa-caret-down fa-xs"
-                    aria-hidden="true"
-                  ></span>
+                <Button className="align-end-css fa fa-user f-lg" variant="bg-red text-warning outline-dark">
+                 
+                 <i className="fa fa-caret-down fa-lg mt-2 ml-1"/>
                 </Button>
               </OverlayTrigger>
+              </li>
+              </ul>
           </div>
         )}
       </UserConsumer>

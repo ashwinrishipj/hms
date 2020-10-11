@@ -19,8 +19,7 @@ const TodoTaskDescription = (props) => {
 			console.log('failed:', JSON.stringify(apiResponse));
 		} else {
 			localStorage.setItem('todoTasks', JSON.stringify(apiResponse.data.updateTask));
-			props.setTaskContent(apiResponse.data.updateTask);
-			props.setIsTaskContent(true);
+			props.updateTaskContent(from);
 			console.log('Success:', JSON.stringify(apiResponse));
 		}
 	};

@@ -77,9 +77,9 @@ class DashBoard extends React.Component {
     return (
       <React.Fragment>
         <Container fluid="true">
-          <Row style={{ marginLeft: "0", marginRight: "0" }}>
+          <Row  style={{ marginLeft: "0", marginRight: "0" }}>
             {this.state.navigationIsSet ? (
-              <Col sm={2} className="leftView slideIn ">
+              <Col sm={2} className="navbar-flex-css leftView slideIn">
                 <div className="sidebar-profile ">
                   <span className="text-light">Ashwin Rishi</span>
                   <Nav className="sidebar-profile-navbar-align mt-4">
@@ -96,14 +96,14 @@ class DashBoard extends React.Component {
                   </Nav>
                   </div>
                  
-                  <Nav className="flex_css_for_navigation mt-4">
+                  <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
                     <span className="text-warning">Basics:</span>
-                    <Nav.Link className="fa fa-home mt-2"> Home</Nav.Link>
-                    <Nav.Link className="fa fa-hospital-o mt-2">
+                    <Nav.Link className="fa fa-home mt-2" name="home"> Home</Nav.Link>
+                    <Nav.Link className="fa fa-hospital-o mt-2" name="appointments">
                       {" "}
                       Appointments
                     </Nav.Link>
-                    <Nav.Link className="fa fa-file-text mt-2">
+                    <Nav.Link className="fa fa-file-text mt-2" class="documents">
                       {" "}
                       Documents
                     </Nav.Link>

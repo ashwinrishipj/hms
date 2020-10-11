@@ -17,7 +17,13 @@ function PageNavigation (props){
             //     )}
             //   />
             // )) ||
-            (props.navigate === "messages" && "") ||
+            (props.navigate === "appointments" && (
+                <Route
+                  path="/"
+                  component={() => (
+                   <AppointmentsDisplay />
+                  )}
+                />) ||
             (props.navigate === "messages" && "") ||
             (props.navigate === "settings" && "") ||
             // (props.navigate === "blog" && (

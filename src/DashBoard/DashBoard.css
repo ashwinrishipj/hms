@@ -20,6 +20,10 @@
 
 .sidebar-profile{
   color: #007bff;
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+  align-self: flex-start; /* <-- this is the fix */
 }
 .flex_css_for_navigation :active{
   transform: translateY(4px);
@@ -29,6 +33,7 @@
   display: flex !important;
   flex-direction: row !important;
   align-items: flex-start;
+  overflow: auto;
 }
 .sidebar-profile-navbar-align :hover , :focus{
   -webkit-box-shadow: none;
@@ -77,4 +82,28 @@ input[type=text] :active {
 .navifitsactive :active{
   color: khaki;
   background-color: white;
+}
+
+.navbar-flex-css{
+  position: sticky !important;
+  top: 0;
+}
+.navbar-flex-css :focus, :hover{
+  -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.navbar-flex-css :active{
+  transform: translateY(4px) !important;
+}
+
+.align-end-css{
+ 
+    list-style-type: none;
+    display: flex !important;
+    right: 0% !important;
+    position: absolute;
+}
+.fa fa-user{
+  color: red;
 }

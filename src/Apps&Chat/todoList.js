@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Nav, Modal, Card, Button, Col, Row } from 'react-bootstrap';
+import { Nav, Modal, Card, Button } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import TodoTaskDescription from './displayToDo';
 
 export default function TodoList() {
 	const [show, setShow] = useState(false);
-	const [isTaskContent,setIsTaskContent] = useState(false);
+	const [isTaskContent, setIsTaskContent] = useState(false);
 	const [taskContent, setTaskContent] = useState([]);
 	const [toDoDescription, setToDoDescription] = useState({});
-	const [taskCategory,setTaskCategory] = useState("");
+	const [taskCategory, setTaskCategory] = useState('');
 	const [toDoDescriptionVisible, setToDoDescriptionVisible] = useState(false);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
 	const validate = (apiResponse) => {
-		if (apiResponse.data.getTodoList.length === 0  && (apiResponse.data.getTodoList.length  !== (null || undefined)) ) {
+		if (apiResponse.data.getTodoList.length < 1 && apiResponse.data.getTodoList.length === (null || undefined)) {
 			console.log('failed:', JSON.stringify(apiResponse));
 		} else {
 			localStorage.setItem('todoTasks', JSON.stringify(apiResponse.data.getTodoList));
@@ -27,18 +27,19 @@ export default function TodoList() {
 
 	const updateTaskContent = (taskType) => {
 		var updateToDo = JSON.parse(localStorage.getItem('todoTasks'));
+		setIsTaskContent(true);
 		setToDoDescriptionVisible(false);
 		switch (taskType) {
 			case 'tasks':
-				setTaskCategory("tasks");
+				setTaskCategory('tasks');
 				setTaskContent(updateToDo.tasks);
 				break;
 			case 'completed':
-				setTaskCategory("completed");
+				setTaskCategory('completed');
 				setTaskContent(updateToDo.completed);
 				break;
 			case 'deleted':
-				setTaskCategory("deleted");
+				setTaskCategory('deleted');
 				setTaskContent(updateToDo.deleted);
 				break;
 			default:
@@ -78,78 +79,82 @@ export default function TodoList() {
 			  }
 			`,
 		};
-		
+
 		const storedData = JSON.parse(localStorage.getItem('todoTasks'));
-	 	if (!storedData){
-		fetch('http://localhost:4000/graphql', {
-			method: 'POST',
-			body: JSON.stringify(requestBody),
-			headers: {
-				Accept: 'appliction/json',
-				'Content-Type': 'application/json',
-			},
-		})
-			.then((response) => response.json())
-			.then((responseJSON) => {
-				validate(responseJSON);
+		if (!storedData) {
+			fetch('http://localhost:4000/graphql', {
+				method: 'POST',
+				body: JSON.stringify(requestBody),
+				headers: {
+					Accept: 'appliction/json',
+					'Content-Type': 'application/json',
+				},
 			})
-			.catch((error) => console.error('error in fetching todo:', error));
+				.then((response) => response.json())
+				.then((responseJSON) => {
+					validate(responseJSON);
+				})
+				.catch((error) => console.error('error in fetching todo:', error));
 		}
 	}, []);
 
+	const noTask = () => {
+		return (
+			<li
+				className="list-group-item list-group-item-action bg-secondary disabled text-white"
+				aria-disabled="true"
+			>
+				There are no task. Please create/add new task
+				<i className="mt-2 float-right fas fa-hand-point-up"></i>
+			</li>
+		);
+	};
+
 	const displayTodo = () => {
-		alert(JSON.stringify(taskContent));
 		return (
 			<div className="row justify-content-center mt-4 ml-1">
 				<Card>
 					<Card.Header>
 						<Nav fill variant="tabs" defaultActiveKey="#1" text="danger">
 							<Nav.Item>
-								<Nav.Link eventKey="#1" onClick={() => updateTaskContent('tasks')}>Active Tasks</Nav.Link>
+								<Nav.Link eventKey="#1" onClick={() => updateTaskContent('tasks')}>
+									Active Tasks
+								</Nav.Link>
 							</Nav.Item>
 							<Nav.Item>
-								<Nav.Link 
-									eventKey="#2"
-									onClick={() => updateTaskContent('completed')}
-									
-								>
+								<Nav.Link eventKey="#2" onClick={() => updateTaskContent('completed')}>
 									Completed Tasks
 								</Nav.Link>
 							</Nav.Item>
 							<Nav.Item>
-								<Nav.Link
-								eventKey="#3"
-									onClick={() => updateTaskContent('deleted')}
-									
-								>
+								<Nav.Link eventKey="#3" onClick={() => updateTaskContent('deleted')}>
 									Deleted Tasks
 								</Nav.Link>
 							</Nav.Item>
 						</Nav>
 					</Card.Header>
 					{isTaskContent ? (
-						taskContent.map((data, index) => {
-							return (
-								<ul key={index} className=" list-group to_do_list_box-shadow">
-									<li
-										className="list-group-item list-group-item-action"
-										onClick={() => handleTaskOnClick(data)}
-										aria-disabled="true"
-									>
-										{data.content}
-										<i className="mt-2 float-right fa fa-chevron-right"></i>
-									</li>
-								</ul>
-							);
-						})
+						taskContent && taskContent.length ? (
+							<ul className=" list-group to_do_list_box-shadow">
+								{taskContent.map((data, index) => {
+									return (
+										<li
+											className="list-group-item list-group-item-action"
+											key={index}
+											onClick={() => handleTaskOnClick(data)}
+											aria-disabled="true"
+										>
+											{data.content}
+											<i className="mt-2 float-right fa fa-chevron-right"></i>
+										</li>
+									);
+								})}
+							</ul>
+						) : (
+							<>{noTask()}</>
+						)
 					) : (
-						<li
-							className="list-group-item list-group-item-action bg-secondary disabled text-white"
-							aria-disabled="true"
-						>
-							There are no task. Please create/add new task
-							<i className="mt-2 float-right fas fa-hand-point-up"></i>
-						</li>
+						<>{noTask()}</>
 					)}
 				</Card>
 			</div>
@@ -204,7 +209,15 @@ export default function TodoList() {
 				</div>
 				<div className="col-lg-4">{displayTodo()}</div>
 				<div className="col-lg-5 mt-4 ">
-					{toDoDescriptionVisible ? <TodoTaskDescription setTaskContent={setTaskContent} setIsTaskContent ={setIsTaskContent} category={taskCategory} data={toDoDescription} /> : ''}{' '}
+					{toDoDescriptionVisible ? (
+						<TodoTaskDescription
+							updateTaskContent={() => updateTaskContent()}
+							category={taskCategory}
+							data={toDoDescription}
+						/>
+					) : (
+						''
+					)}{' '}
 				</div>
 			</div>
 		</div>
