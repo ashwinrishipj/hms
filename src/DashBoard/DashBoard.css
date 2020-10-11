@@ -51,7 +51,6 @@ input[type=text] :active {
   border : none !important;
   outline: none !important;
   cursor:  pointer !important;
-  background-color: #dee2e6 !important;
 }
 .to_do_list_box-shadow :active{
   transform: translateY(4px);

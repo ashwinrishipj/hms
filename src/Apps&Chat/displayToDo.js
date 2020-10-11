@@ -14,10 +14,20 @@ const TodoTaskDescription = (props) => {
 		updateData(data, updateTo);
 	};
 
+	const validateUpdatedContent = (apiResponse) => {
+		if (apiResponse.data.updateTask.length === 0 && apiResponse.data.updateTask.length !== (null || undefined)) {
+			console.log('failed:', JSON.stringify(apiResponse));
+		} else {
+			localStorage.setItem('todoTasks', JSON.stringify(apiResponse.data.updateTask));
+			props.setTaskContent(apiResponse.data.updateTask);
+			props.setIsTaskContent(true);
+			console.log('Success:', JSON.stringify(apiResponse));
+		}
+	};
 	const updateData = async (data, updateTo) => {
 		let requestBody = {
 			query: ` mutation{
-                updateTask(input:{userId:"5e9df7a7327a33165026b98f", id:"${data.id}",title:"${data.title}",content:"${data.content}",date:"${data.date}",from:"${from}",updateTo:"${updateTo}"}){
+                updateTask(input:{userId:"5e9df7a7327a33165026b98f", id:"${data._id}",title:"${data.title}",content:"${data.content}",date:"${data.date}",from:"${from}",updateTo:"${updateTo}"}){
                   userId,
                   tasks{
 					_id
@@ -42,22 +52,20 @@ const TodoTaskDescription = (props) => {
 			`,
 		};
 
-		const response = await fetch('http://localhost:4000/graphql', {
+		alert(JSON.stringify(requestBody));
+		fetch('http://localhost:4000/graphql', {
 			method: 'POST',
 			body: JSON.stringify(requestBody),
 			headers: {
 				Accept: 'appliction/json',
 				'Content-Type': 'application/json',
-            },});
-            
-        if (!response.errors){
-            var responseJSON = response.json();
-            localStorage.setItem('todoTasks', JSON.stringify(responseJSON));
-            props.validate(responseJSON);
-        }else{
-            console.log("error in updating task:", response.errors);
-        }
-	
+			},
+		})
+			.then((response) => response.json())
+			.then((responsedJSON) => {
+				validateUpdatedContent(responsedJSON);
+			})
+			.catch((err) => console.log(err));
 	};
 
 	return (

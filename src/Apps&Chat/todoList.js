@@ -5,6 +5,7 @@ import TodoTaskDescription from './displayToDo';
 
 export default function TodoList() {
 	const [show, setShow] = useState(false);
+	const [isTaskContent,setIsTaskContent] = useState(false);
 	const [taskContent, setTaskContent] = useState([]);
 	const [toDoDescription, setToDoDescription] = useState({});
 	const [taskCategory,setTaskCategory] = useState("");
@@ -14,11 +15,12 @@ export default function TodoList() {
 	const handleShow = () => setShow(true);
 
 	const validate = (apiResponse) => {
-		alert(JSON.stringify(apiResponse));
-		if (apiResponse.data.getTodoList.length === 0) {
+		if (apiResponse.data.getTodoList.length === 0  && (apiResponse.data.getTodoList.length  !== (null || undefined)) ) {
 			console.log('failed:', JSON.stringify(apiResponse));
 		} else {
-			setTaskContent(apiResponse.data.getTodoList);
+			localStorage.setItem('todoTasks', JSON.stringify(apiResponse.data.getTodoList));
+			setTaskContent(apiResponse.data.getTodoList.tasks);
+			setIsTaskContent(true);
 			console.log('Success:', JSON.stringify(apiResponse));
 		}
 	};
@@ -29,15 +31,15 @@ export default function TodoList() {
 		switch (taskType) {
 			case 'tasks':
 				setTaskCategory("tasks");
-				setTaskContent(updateToDo.data.getTodoList.tasks);
+				setTaskContent(updateToDo.tasks);
 				break;
 			case 'completed':
 				setTaskCategory("completed");
-				setTaskContent(updateToDo.data.getTodoList.completed);
+				setTaskContent(updateToDo.completed);
 				break;
 			case 'deleted':
 				setTaskCategory("deleted");
-				setTaskContent(updateToDo.data.getTodoList.deleted);
+				setTaskContent(updateToDo.deleted);
 				break;
 			default:
 				break;
@@ -90,13 +92,13 @@ export default function TodoList() {
 			.then((response) => response.json())
 			.then((responseJSON) => {
 				validate(responseJSON);
-				localStorage.setItem('todoTasks', JSON.stringify(responseJSON));
 			})
 			.catch((error) => console.error('error in fetching todo:', error));
 		}
 	}, []);
 
 	const displayTodo = () => {
+		alert(JSON.stringify(taskContent));
 		return (
 			<div className="row justify-content-center mt-4 ml-1">
 				<Card>
@@ -125,7 +127,7 @@ export default function TodoList() {
 							</Nav.Item>
 						</Nav>
 					</Card.Header>
-					{taskContent.length > 0 && taskContent.length !== (null || undefined) ? (
+					{isTaskContent ? (
 						taskContent.map((data, index) => {
 							return (
 								<ul key={index} className=" list-group to_do_list_box-shadow">
@@ -202,7 +204,7 @@ export default function TodoList() {
 				</div>
 				<div className="col-lg-4">{displayTodo()}</div>
 				<div className="col-lg-5 mt-4 ">
-					{toDoDescriptionVisible ? <TodoTaskDescription validate={() => validate()} category={taskCategory} data={toDoDescription} /> : ''}{' '}
+					{toDoDescriptionVisible ? <TodoTaskDescription setTaskContent={setTaskContent} setIsTaskContent ={setIsTaskContent} category={taskCategory} data={toDoDescription} /> : ''}{' '}
 				</div>
 			</div>
 		</div>
