@@ -4,7 +4,7 @@ import {
   OverlayTrigger,
   Popover,
   Nav,
-} from "../../node_modules/react-bootstrap";
+} from "react-bootstrap";
 import "./navbar.css";
 import { UserConsumer } from "../DashBoard/DashBoard";
 import Search from "./search";

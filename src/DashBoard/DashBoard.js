@@ -8,7 +8,7 @@ import {
   Col,
   Navbar,
 } from "../../node_modules/react-bootstrap";
-import Navigation from "../Navbar/navbar";
+import Navigation from "../Navbar/Navigation";
 import PageNavigation from "../Navbar/pageNavigation";
 
 const UserData = React.createContext();

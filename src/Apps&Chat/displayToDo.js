@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, Row, Col, Button } from 'react-bootstrap';
+import React,{useState} from 'react';
+import { Toast, Card, Row, Col, Button } from 'react-bootstrap';
 
 const TodoTaskDescription = (props) => {
 	var from = props.category;
@@ -69,12 +69,13 @@ const TodoTaskDescription = (props) => {
 
 	return (
 		<React.Fragment>
-			<Card className="text-center">
-				<Card.Header>DateCreated: {props.data.date}</Card.Header>
-				<Card.Body>
-					<Card.Title>{props.data.title}</Card.Title>
-					<Card.Text>{props.data.content}</Card.Text>
-				</Card.Body>
+			<Toast show={props.showA} onClose={props.toggleShowA} className="text-center ml-2">
+				<Toast.Header>
+					<img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
+					<strong className="mr-auto"> {props.data.title}</strong>
+					<small>{props.data.date}</small>
+				</Toast.Header>
+				<Toast.Body>{props.data.content}</Toast.Body>
 				{props.category !== 'deleted' ? (
 					<Card.Footer>
 						<Row>
@@ -103,7 +104,7 @@ const TodoTaskDescription = (props) => {
 				) : (
 					''
 				)}
-			</Card>
+			</Toast>
 		</React.Fragment>
 	);
 };

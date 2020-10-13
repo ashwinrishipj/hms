@@ -10,7 +10,9 @@ export default function TodoList() {
 	const [toDoDescription, setToDoDescription] = useState({});
 	const [taskCategory, setTaskCategory] = useState('');
 	const [toDoDescriptionVisible, setToDoDescriptionVisible] = useState(false);
-
+	const [showA, setShowA] = useState(true);
+  
+	const toggleShowA = () => setShowA(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
@@ -50,6 +52,7 @@ export default function TodoList() {
 	const handleTaskOnClick = (data) => {
 		setToDoDescription(data);
 		setToDoDescriptionVisible(true);
+		setShowA(true);
 	};
 
 	useEffect(() => {
@@ -112,7 +115,7 @@ export default function TodoList() {
 
 	const displayTodo = () => {
 		return (
-			<div className="row justify-content-center mt-4 ml-1">
+			<div className="row justify-content-center ml-1 mr-2">
 				<Card>
 					<Card.Header>
 						<Nav fill variant="tabs" defaultActiveKey="#1" text="danger">
@@ -192,28 +195,21 @@ export default function TodoList() {
 						</Modal.Footer>
 					</Modal>
 				</div>
-				<div className="col-md-3 ml-auto">
-					<input
-						type="search"
-						name="tasks"
-						placeholder="Search Tasks..."
-						className="form-control mt-2"
-						required=""
-					/>
-				</div>
 			</div>
 
-			<div className="row">
-				<div className="col-lg-3  mt-4 ">
+			<div className="row mt-4">
+				<div className="col-lg-3 col-border">
 					<Calendar className=" bg-info calendar-width sticky-top" />
 				</div>
-				<div className="col-lg-4">{displayTodo()}</div>
-				<div className="col-lg-5 mt-4 ">
+				<div className="col-lg-4 col-border">{displayTodo()}</div>
+				<div className="col-lg-5 mt-4">
 					{toDoDescriptionVisible ? (
 						<TodoTaskDescription
 							updateTaskContent={() => updateTaskContent()}
 							category={taskCategory}
 							data={toDoDescription}
+							showA={showA}
+							toggleShowA={()=> toggleShowA()}
 						/>
 					) : (
 						''

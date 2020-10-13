@@ -1,6 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import AppointmentSchedule from "../Appointments/AppointmentSchedule";
 import ToDoList from "../Apps&Chat/todoList";
+import EventCalendar from "../Calendar/Calendar";
 
 function PageNavigation (props){
   return (
@@ -9,21 +11,21 @@ function PageNavigation (props){
           {(props.navigate === "toDoList" && (
             <Route path="/" component={ToDoList} />
           )) ||
-            // (props.navigate === "home" && (
-            //   <Route
-            //     path="/"
-            //     component={() => (
-            //       <PicturesDisplay searchedContent={props.searchedContent} />
-            //     )}
-            //   />
-            // )) ||
+            (props.navigate === "calendar" && (
+              <Route
+                path="/"
+                component={() => (
+                  <EventCalendar />
+                )}
+              />
+            )) ||
             (props.navigate === "appointments" && (
                 <Route
                   path="/"
                   component={() => (
-                   <AppointmentsDisplay />
+                   <AppointmentSchedule />
                   )}
-                />) ||
+                />)) ||
             (props.navigate === "messages" && "") ||
             (props.navigate === "settings" && "") ||
             // (props.navigate === "blog" && (

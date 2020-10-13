@@ -66,8 +66,7 @@ input[type=text] :active {
   background-color:#8ce2f0;
 }
 .card{
-  border-radius: 2px;
-  box-shadow: 4px 4px 8px 4px grey;
+  box-shadow: 1px 1px 1px 1px grey;
 }
 
 .to-do-list-nav-css :hover{
@@ -98,7 +97,6 @@ input[type=text] :active {
 }
 
 .align-end-css{
- 
     list-style-type: none;
     display: flex !important;
     right: 0% !important;
@@ -106,4 +104,8 @@ input[type=text] :active {
 }
 .fa fa-user{
   color: red;
+}
+.col-border{
+  border-right: 0.5px solid gray;
+  height: fit-content;
 }
