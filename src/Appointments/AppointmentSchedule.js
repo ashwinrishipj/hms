@@ -96,7 +96,6 @@ export default function AppointmentSchedule() {
 				  dept:"${state.dept}"
 				})
 			  }
-
 			`,
 		};
 
@@ -111,7 +110,7 @@ export default function AppointmentSchedule() {
 			.then((response) => response.json())
 			.then((responseJSON) => {
 				{
-					responseJSON.data === true ? setisAppointmentScheduled(true) : setisAppointmentScheduled(false);
+					responseJSON.data.createAppointment === true ? setisAppointmentScheduled(true) : setisAppointmentScheduled(false);
 				}
 			})
 			.catch((error) => console.error('error in fetching todo:', error));
@@ -124,13 +123,54 @@ export default function AppointmentSchedule() {
 		if (form.checkValidity() === false) {
 			event.stopPropagation();
 			alert('insert data');
+		} else {
+			setValidated(true);
+			handleShow();
 		}
-		setValidated(true);
-		handleShow();
 	};
+
+
 
 	return (
 		<div className="container-fluid mt-4">
+			<div className="row">
+				<div class="modal fade" id="success" role="dialog">
+					<div class="modal-dialog">
+						{isAppointmentScheduled ?
+							<div class="modal-content" style="border:none;border-radius: 5px;">
+								<div
+									class="modal-header"
+									style="background: #1ab394;
+									border-top-left-radius: 5px;
+									border-top-right-radius: 5px;">
+
+									<button type="button" class="close" data-dismiss="modal" style="opacity:1;color:#fff;">
+										&times;
+									</button>
+									<h4 class="modal-title text-center">
+										<img
+											src="https://lh3.googleusercontent.com/-Zxh4srAEtU0/Wp0cZV-PJuI/AAAAAAAAD4E/En5x5c53s44jzvG8M0sSyFZXoRhGXfBzwCL0BGAYYCw/h100/2018-03-05.png"
+											alt=""
+										/>
+									</h4>
+								</div>
+								<div class="modal-body">
+									<p style="text-align:center;color:#1ab394;font-size:24px;font-weight:500;">
+										congrats Appointment Scheduled
+							</p>
+									<p style="color:#555555;"> </p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">
+										Close
+									</button>
+								</div>
+							</div>
+							: ""}
+					</div>
+				</div>
+			</div>
+
 			<div className="row">
 				<Modal show={show} onHide={handleClose}>
 					<Modal.Header closeButton>
@@ -155,7 +195,8 @@ export default function AppointmentSchedule() {
 						</Button>
 					</Modal.Footer>
 				</Modal>
-				<div className="col-lg-5 col-border">
+
+				<div className="col-lg-4 col-border">
 					<Form.Group controlId="exampleForm.ControlSelect1">
 						<Form.Label>Select Your Province</Form.Label>
 						<Form.Control sm={12} as="select" onChange={(e) => handleForm(e)}>
@@ -167,10 +208,11 @@ export default function AppointmentSchedule() {
 							<option value="Quebec">Quebec</option>
 						</Form.Control>
 					</Form.Group>
-					{isSearched
-						? hospitalList.map((data, index) => {
+					<div className="scroll-auto">
+						{isSearched ? (
+							hospitalList.map((data, index) => {
 								return (
-									<Card bg={'light'} className="mt-2 text-dark" key={index}>
+									<Card bg={'light'} className="mt-2 text-dark " key={index}>
 										<Card.Header>
 											<b>
 												{index + 1}: {data.name}{' '}
@@ -191,16 +233,68 @@ export default function AppointmentSchedule() {
 										</Card.Footer>
 										<Button variant="info" onClick={() => displayAppointmentForm(data)}>
 											Schedule Appointment
-										</Button>
+									</Button>
 									</Card>
 								);
-						  })
-						: ''}
+							})
+						) : (
+								<div class="col col-md-4">
+									<div class="choose">
+										<div class="choose-icon">
+											<i class="flaticon-telephone icon-color-3"></i>
+										</div>
+										<div class="choose-content">
+											<h4>Health Information</h4>
+											<p>
+												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
+												in a piece of classical Latin literature from 45 BC.
+									</p>
+										</div>
+									</div>
+									<div class="choose">
+										<div class="choose-icon">
+											<i class="flaticon-microscope icon-color-6"></i>
+										</div>
+										<div class="choose-content">
+											<h4>Medical Education</h4>
+											<p>
+												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
+												in a piece of classical Latin literature from 45 BC.
+									</p>
+										</div>
+									</div>
+									<div class="choose">
+										<div class="choose-icon">
+											<i class="flaticon-medical-2 icon-color-4 "></i>
+										</div>
+										<div class="choose-content">
+											<h4>Symptom Check</h4>
+											<p>
+												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
+												in a piece of classical Latin literature from 45 BC.
+									</p>
+										</div>
+									</div>
+									<div class="choose">
+										<div class="choose-icon">
+											<i class="flaticon-people-1 icon-color-7"></i>
+										</div>
+										<div class="choose-content">
+											<h4>Qualified Doctors</h4>
+											<p>
+												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
+												in a piece of classical.
+									</p>
+										</div>
+									</div>
+								</div>
+							)}
+					</div>
 				</div>
 				<div className="col-lg-5 col-border">
-					<h4 className="text-center needs-validation"> Appointment Form: </h4>
 					{isFormSelected ? (
 						<div class="container" style={{ backgroundColor: 'cadetblue' }}>
+							<h4 className="text-center needs-validation"> Appointment Form: </h4>
 							<Form noValidate validated={validated} onSubmit={handleSubmit}>
 								<Form.Group controlId="validationCustom01">
 									<Form.Label> name:</Form.Label>
@@ -311,15 +405,16 @@ export default function AppointmentSchedule() {
 									</Form.Control>
 									<Form.Control.Feedback type="invalid">Please select a dept</Form.Control.Feedback>
 								</Form.Group>
-								<Button className="mb-2 mr-autro" type="submit">
+								<Button className="mb-2" type="submit">
 									Submit form
 								</Button>
 							</Form>
 						</div>
 					) : (
-						' '
-					)}
+							' '
+						)}
 				</div>
+
 				<div className="col-lg-3 col-border">
 					{isAppointmentScheduled ? (
 						<Toast>
@@ -332,8 +427,8 @@ export default function AppointmentSchedule() {
 							<Toast.Body>{hospitalDetails.phoneNumber}</Toast.Body>
 						</Toast>
 					) : (
-						''
-					)}
+							''
+						)}
 				</div>
 			</div>
 		</div>

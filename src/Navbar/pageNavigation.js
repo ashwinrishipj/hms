@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import AppointmentSchedule from "../Appointments/AppointmentSchedule";
 import ToDoList from "../Apps&Chat/todoList";
 import EventCalendar from "../Calendar/Calendar";
+import Notes from "../Notes/Notes";
 
 function PageNavigation (props){
   return (
@@ -26,8 +27,15 @@ function PageNavigation (props){
                    <AppointmentSchedule />
                   )}
                 />)) ||
-            (props.navigate === "messages" && "") ||
             (props.navigate === "settings" && "") ||
+            (props.navigate === "notes" && 
+            (
+              <Route
+                path="/"
+                component={() => (
+                 <Notes />
+                )}
+              />)) ||
             // (props.navigate === "blog" && (
             //   <Route path="/" component={Blog} />
             // )) ||

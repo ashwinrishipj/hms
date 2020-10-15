@@ -1,8 +1,8 @@
-import React,{useState} from 'react';
+import React,{ useState } from 'react';
 import { Toast, Card, Row, Col, Button } from 'react-bootstrap';
 
 const TodoTaskDescription = (props) => {
-	var from = props.category;
+	const [fromTask, setfromTask] = useState(props.category);
 
 	const updateCompleted = (data) => {
 		var updateTo = 'completed';
@@ -19,14 +19,14 @@ const TodoTaskDescription = (props) => {
 			console.log('failed:', JSON.stringify(apiResponse));
 		} else {
 			localStorage.setItem('todoTasks', JSON.stringify(apiResponse.data.updateTask));
-			props.updateTaskContent(from);
+			props.updateTaskContent(""+fromTask);
 			console.log('Success:', JSON.stringify(apiResponse));
 		}
 	};
 	const updateData = async (data, updateTo) => {
 		let requestBody = {
 			query: ` mutation{
-                updateTask(input:{userId:"5e9df7a7327a33165026b98f", id:"${data._id}",title:"${data.title}",content:"${data.content}",date:"${data.date}",from:"${from}",updateTo:"${updateTo}"}){
+                updateTask(input:{userId:"5e9df7a7327a33165026b98f", id:"${data._id}",title:"${data.title}",content:"${data.content}",date:"${data.date}",from:"${fromTask}",updateTo:"${updateTo}"}){
                   userId,
                   tasks{
 					_id
@@ -51,7 +51,6 @@ const TodoTaskDescription = (props) => {
 			`,
 		};
 
-		alert(JSON.stringify(requestBody));
 		fetch('http://localhost:4000/graphql', {
 			method: 'POST',
 			body: JSON.stringify(requestBody),

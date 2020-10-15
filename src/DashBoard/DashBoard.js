@@ -82,14 +82,11 @@ class DashBoard extends React.Component {
               <Col sm={2} className="navbar-flex-css leftView slideIn">
                 <div className="sidebar-profile ">
                   <span className="text-light">Ashwin Rishi</span>
-                  <Nav className="sidebar-profile-navbar-align mt-4">
+                  <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
                     <Nav.Link className="shadow-sm fa fa-user fa-1x ">
                       {" "}
                     </Nav.Link>
                     <Nav.Link className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
-                    <Nav.Link className="shadow-sm fa fa-envelope fa-1x">
-                      {" "}
-                    </Nav.Link>
                     <Nav.Link className="shadow-sm fa fa-sign-out fa-1x">
                       {" "}
                     </Nav.Link>

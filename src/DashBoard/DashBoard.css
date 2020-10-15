@@ -65,9 +65,6 @@ input[type=text] :active {
 .to_do_list_box-shadow :hover{
   background-color:#8ce2f0;
 }
-.card{
-  box-shadow: 1px 1px 1px 1px grey;
-}
 
 .to-do-list-nav-css :hover{
   background-color: khaki !important;
@@ -108,4 +105,34 @@ input[type=text] :active {
 .col-border{
   border-right: 0.5px solid gray;
   height: fit-content;
+}
+.sticky-coloumn{
+  position: -webkit-sticky !important;
+  position: sticky !important;
+}
+.border-bottom{
+  border-bottom: 1px solid black;
+}
+.scroll-auto{
+  overflow: auto !important;
+  max-height: 500px; 
+  overflow: scroll; 
+   padding: 0 0 0 0;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+  -webkit-border-radius: 10px;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  background: #87d4da; 
 }
