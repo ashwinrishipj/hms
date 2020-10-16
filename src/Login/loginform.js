@@ -1,6 +1,5 @@
 import React from "react";
 import RegisterUser from "./registerForm";
-import { withRouter } from "react-router-dom";
 import { FetchData } from "../helpers/Fetch";
 import NegativeAlert from "../Alerts/NegativeAlert";
 import Spinner from "../../node_modules/react-bootstrap/Spinner";
@@ -111,12 +110,19 @@ class LoginForm extends React.Component {
 
     this.setState({ spinner: true });
     FetchData(requestBody).then((response) => {
-      return response === true
-        ? this.props.history.push("/home")
-        : response === (null || undefined)
-        ? this.setAlert("Server is down!. We are working on it.")
-        : this.setAlert(response);
-    });
+      if (response.data) {
+        this.props.updateRoute("dashBoard");
+        localStorage.setItem("userToken", JSON.stringify(Response.data));
+      }
+      else if (response === (null || undefined)) {
+        this.setAlert("Server is down!. We are working on it.")
+      }
+      else {
+        this.setAlert(response);
+      }
+    }
+    );
+
   };
 
   render() {
@@ -126,92 +132,92 @@ class LoginForm extends React.Component {
           {this.state.signup ? (
             <RegisterUser triggerSignup={this.triggerSignup} />
           ) : (
-            <div className="card">
-              <article className="card-body">
-                <h5 className="card-title text-center">Sign in</h5>
-                <hr />
-                <section className="col negativeAlert px-0">
-                  {this.state.alert ? (
-                    <NegativeAlert
-                      changeAlert={this.unsetAlert}
-                      content={this.state.content}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </section>
-                <form>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          {" "}
-                          <i className="fa fa-envelope fa-xs"></i>{" "}
-                        </span>
-                      </div>
-                      <input
-                        className="form-control shadow-none"
-                        placeholder="EmailId"
-                        type="email"
-                        onChange={this.validateField}
+              <div className="card">
+                <article className="card-body">
+                  <h5 className="card-title text-center">Sign in</h5>
+                  <hr />
+                  <section className="col negativeAlert px-0">
+                    {this.state.alert ? (
+                      <NegativeAlert
+                        changeAlert={this.unsetAlert}
+                        content={this.state.content}
                       />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          {" "}
-                          <i className="fa fa-key fa-xs"></i>{" "}
-                        </span>
-                      </div>
-                      <input
-                        className="form-control shadow-none"
-                        placeholder="******"
-                        type="password"
-                        onChange={this.validateField}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-block"
-                      onClick={this.onSubmitSignIn}
-                      disabled={this.state.buttonDisabled}
-                    >
-                      {this.state.spinner ? (
-                        <>
-                          Loging In...
-                          <Spinner
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            variant="dark"
-                          />
-                        </>
-                      ) : (
-                        <>Login</>
+                    ) : (
+                        ""
                       )}
-                    </button>
-                  </div>
-                  <button className="btn btn-outline-warning btn-sm text-dark">
-                    Forgot password?
+                  </section>
+                  <form>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            {" "}
+                            <i className="fa fa-envelope fa-xs"></i>{" "}
+                          </span>
+                        </div>
+                        <input
+                          className="form-control shadow-none"
+                          placeholder="EmailId"
+                          type="email"
+                          onChange={this.validateField}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            {" "}
+                            <i className="fa fa-key fa-xs"></i>{" "}
+                          </span>
+                        </div>
+                        <input
+                          className="form-control shadow-none"
+                          placeholder="******"
+                          type="password"
+                          onChange={this.validateField}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-block"
+                        onClick={this.onSubmitSignIn}
+                        disabled={this.state.buttonDisabled}
+                      >
+                        {this.state.spinner ? (
+                          <>
+                            Loging In...
+                          <Spinner
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              variant="dark"
+                            />
+                          </>
+                        ) : (
+                            <>Login</>
+                          )}
+                      </button>
+                    </div>
+                    <button className="btn btn-outline-warning btn-sm text-dark">
+                      Forgot password?
                   </button>
 
-                  <button
-                    className="btn btn-outline-warning btn-sm text-dark float-right"
-                    onClick={this.triggerSignup}
-                  >
-                    Create An Account
+                    <button
+                      className="btn btn-outline-warning btn-sm text-dark float-right"
+                      onClick={this.triggerSignup}
+                    >
+                      Create An Account
                   </button>
-                </form>
-              </article>
-            </div>
-          )}
+                  </form>
+                </article>
+              </div>
+            )}
         </aside>
       </div>
     );
   }
 }
-export default withRouter(LoginForm);
+export default LoginForm;

@@ -14,8 +14,7 @@ export const FetchData = (body) => {
     })
     .then((Response) => {
       if (Response.data) {
-        localStorage.setItem("userToken", JSON.stringify(Response.data));
-        return true;
+        return Response;
       } else {
         return Response.errors[0].message;
       }

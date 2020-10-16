@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter,Switch,Redirect } from "react-router-dom";
 import "./DashBoard.css";
 import {
   Nav,
@@ -15,8 +14,8 @@ const UserData = React.createContext();
 export const UserConsumer = UserData.Consumer;
 
 class DashBoard extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       navigationIsSet: true,
       loadContent: "home",
@@ -61,6 +60,7 @@ class DashBoard extends React.Component {
 
   handleLogout = () => {
     localStorage.clear();
+    this.props.updateRoute("login");
   };
 
   profileClick = (e) => {
@@ -74,25 +74,25 @@ class DashBoard extends React.Component {
 
   render() {
     if (localStorage.getItem("userToken")) {
-    return (
-      <React.Fragment>
-        <Container fluid="true">
-          <Row  style={{ marginLeft: "0", marginRight: "0" }}>
-            {this.state.navigationIsSet ? (
-              <Col sm={2} className="navbar-flex-css leftView slideIn">
-                <div className="sidebar-profile ">
-                  <span className="text-light">Ashwin Rishi</span>
-                  <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                    <Nav.Link className="shadow-sm fa fa-user fa-1x ">
-                      {" "}
-                    </Nav.Link>
-                    <Nav.Link className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
-                    <Nav.Link className="shadow-sm fa fa-sign-out fa-1x">
-                      {" "}
-                    </Nav.Link>
-                  </Nav>
+      return (
+        <React.Fragment>
+          <Container fluid="true">
+            <Row style={{ marginLeft: "0", marginRight: "0" }}>
+              {this.state.navigationIsSet ? (
+                <Col sm={2} className="navbar-flex-css leftView slideIn">
+                  <div className="sidebar-profile ">
+                    <span className="text-light">Ashwin Rishi</span>
+                    <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
+                      <Nav.Link className="shadow-sm fa fa-user fa-1x ">
+                        {" "}
+                      </Nav.Link>
+                      <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
+                      <Nav.Link onClick={()=> this.handleLogout} className="shadow-sm fa fa-sign-out fa-1x">
+                        {" "}
+                      </Nav.Link>
+                    </Nav>
                   </div>
-                 
+
                   <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
                     <span className="text-warning">Basics:</span>
                     <Nav.Link className="fa fa-home mt-2" name="home"> Home</Nav.Link>
@@ -112,48 +112,48 @@ class DashBoard extends React.Component {
                       {" "}
                       To-do List
                     </Nav.Link>
-                    <Nav.Link name= "calendar" className="fa fa-calendar mt-2">
+                    <Nav.Link name="calendar" className="fa fa-calendar mt-2">
                       {" "}
                       Calendar
                     </Nav.Link>
-                    <Nav.Link name= "notes" className="fa fa-sticky-note-o mt-2">
+                    <Nav.Link name="notes" className="fa fa-sticky-note-o mt-2">
                       {" "}
                       Notes
                     </Nav.Link>
                   </Nav>
-              </Col>
-            ) : (
-              ""
-            )}
-            <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
+                </Col>
+              ) : (
+                  ""
+                )}
+              <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
                 <Navbar bg="dark" variant="dark">
                   <Navbar.Brand onClick={this.handleMenu}>
                     <i className="fa fa-bars" aria-hidden="true"></i>
                   </Navbar.Brand>
                   <Nav className="mr-auto">
-                  <UserData.Provider value={this.state}>
-                    <Navigation />
+                    <UserData.Provider value={this.state}>
+                      <Navigation />
                     </UserData.Provider>
                   </Nav>
                 </Navbar>
                 <div className="display-content">
-                  <PageNavigation navigate={this.state.loadContent}/>
+                  <PageNavigation navigate={this.state.loadContent} />
                 </div>
-            </Col>
-          </Row>
-        </Container>
-      </React.Fragment>
-    );
-  }
-        else {
-        return (
-        <Switch>
-          <Redirect to="/" />
-        </Switch>
+              </Col>
+            </Row>
+          </Container>
+        </React.Fragment>
       );
     }
- 
+    else {
+      return (
+        <>
+          {this.props.updateRoute("login")}
+        </>
+      )
+    }
+
   }
 }
 
-export default withRouter(DashBoard);
+export default DashBoard;

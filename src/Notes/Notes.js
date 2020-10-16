@@ -1,9 +1,20 @@
-import React, { useState } from "react"
-import { Row, Col, Card, Container, Toast } from "react-bootstrap"
+import React, { useState,useEffect } from "react"
+import { Row, Col, Card, Container, Toast, Button } from "react-bootstrap"
 export default function Notes() {
 
     const [showA, setShowA] = useState(true);
     const [showB, setShowB] = useState(true);
+    const [date,setDate] = useState(new Date().toLocaleString());
+
+    useEffect(() => {
+        setInterval(() => {
+            setDate( new Date().toLocaleString());
+         }, 1000)
+    }, [date]);
+    
+    const createNote = () =>{
+        
+    }
 
     const toggleShowA = () => setShowA(!showA);
     const toggleShowB = () => setShowB(!showB);
@@ -68,7 +79,7 @@ export default function Notes() {
                     <Col md={9}>
                         <Row>
                             <Col className="mt-3 border-bottom">
-                                <h4><i class="fa fa-sticky-note"></i>Notes</h4>
+    <p>clock: {date}</p>
                             </Col>
                         </Row>
                         <Row className="ml-4 mt-4">
@@ -76,7 +87,9 @@ export default function Notes() {
                                 <textarea style={{ backgroundColor: "lightpink" }} rows="17" cols="90" name="textarea" placeholder="type your notes here" class="form-control">
                                 </textarea>
                             </div>
+                            <Button className="mt-4 float-right" onClick={()=> createContext()}> Submit Note </Button>
                         </Row>
+
                     </Col>
                 </Row>
             </Card>

@@ -134,44 +134,6 @@ export default function AppointmentSchedule() {
 	return (
 		<div className="container-fluid mt-4">
 			<div className="row">
-				<div class="modal fade" id="success" role="dialog">
-					<div class="modal-dialog">
-						{isAppointmentScheduled ?
-							<div class="modal-content" style="border:none;border-radius: 5px;">
-								<div
-									class="modal-header"
-									style="background: #1ab394;
-									border-top-left-radius: 5px;
-									border-top-right-radius: 5px;">
-
-									<button type="button" class="close" data-dismiss="modal" style="opacity:1;color:#fff;">
-										&times;
-									</button>
-									<h4 class="modal-title text-center">
-										<img
-											src="https://lh3.googleusercontent.com/-Zxh4srAEtU0/Wp0cZV-PJuI/AAAAAAAAD4E/En5x5c53s44jzvG8M0sSyFZXoRhGXfBzwCL0BGAYYCw/h100/2018-03-05.png"
-											alt=""
-										/>
-									</h4>
-								</div>
-								<div class="modal-body">
-									<p style="text-align:center;color:#1ab394;font-size:24px;font-weight:500;">
-										congrats Appointment Scheduled
-							</p>
-									<p style="color:#555555;"> </p>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">
-										Close
-									</button>
-								</div>
-							</div>
-							: ""}
-					</div>
-				</div>
-			</div>
-
-			<div className="row">
 				<Modal show={show} onHide={handleClose}>
 					<Modal.Header closeButton>
 						<Modal.Title>Modal heading</Modal.Title>
@@ -238,12 +200,12 @@ export default function AppointmentSchedule() {
 								);
 							})
 						) : (
-								<div class="col col-md-4">
-									<div class="choose">
-										<div class="choose-icon">
-											<i class="flaticon-telephone icon-color-3"></i>
+								<div className="col col-md-4">
+									<div className="choose">
+										<div className="choose-icon">
+											<i className="flaticon-telephone icon-color-3"></i>
 										</div>
-										<div class="choose-content">
+										<div className="choose-content">
 											<h4>Health Information</h4>
 											<p>
 												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
@@ -251,11 +213,11 @@ export default function AppointmentSchedule() {
 									</p>
 										</div>
 									</div>
-									<div class="choose">
-										<div class="choose-icon">
-											<i class="flaticon-microscope icon-color-6"></i>
+									<div className="choose">
+										<div className="choose-icon">
+											<i className="flaticon-microscope icon-color-6"></i>
 										</div>
-										<div class="choose-content">
+										<div className="choose-content">
 											<h4>Medical Education</h4>
 											<p>
 												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
@@ -263,11 +225,11 @@ export default function AppointmentSchedule() {
 									</p>
 										</div>
 									</div>
-									<div class="choose">
-										<div class="choose-icon">
-											<i class="flaticon-medical-2 icon-color-4 "></i>
+									<div className="choose">
+										<div className="choose-icon">
+											<i className="flaticon-medical-2 icon-color-4 "></i>
 										</div>
-										<div class="choose-content">
+										<div className="choose-content">
 											<h4>Symptom Check</h4>
 											<p>
 												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
@@ -275,11 +237,11 @@ export default function AppointmentSchedule() {
 									</p>
 										</div>
 									</div>
-									<div class="choose">
-										<div class="choose-icon">
-											<i class="flaticon-people-1 icon-color-7"></i>
+									<div className="choose">
+										<div className="choose-icon">
+											<i className="flaticon-people-1 icon-color-7"></i>
 										</div>
-										<div class="choose-content">
+										<div className="choose-content">
 											<h4>Qualified Doctors</h4>
 											<p>
 												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
@@ -293,7 +255,7 @@ export default function AppointmentSchedule() {
 				</div>
 				<div className="col-lg-5 col-border">
 					{isFormSelected ? (
-						<div class="container" style={{ backgroundColor: 'cadetblue' }}>
+						<div className="container" style={{ backgroundColor: 'cadetblue' }}>
 							<h4 className="text-center needs-validation"> Appointment Form: </h4>
 							<Form noValidate validated={validated} onSubmit={handleSubmit}>
 								<Form.Group controlId="validationCustom01">
@@ -417,15 +379,17 @@ export default function AppointmentSchedule() {
 
 				<div className="col-lg-3 col-border">
 					{isAppointmentScheduled ? (
-						<Toast>
-							<Toast.Header>
-								<img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-								<strong className="mr-auto">Appointment 1</strong>
-								<small>{hospitalDetails.name}</small>
-							</Toast.Header>
-							<Toast.Body>{hospitalDetails.location}</Toast.Body>
-							<Toast.Body>{hospitalDetails.phoneNumber}</Toast.Body>
-						</Toast>
+						<div >
+							<Form.Label>Scheduled appointments</Form.Label>
+							<Toast style={{ backgroundColor: "lightpink" }}>
+								<Toast.Header>
+									<img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
+									<strong className="mr-auto">{hospitalDetails.name} </strong>
+								</Toast.Header>
+								<Toast.Body>{hospitalDetails.location}</Toast.Body>
+								<Toast.Body>{hospitalDetails.phoneNumber}</Toast.Body>
+							</Toast>
+						</div>
 					) : (
 							''
 						)}
