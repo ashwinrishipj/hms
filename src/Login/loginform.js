@@ -114,11 +114,11 @@ class LoginForm extends React.Component {
         this.props.updateRoute("dashBoard");
         localStorage.setItem("userToken", JSON.stringify(Response.data));
       }
-      else if (response === (null || undefined)) {
-        this.setAlert("Server is down!. We are working on it.")
+      else if (response.errors) {
+        this.setAlert(response);
       }
       else {
-        this.setAlert(response);
+        this.setAlert("Server is down!. We are working on it.")
       }
     }
     );

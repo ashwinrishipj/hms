@@ -44,7 +44,7 @@ const LockScreen = (props) => {
         };
 
         FetchData(requestBody).then((response) => {
-            return response === true
+            return response.data.validateUser.tokenExpiration == 1
                 ? props.updateRoute("dashBoard")
                 : response === (null || undefined)
                     ? setalert("Server is down!. We are working on it.")
@@ -62,8 +62,10 @@ const LockScreen = (props) => {
 
                             <Card.Body>
                                 <section >
-                                    {alert.length != 0 ? (
+                                    {!alert != 0 ? (
+                                        <>
                                         <Form.Label className="text-danger">{alert}</Form.Label>
+                                        </>
                                     ) : (
                                             ""
                                         )}

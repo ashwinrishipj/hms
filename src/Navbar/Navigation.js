@@ -93,7 +93,7 @@ function Navigation() {
                         <Nav.Link
                           className="list-group-item selectItem list-group-item-action"
                           tabIndex="3"
-                          href="#list-settings"
+                          href=""
                           name="signout"
                           onClick={handleLogout}
                         >

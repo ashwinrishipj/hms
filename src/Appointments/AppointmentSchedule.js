@@ -128,9 +128,7 @@ export default function AppointmentSchedule() {
 			handleShow();
 		}
 	};
-
-
-
+	
 	return (
 		<div className="container-fluid mt-4">
 			<div className="row">

@@ -4,7 +4,7 @@ import { LandingPage } from "./Login/LandingPage";
 
 function App() {
   return (
-    <LandingPage intialize="dashBoard"/>
+    <LandingPage intialize="login"/>
   );
 }
 

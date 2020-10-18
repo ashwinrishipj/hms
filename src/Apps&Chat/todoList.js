@@ -22,33 +22,36 @@ export default function TodoList() {
 			console.log('failed:', JSON.stringify(apiResponse));
 		} else {
 			localStorage.setItem('todoTasks', JSON.stringify(apiResponse));
-			updateTaskContent('tasks');
+			updateTaskContent(taskCategory);
 			console.log('Success:', JSON.stringify(apiResponse));
 		}
 	};
 
 	const updateTaskContent = (taskType) => {
 		var updateToDo = JSON.parse(localStorage.getItem('todoTasks'));
-		setIsTaskContent(true);
-		setToDoDescriptionVisible(false);
-		switch (taskType) {
-			case 'tasks':
-				setTaskCategory('tasks');
-				setTaskContent(updateToDo.tasks);
-				break;
-			case 'completed':
-				setTaskCategory('completed');
-				setTaskContent(updateToDo.completed);
-				break;
-			case 'deleted':
-				setTaskCategory('deleted');
-				setTaskContent(updateToDo.deleted);
-				break;
-			default:
-				break;
+		if (!updateToDo) {
+			setIsTaskContent(false);
+		} else {
+			setIsTaskContent(true);
+			setToDoDescriptionVisible(false);
+			switch (taskType) {
+				case 'tasks':
+					setTaskCategory('tasks');
+					setTaskContent(updateToDo.tasks);
+					break;
+				case 'completed':
+					setTaskCategory('completed');
+					setTaskContent(updateToDo.completed);
+					break;
+				case 'deleted':
+					setTaskCategory('deleted');
+					setTaskContent(updateToDo.deleted);
+					break;
+				default:
+					break;
+			}
 		}
-	};
-
+	}
 	const handleTaskOnClick = (data) => {
 		setToDoDescription(data);
 		setToDoDescriptionVisible(true);
@@ -87,6 +90,8 @@ export default function TodoList() {
 			setValidated(true);
 			handleShow();
 			handleClose();
+			
+
 			let requestBody = {
 				query: ` 
 				mutation{
@@ -211,7 +216,7 @@ export default function TodoList() {
 						</Nav>
 					</Card.Header>
 					{isTaskContent ? (
-						taskContent && taskContent.length ? (
+						taskContent && taskContent.length !== 0 ? (
 							<ul className=" list-group to_do_list_box-shadow scroll-auto">
 								{taskContent.map((data, index) => {
 									return (
@@ -228,11 +233,11 @@ export default function TodoList() {
 								})}
 							</ul>
 						) : (
-							<>{noTask()}</>
-						)
+								<>{noTask()}</>
+							)
 					) : (
-						<>{noTask()}</>
-					)}
+							<>{noTask()}</>
+						)}
 				</Card>
 			</div>
 		);
@@ -288,6 +293,7 @@ export default function TodoList() {
 										type="date"
 										name="date"
 										min={new Date().toISOString().split('T')[0]}
+										format= 'dd/mm/yyyy'
 										onChange={(e) => onInputChange(e)}
 										placeholder="City"
 										required
@@ -324,8 +330,8 @@ export default function TodoList() {
 							toggleShowA={toggleShowA}
 						/>
 					) : (
-						''
-					)}{' '}
+							''
+						)}{' '}
 				</div>
 			</div>
 		</div>
