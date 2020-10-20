@@ -30,7 +30,6 @@ export default function Notes(props) {
 
     const fetchNotes = (body, type) => {
         FetchData(body).then((response) => {
-
             if (type === "getNotesDetails") {
                 if (response.data.getNotesDetails.notes.length !== (0 || null || undefined || NaN)) {
                     setToastContent(response.data.getNotesDetails.notes);
@@ -53,9 +52,12 @@ export default function Notes(props) {
     }
 
     useEffect(() => {
+        let userId = JSON.parse(localStorage.getItem('userToken'));
+            userId = userId.validateUser.userId;
+            
         let requestBody = {
             query: `
-            query{getNotesDetails(userId:"5e9df7a7327a33165026b98f"){userId,notes{_id,notesContent,date}}}
+            query{getNotesDetails(userId:"${userId}"){userId,notes{_id,notesContent,date}}}
               `,
         };
         fetchNotes(requestBody, "getNotesDetails");
@@ -69,12 +71,15 @@ export default function Notes(props) {
     }
 
     const createNote = () => {
+        let userId = JSON.parse(localStorage.getItem('userToken'));
+        userId = userId.validateUser.userId;
+
         setclearValue("")
         if (noteValue.length !== 0) {
             let requestBody = {
                 query: `
                 mutation{
-                    createNotes(userId:"5e9df7a7327a33165026b98f",notesContent:"${noteValue}",date:"${date}"){
+                    createNotes(userId:"${userId}",notesContent:"${noteValue}",date:"${date}"){
                       userId,
                       notes{
                         _id,
@@ -94,6 +99,12 @@ export default function Notes(props) {
 
     return (
         <>
+        {alert ? 
+         <div className="alert alert-success alert-dismissible fade show">
+         <strong>{alertContent} </strong>
+         <button type="button" className="close" data-dismiss="alert">&times;</button>
+     </div>
+        :" "}
 		 <Breadcrumb>
         <Breadcrumb.Item active>Notes:</Breadcrumb.Item>
     </Breadcrumb>
@@ -119,23 +130,23 @@ export default function Notes(props) {
                     <Col className="col-border" md={3}>
                         <Row>
                             <Col className="mt-2 text-info">
-                                <h4><i class="fa fa-sticky-note"></i>Notes</h4>
+                                <h4><i className="fa fa-sticky-note"></i>Notes</h4>
                             </Col>
                         </Row>
                         <Row className="ml border-bottom mt-2">
 
                         </Row>
                         <Row >
-                            <form class="form-inline input-wrapper mt-3 ml-2"><input class="form-control input-wrapper" placeholder="Search Images" aria-label="Search" />
+                            <form className="form-inline input-wrapper mt-3 ml-2"><input className="form-control input-wrapper" placeholder="Search Images" aria-label="Search" />
                             </form>
 
                             <div className="mt-4 ml-2 mr-2 scroll-auto toast-onclick">
-                                {toastContent ?
+                                {(toastContent.length !== 0 || null) ?
                                     <>
                                         {toastContent.map((data, index) => {
                                             return (
                                                 <>
-                                                <Toast onClick={() => openToastDescription(data)} key={index} >
+                                                <Toast  onClick={() => openToastDescription(data)} key={index} >
                                                     <Toast.Header closeButton={false}>
                                                         <strong className="mr-auto"> {index + 1}</strong>
                                                         <small> {data.date}</small>
@@ -148,8 +159,8 @@ export default function Notes(props) {
                                         })}
                                     </>
                                     :
-                                    <Toast>
-                                        <Toast.Header closeButton={false}>
+                                    <Toast variant={"warning"}>
+                                        <Toast.Header  closeButton={false}>
                                             <strong className="mr-auto">Not found</strong>
                                             <small>10 sec ago</small>
                                         </Toast.Header>
@@ -169,7 +180,7 @@ export default function Notes(props) {
                         </Row>
                         <Row className="ml-4 mt-4">
                             <div className="form">
-                                <textarea onChange={(e) => handleNote(e)} value={clearValue} style={{ backgroundColor: "#c1eade" }} rows="17" cols="90" name="textarea" placeholder="type your notes here" class="form-control">
+                                <textarea onChange={(e) => handleNote(e)} value={clearValue} style={{ backgroundColor: "#c1eade" }} rows="17" cols="90" name="textarea" placeholder="type your notes here" className="form-control">
                                 </textarea>
                             </div>
                             <Button className="mt-4 float-right" onClick={() => createNote()}> Submit Note </Button>

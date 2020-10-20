@@ -57,7 +57,7 @@ const LockScreen = (props) => {
                 <Row className=" justify-content-md-center  text-white text-center" >
                     <Col lg="4" className="mt-4">
                         <Card style={{ backgroundColor: "rgba(0, 0, 0, 0.1)", marginTop: "28%" }}>
-                            <h2 style={{ color: "teal" }}><i class="fa fa-lock fa-2x" aria-hidden="true"></i> </h2>
+                            <h2 style={{ color: "teal" }}><i className="fa fa-lock fa-2x" aria-hidden="true"></i> </h2>
                             <Card.Header>Ashwin Rishi </Card.Header>
 
                             <Card.Body>

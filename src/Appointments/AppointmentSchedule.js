@@ -12,7 +12,7 @@ export default function AppointmentSchedule() {
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-
+	
 	const [state, setState] = useState({
 		name: '',
 		startDate: '',
@@ -78,11 +78,14 @@ export default function AppointmentSchedule() {
 	};
 
 	const sendAppointmentDetails = () => {
+		var referenceId = JSON.parse(localStorage.getItem("userToken"));
+		referenceId = referenceId.validateUser.userId;
+		
 		let requestBody = {
 			query: `
 			mutation{
 				createAppointment(input:{
-				  userId:"5e9df7a7327a33165026b98f",
+				  userId:"${referenceId}",
 				  name:"${state.name}",
 				  startDate:"${state.startDate}",
 				  time:"${state.time}",
@@ -111,7 +114,13 @@ export default function AppointmentSchedule() {
 			.then((response) => response.json())
 			.then((responseJSON) => {
 				{
-					responseJSON.data.createAppointment === true ? setisAppointmentScheduled(true) : setisAppointmentScheduled(false);
+					if (responseJSON.data.createAppointment === true){
+						setisAppointmentScheduled(true);
+						setisFormSelected(false);
+					
+					}else{
+						setisAppointmentScheduled(false);
+					}	
 				}
 			})
 			.catch(err => console.error('error in fetching todo:', err));
@@ -139,11 +148,13 @@ export default function AppointmentSchedule() {
 			<div className="row">
 				<Modal show={show} onHide={handleClose}>
 					<Modal.Header closeButton>
-						<Modal.Title>Modal heading</Modal.Title>
+						
 					</Modal.Header>
 					<Modal.Body>
 						Are you sure to confirm Appointment. <br />
-						you can always modify appointments in the Appointments Section.
+						you can't  modify appointments once submitted. 
+						<br/>
+						Only Hospitals can edit/modify/delete appointments.
 					</Modal.Body>
 					<Modal.Footer>
 						<Button variant="secondary" onClick={handleClose}>
@@ -405,15 +416,14 @@ export default function AppointmentSchedule() {
 					) : (
 							<div>
 								<Form.Label>List of departments:</Form.Label>
-
 								<ul className="list-unstyled scroll-auto mt-3">
 									<Card className="rounded-border" style={{ width: '25rem' }}>
 										<li className="media">
 											<img src={require('./images/opd.png')} width="50" height="60" className="mr-3 " alt="..." />
 											<div className="media-body">
 												<h5 className="mt-0 mb-1">Outpatient Clinic</h5>
-							An outpatient department or outpatient clinic is the part of a hospital designed for the treatment of outpatients, people with health problems who visit the hospital for diagnosis or treatment, but do not at this time require a bed or to be admitted for overnight care.
-							</div>
+												An outpatient department or outpatient clinic is the part of a hospital designed for the treatment of outpatients, people with health problems who visit the hospital for diagnosis or treatment, but do not at this time require a bed or to be admitted for overnight care.
+											</div>
 										</li>
 									</Card>
 									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>
@@ -421,8 +431,8 @@ export default function AppointmentSchedule() {
 											<img src={require('./images/Gastroenterology.png')} width="50" height="60" className="mr-3" alt="..." />
 											<div className="media-body">
 												<h5 className="mt-0 mb-1">GastroEntrology</h5>
-							Gastroenterology is the branch of medicine focused on the digestive system and its disorders. Diseases affecting the gastrointestinal tract, which include the organs from mouth into anus, along the alimentary canal, are the focus of this speciality.
-							 </div>
+												Gastroenterology is the branch of medicine focused on the digestive system and its disorders. Diseases affecting the gastrointestinal tract, which include the organs from mouth into anus, along the alimentary canal, are the focus of this speciality.
+							 				</div>
 										</li>
 									</Card>
 									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>
@@ -430,8 +440,8 @@ export default function AppointmentSchedule() {
 											<img src={require('./images/neurology.png')} width="50" height="60" className="mr-3" alt="..." />
 											<div className="media-body">
 												<h5 className="mt-0 mb-1">Neurology</h5>
-							Neurology is a branch of medicine dealing with disorders of the nervous system. Neurology deals with the diagnosis and treatment of all categories of conditions and disease involving the central and peripheral nervous systems, including their coverings, blood vessels, and all effector tissue, such as muscle.
-							</div>
+												Neurology is a branch of medicine dealing with disorders of the nervous system. Neurology deals with the diagnosis and treatment of all categories of conditions and disease involving the central and peripheral nervous systems, including their coverings, blood vessels, and all effector tissue, such as muscle.
+												</div>
 										</li>
 									</Card>
 									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>
@@ -439,8 +449,8 @@ export default function AppointmentSchedule() {
 											<img src={require('./images/ENT.png')} width="50" height="60" className="mr-3" alt="..." />
 											<div className="media-body">
 												<h5 className="mt-0 mb-1">ENT Department</h5>
-							Otorhinolaryngology is a surgical subspecialty within medicine that deals with the surgical and medical management of conditions of the head and neck. Doctors who specialize in this area are called otorhinolaryngologists, otolaryngologists, head and neck surgeons, or ENT surgeons or physicians.
-							 </div>
+												Otorhinolaryngology is a surgical subspecialty within medicine that deals with the surgical and medical management of conditions of the head and neck. Doctors who specialize in this area are called otorhinolaryngologists, otolaryngologists, head and neck surgeons, or ENT surgeons or physicians.
+							 				</div>
 										</li>
 									</Card>
 									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>

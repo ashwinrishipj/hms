@@ -59,7 +59,7 @@ class DashBoard extends React.Component {
   };
 
   handleLogout = () => {
-    localStorage.removeItem("userToken");
+    localStorage.clear();
     this.props.updateRoute("login");
   };
 
@@ -91,9 +91,9 @@ class DashBoard extends React.Component {
               {this.state.navigationIsSet ? (
                 <Col sm={2} className="navbar-flex-css leftView slideIn">
                   <div>
-                    <span className="text-light">Ashwin Rishi</span>
+                    <img src={require('../helpers/Profile.png')} width="50px" height="50px"/>
                     <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                      <Nav.Link className="shadow-sm fa fa-user fa-1x ">
+                      <Nav.Link className="shadow-sm fa fa-user fa-1x">
                         {" "}
                       </Nav.Link>
                       <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
@@ -110,7 +110,7 @@ class DashBoard extends React.Component {
                       {" "}
                       Appointment Scheduler
                     </Nav.Link>
-                    <Nav.Link className="flex-css-nav-link fa fa-file-text mt-2" name="appointmentLists" class="documents">
+                    <Nav.Link className="flex-css-nav-link fa fa-file-text mt-2" name="appointmentLists" className="documents">
                       {" "}
                       Apointment Lists
                     </Nav.Link>

@@ -117,12 +117,16 @@ class LoginForm extends React.Component {
     });
   }
 
+  updateHomeRoute = (data)=>{
+    this.props.updateRoute(data);
+  }
+
   render() {
     return (
       <div>
         <aside className="col mt-4">
           {this.state.signup ? (
-            <RegisterUser triggerSignup={this.triggerSignup} />
+            <RegisterUser triggerSignup={this.triggerSignup}  updateHomeRoute={()=> this.updateHomeRoute()}/>
           ) : (
               <div className="card">
                 <article className="card-body">

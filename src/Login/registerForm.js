@@ -45,7 +45,7 @@ class RegisterUser extends React.Component {
       this.setState({ spinner: true });
       LoginFetchData(requestBody).then((response) => {
         return response === true
-          ? this.props.history.push("/home")
+          ?  this.props.updateHomeRoute("dashBoard")
           : this.changeAlert(response);
       });
   };

@@ -174,9 +174,7 @@ input[type='text'] :active {
 	background-color: #17a2b8;
 	cursor:  pointer !important;
 }
-.scheduledToast :hover{
-	transform:translateY(4px);
-}
 .scheduledToast :active{
 	background-color: lightpink;
+	transform:translateY(4px);
 }

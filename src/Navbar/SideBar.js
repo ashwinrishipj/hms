@@ -18,7 +18,6 @@ export default function SideBar(props) {
                         </Navbar.Brand>
                         <span className="text-light">Ashwin Rishi</span>
                         <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                            <Nav.Link className="shadow-sm fa fa-user fa-1x "> </Nav.Link>
                             <Nav.Link className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
                             <Nav.Link className="shadow-sm fa fa-sign-out fa-1x"> </Nav.Link>
                         </Nav>
@@ -34,7 +33,7 @@ export default function SideBar(props) {
                             {' '}
 							Appointments
 						</Nav.Link>
-                        <Nav.Link className="fa fa-file-text mt-2" class="documents">
+                        <Nav.Link className="fa fa-file-text mt-2" className="documents">
                             {' '}
 							Documents
 						</Nav.Link>

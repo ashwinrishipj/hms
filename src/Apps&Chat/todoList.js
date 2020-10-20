@@ -133,9 +133,12 @@ export default function TodoList() {
 	};
 
 	useEffect(() => {
+		let userId = JSON.parse(localStorage.getItem('userToken'));
+			userId = userId.validateUser.userId;
+
 		let requestBody = {
 			query: ` query{
-				getTodoList(userId: "5e9df7a7327a33165026b98f"){
+				getTodoList(userId: "${userId}"){
 				  userId,
 				  tasks{
 					_id
@@ -264,7 +267,7 @@ export default function TodoList() {
 			<>
 				<input
 					className="form-control input-wrapper"
-					placeholder="Search Images"
+					placeholder="Search Tasks"
 					aria-label="Search"
 					onChange={(e) => searchTasks(e)}
 				/>

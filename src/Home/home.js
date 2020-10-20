@@ -7,7 +7,6 @@ function Home() {
     const [apiReceived, setapiReceived] = useState(false);
     const [newsData, setnewsData] = useState([]);
     const [isCountrySuggestied, setisCountrySuggested] = useState(false);
-    const [countryList, setCountryList] = useState([]);
     const [countrySuggestions, setcountrySuggestions] = useState([]);
     const [defaultCountryValue, setdefaultCountryValue] = useState("");
 
@@ -43,8 +42,7 @@ function Home() {
             .then(res => {
                 return res.json()
             }).then((response) => {
-                localStorage.setItem('countryList', JSON.stringify(response.response))
-                setCountryList(response.response);
+                localStorage.setItem('countryList', JSON.stringify(response.response))     
                 setcountrySuggestions(true);
             })
             .catch(err => {
@@ -73,6 +71,7 @@ function Home() {
     }
 
     const getCountrySuggestionList = (e) => {
+        var countryList = JSON.parse(localStorage.getItem('countryList'));
         var countrySuggestionsList = countryList.filter(countrySuggestion => {
             return countrySuggestion.toLowerCase().includes(e.target.value.toLowerCase());
         });
@@ -88,8 +87,6 @@ function Home() {
             setgeneralAPI(JSON.parse(localStorage.getItem('covid-basics')));
             setapiReceived(true);
             setnewsData(JSON.parse(localStorage.getItem('news')));
-            var countries = JSON.parse(localStorage.getItem('countryList'));
-            setCountryList(countries);
         }
         else {
             fetchCovidData();
@@ -103,25 +100,25 @@ function Home() {
         setisCountrySuggested(false);
         fetchCovidData(data);
         setdefaultCountryValue(data);
-        setCountryList([]);
     }
+
     return (
         <>
             <Breadcrumb>
                 <Breadcrumb.Item active>Home</Breadcrumb.Item>
             </Breadcrumb>
-            <Container >
+            <Container className="h-100">
                 <Row>
                     <Col lg={8}>
                         <h3>Covid-19 Tracker </h3>
                         <div className="text-center">
-                                    <input class="form-control h-100 row align-items-center ml-2" value={defaultCountryValue} style={{width:"30%"}} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search.." />
-                                    <ul class="list-group scroll-auto home-list"  id="myList">
+                                    <input autoComplete="off" className="form-control align-items-center ml-2" value={defaultCountryValue} style={{width:"30%"}} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." />
+                                    <ul className="list-group scroll-auto home-list"  id="myList">
                                         {isCountrySuggestied ?
                                             <>
                                                 {countrySuggestions.map((data, key) => {
                                                     return (
-                                                        <li key={key} href="return false" style={{ cursor: "pointer" }} onClick={() => selectedCountry(data)} class="list-group-item">{data}</li>
+                                                        <li key={key} href="return false" style={{ cursor: "pointer" }} onClick={() => selectedCountry(data)} className="list-group-item">{data}</li>
                                                     )
                                                 })}
                                             </> : ""}
