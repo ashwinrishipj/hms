@@ -71,9 +71,9 @@ export default function TodoList() {
 		})
 			.then((response) => response.json())
 			.then((responseJSON) => {
-					responseJSON.data.insertTask
-						? validate(responseJSON.data.insertTask)
-						: validate(responseJSON.data.getTodoList);
+				responseJSON.data.insertTask
+					? validate(responseJSON.data.insertTask)
+					: validate(responseJSON.data.getTodoList);
 			})
 			.catch((error) => console.error('error in fetching todo:', error));
 	};
@@ -132,7 +132,7 @@ export default function TodoList() {
 
 	useEffect(() => {
 		let userId = JSON.parse(localStorage.getItem('userToken'));
-			userId = userId.validateUser.userId;
+		userId = userId.validateUser.userId;
 
 		let requestBody = {
 			query: ` query{
@@ -251,13 +251,13 @@ export default function TodoList() {
 
 	const searchTasks = (e) => {
 		var searchContent = e.target.value;
-		
-		if (searchContent === 0){
+
+		if (searchContent === 0) {
 			setisSearch(false);
-		}else{
+		} else {
 			setisSearch(true);
-		   setsearchValue(searchContent)
-		}	
+			setsearchValue(searchContent)
+		}
 	}
 
 	const displayCompleteToDo = () => {
@@ -273,30 +273,30 @@ export default function TodoList() {
 				<ListGroup>
 					{isSearch ?
 						<>
-								Active:
+							Active:
 								{ToDo.tasks.map((data, key) => {
-									if (`${data.content}`.includes(searchValue)) {
-										return(
-											<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
-										)
-									} 
-								})}
+							if (`${data.content}`.includes(searchValue)) {
+								return (
+									<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
+								)
+							}
+						})}
 								Completed:
 								{ToDo.completed.map((data, key) => {
-									if (`${data.content}`.includes(searchValue)) {
-										return(
-											<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
-										)
-									} 
-								})}
+							if (`${data.content}`.includes(searchValue)) {
+								return (
+									<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
+								)
+							}
+						})}
 			   					Deleted:
 								{ToDo.deleted.map((data, key) => {
-									if (`${data.content}`.includes(searchValue)) {
-										return(
-											<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
-										)
-									} 
-								})}
+							if (`${data.content}`.includes(searchValue)) {
+								return (
+									<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
+								)
+							}
+						})}
 						</>
 						: <>
 							{ToDo !== null ?

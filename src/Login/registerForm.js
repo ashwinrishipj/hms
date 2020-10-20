@@ -29,7 +29,6 @@ class RegisterUser extends React.Component {
   submitSignup = (e) => {
     e.preventDefault();
 
-    alert(this.state.confirmPassword);
     let requestBody = {
       query: `
         mutation{
@@ -42,12 +41,12 @@ class RegisterUser extends React.Component {
         `,
     };
 
-      this.setState({ spinner: true });
-      LoginFetchData(requestBody).then((response) => {
-        return response === true
-          ?  this.props.updateHomeRoute("dashBoard")
-          : this.changeAlert(response);
-      });
+    this.setState({ spinner: true });
+    LoginFetchData(requestBody).then((response) => {
+      return response == true
+        ? this.props.updateHomeRoute("dashBoard")
+        : this.changeAlert(response);
+    });
   };
 
   validateField = (e) => {
@@ -112,8 +111,8 @@ class RegisterUser extends React.Component {
                 changeAlert={() => this.changeAlert()}
               />
             ) : (
-              ""
-            )}
+                ""
+              )}
           </section>
           <form>
             <div className="form-group">
@@ -184,8 +183,8 @@ class RegisterUser extends React.Component {
                     />
                   </>
                 ) : (
-                  <>Register</>
-                )}
+                    <>Register</>
+                  )}
               </button>
             </div>
             <button className="btn btn-outline-warning btn-md text-dark">

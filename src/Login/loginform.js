@@ -111,13 +111,13 @@ class LoginForm extends React.Component {
 
     this.setState({ spinner: true });
     LoginFetchData(requestBody).then((response) => {
-      return response === true
-        ?  this.props.updateRoute("dashBoard")
+      return response == true
+        ? this.props.updateRoute("dashBoard")
         : this.setAlert(response);
     });
   }
 
-  updateHomeRoute = (data)=>{
+  updateHomeRoute = (data) => {
     this.props.updateRoute(data);
   }
 
@@ -126,7 +126,7 @@ class LoginForm extends React.Component {
       <div>
         <aside className="col mt-4">
           {this.state.signup ? (
-            <RegisterUser triggerSignup={this.triggerSignup}  updateHomeRoute={()=> this.updateHomeRoute()}/>
+            <RegisterUser triggerSignup={this.triggerSignup} updateHomeRoute={this.updateHomeRoute} />
           ) : (
               <div className="card">
                 <article className="card-body">

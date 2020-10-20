@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Container, Card, Col, Row, CardGroup, Breadcrumb, Button} from "react-bootstrap";
+import { Container, Card, Col, Row, CardGroup, Breadcrumb, Button } from "react-bootstrap";
 
 function Home() {
     const [generalAPI, setgeneralAPI] = useState();
@@ -41,7 +41,7 @@ function Home() {
             .then(res => {
                 return res.json()
             }).then((response) => {
-                localStorage.setItem('countryList', JSON.stringify(response.response))     
+                localStorage.setItem('countryList', JSON.stringify(response.response))
                 setcountrySuggestions(true);
             })
             .catch(err => {
@@ -111,17 +111,17 @@ function Home() {
                     <Col lg={8}>
                         <h3>Covid-19 Tracker </h3>
                         <div className="text-center">
-                                    <input autoComplete="off" className="form-control align-items-center ml-2" value={defaultCountryValue} style={{width:"30%"}} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." />
-                                    <ul className="list-group scroll-auto home-list"  id="myList">
-                                        {isCountrySuggestied ?
-                                            <>
-                                                {countrySuggestions.map((data, key) => {
-                                                    return (
-                                                        <li key={key} href="return false" style={{ cursor: "pointer" }} onClick={() => selectedCountry(data)} className="list-group-item">{data}</li>
-                                                    )
-                                                })}
-                                            </> : ""}
-                                    </ul>
+                            <input autoComplete="off" className="form-control align-items-center ml-2" value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." />
+                            <ul className="list-group scroll-auto home-list" id="myList">
+                                {isCountrySuggestied ?
+                                    <>
+                                        {countrySuggestions.map((data, key) => {
+                                            return (
+                                                <li key={key} href="return false" style={{ cursor: "pointer" }} onClick={() => selectedCountry(data)} className="list-group-item">{data}</li>
+                                            )
+                                        })}
+                                    </> : ""}
+                            </ul>
 
                         </div>
                         <h3 className="text-danger text-center"> {defaultCountryValue} covid cases: </h3>
@@ -151,18 +151,18 @@ function Home() {
                                 </Card.Body>
                             </Card>
                         </CardGroup>
-                        <Card className="text-center rounded-border mx-auto" style={{width:"50%"}}>
-                                <Card.Body>
-                                    Critical:
+                        <Card className="text-center rounded-border mx-auto" style={{ width: "50%" }}>
+                            <Card.Body>
+                                Critical:
                                     <Card.Text className="font-active">
-                                        {apiReceived ? generalAPI.response[0].cases.critical : ""}
-                                    </Card.Text>
+                                    {apiReceived ? generalAPI.response[0].cases.critical : ""}
+                                </Card.Text>
                                     Total Affected:
                                     <Card.Text className="font-active">
-                                        {apiReceived ? generalAPI.response[0].cases.total : ""}
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
+                                    {apiReceived ? generalAPI.response[0].cases.total : ""}
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
                     </Col>
                     <Col style={{ borderLeft: "1px solid black" }} className="scroll-auto">
                         <h5> News </h5>

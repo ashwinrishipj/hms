@@ -94,8 +94,8 @@ class DashBoard extends React.Component {
                   <div>
                     <img src={require('../helpers/Profile.png')} width="50px" height="50px"/>
                     <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                      <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
-                      <Nav.Link onClick={()=> this.handleLogout()} className="shadow-sm fa fa-sign-out fa-1x">
+                      <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-2x "></Nav.Link>
+                      <Nav.Link onClick={()=> this.handleLogout()} className="shadow-sm fa fa-sign-out fa-2x ml-4">
                         {" "}
                       </Nav.Link>
                     </Nav>
@@ -104,11 +104,11 @@ class DashBoard extends React.Component {
                   <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
                     <span className="flex-css-nav-link text-warning">Basics:</span>
                     <Nav.Link className="flex-css-nav-link fa fa-home mt-2" name="home"> Home</Nav.Link>
-                    <Nav.Link className=" flex-css-nav-link fa fa-hospital-o mt-2" name="appointments">
+                    <Nav.Link className="flex-css-nav-link fa fa-hospital-o mt-2" name="appointments">
                       {" "}
                       Appointment Scheduler
                     </Nav.Link>
-                    <Nav.Link className="flex-css-nav-link fa fa-file-text mt-2" name="appointmentLists" className="documents">
+                    <Nav.Link className="flex-css-nav-link fa fa fa-list mt-2" name="appointmentLists">
                       {" "}
                       Apointment Lists
                     </Nav.Link>

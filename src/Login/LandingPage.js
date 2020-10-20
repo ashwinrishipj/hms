@@ -18,7 +18,7 @@ export const LandingPage = (props) => {
       <Switch>
         {(route === "lockScreen" && (
           <Route path="/" component={() => (
-            <LockScreen updateRoute={updateRoute}/>
+            <LockScreen updateRoute={updateRoute} />
           )} />
         )) ||
           (route === "login" && (
