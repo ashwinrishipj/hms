@@ -71,11 +71,9 @@ export default function TodoList() {
 		})
 			.then((response) => response.json())
 			.then((responseJSON) => {
-				{
 					responseJSON.data.insertTask
 						? validate(responseJSON.data.insertTask)
 						: validate(responseJSON.data.getTodoList);
-				}
 			})
 			.catch((error) => console.error('error in fetching todo:', error));
 	};
@@ -170,6 +168,7 @@ export default function TodoList() {
 		} else {
 			updateTaskContent('tasks');
 		}
+
 	}, []);
 
 	const noTask = () => {
@@ -253,7 +252,7 @@ export default function TodoList() {
 	const searchTasks = (e) => {
 		var searchContent = e.target.value;
 		
-		if (searchContent == 0){
+		if (searchContent === 0){
 			setisSearch(false);
 		}else{
 			setisSearch(true);

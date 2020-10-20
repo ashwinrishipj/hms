@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Container, Card, Col, Row, CardGroup, Breadcrumb, Button, Dropdown } from "react-bootstrap";
-import { FetchData } from "../helpers/Fetch";
+import { Container, Card, Col, Row, CardGroup, Breadcrumb, Button} from "react-bootstrap";
 
 function Home() {
     const [generalAPI, setgeneralAPI] = useState();

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Card, Row, Col, Form, Button, InputGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Card, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import { FetchData } from "../helpers/Fetch";
 
 const LockScreen = (props) => {
@@ -44,7 +44,7 @@ const LockScreen = (props) => {
         };
 
         FetchData(requestBody).then((response) => {
-            return response.data.validateUser.tokenExpiration == 1
+            return response.data.validateUser.tokenExpiration === 1
                 ? props.updateRoute("dashBoard")
                 : response === (null || undefined)
                     ? setalert("Server is down!. We are working on it.")
@@ -62,7 +62,7 @@ const LockScreen = (props) => {
 
                             <Card.Body>
                                 <section >
-                                    {!alert != 0 ? (
+                                    {!alert !== 0 ? (
                                         <>
                                         <Form.Label className="text-danger">{alert}</Form.Label>
                                         </>

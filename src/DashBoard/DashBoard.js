@@ -65,7 +65,8 @@ class DashBoard extends React.Component {
 
   profileClick = (e) => {
     e.preventDefault();
-    this.setState({ profileSelected: false, loadContent: e.target.name });
+    alert("Its under development. Please choose from sidebar & thank you so much for logging in! :)")
+    // this.setState({ profileSelected: false, loadContent: e.target.name });
   };
 
   handleNotifications = () => {
@@ -93,9 +94,6 @@ class DashBoard extends React.Component {
                   <div>
                     <img src={require('../helpers/Profile.png')} width="50px" height="50px"/>
                     <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                      <Nav.Link className="shadow-sm fa fa-user fa-1x">
-                        {" "}
-                      </Nav.Link>
                       <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
                       <Nav.Link onClick={()=> this.handleLogout()} className="shadow-sm fa fa-sign-out fa-1x">
                         {" "}

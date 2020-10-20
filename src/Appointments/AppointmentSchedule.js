@@ -113,7 +113,7 @@ export default function AppointmentSchedule() {
 		})
 			.then((response) => response.json())
 			.then((responseJSON) => {
-				{
+		
 					if (responseJSON.data.createAppointment === true){
 						setisAppointmentScheduled(true);
 						setisFormSelected(false);
@@ -121,7 +121,6 @@ export default function AppointmentSchedule() {
 					}else{
 						setisAppointmentScheduled(false);
 					}	
-				}
 			})
 			.catch(err => console.error('error in fetching todo:', err));
 	};

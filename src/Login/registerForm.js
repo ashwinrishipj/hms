@@ -1,6 +1,6 @@
 import React from "react";
 import NegativeAlert from "../Alerts/NegativeAlert";
-import { FetchData, LoginFetchData } from "../helpers/Fetch";
+import { LoginFetchData } from "../helpers/Fetch";
 import { withRouter } from "react-router-dom";
 import Spinner from "../../node_modules/react-bootstrap/Spinner";
 
