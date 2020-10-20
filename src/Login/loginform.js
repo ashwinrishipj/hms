@@ -1,6 +1,6 @@
 import React from "react";
 import RegisterUser from "./registerForm";
-import { FetchData } from "../helpers/Fetch";
+import { LoginFetchData } from "../helpers/Fetch";
 import NegativeAlert from "../Alerts/NegativeAlert";
 import Spinner from "../../node_modules/react-bootstrap/Spinner";
 
@@ -109,21 +109,19 @@ class LoginForm extends React.Component {
     };
 
     this.setState({ spinner: true });
-    FetchData(requestBody).then((response) => {
-      if (response.data) {
+    LoginFetchData(requestBody).then((response) => {
+      if (response === true) {
         this.props.updateRoute("dashBoard");
         localStorage.setItem("userToken", JSON.stringify(Response.data));
       }
-      else if (response.errors) {
-        this.setAlert(response);
+      else if (response === false) {
+        this.setAlert("Server is down!. We are working on it.");
+      } 
+      else{
+        this.setAlert(response.errors[0].message);
       }
-      else {
-        this.setAlert("Server is down!. We are working on it.")
-      }
-    }
-    );
-
-  };
+    })
+  }
 
   render() {
     return (

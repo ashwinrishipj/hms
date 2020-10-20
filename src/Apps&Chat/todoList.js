@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Nav, Modal, Card, Button, Form } from 'react-bootstrap';
-import Calendar from 'react-calendar';
+import { Nav, Modal, Card, Button, Form, Breadcrumb, ListGroup } from 'react-bootstrap';
 import TodoTaskDescription from './displayToDo';
 
 export default function TodoList() {
@@ -12,6 +11,9 @@ export default function TodoList() {
 	const [toDoDescriptionVisible, setToDoDescriptionVisible] = useState(false);
 	const [validated, setValidated] = useState(false);
 	const [showA, setShowA] = useState(true);
+
+	const [isSearch, setisSearch] = useState(false);
+	const [searchValue, setsearchValue] = useState("");
 
 	const toggleShowA = () => setShowA(false);
 	const handleClose = () => setShow(false);
@@ -90,7 +92,7 @@ export default function TodoList() {
 			setValidated(true);
 			handleShow();
 			handleClose();
-			
+
 
 			let requestBody = {
 				query: ` 
@@ -243,97 +245,172 @@ export default function TodoList() {
 		);
 	};
 
+	const searchTasks = (e) => {
+		var searchContent = e.target.value;
+		
+		if (searchContent == 0){
+			setisSearch(false);
+		}else{
+			setisSearch(true);
+		   setsearchValue(searchContent)
+		}	
+	}
+
+	const displayCompleteToDo = () => {
+		var ToDo = JSON.parse(localStorage.getItem('todoTasks'));
+		return (
+			<>
+				<input
+					className="form-control input-wrapper"
+					placeholder="Search Images"
+					aria-label="Search"
+					onChange={(e) => searchTasks(e)}
+				/>
+				<ListGroup>
+					{isSearch ?
+						<>
+								Active:
+								{ToDo.tasks.map((data, key) => {
+									if (`${data.content}`.includes(searchValue)) {
+										return(
+											<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
+										)
+									} 
+								})}
+								Completed:
+								{ToDo.completed.map((data, key) => {
+									if (`${data.content}`.includes(searchValue)) {
+										return(
+											<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
+										)
+									} 
+								})}
+			   					Deleted:
+								{ToDo.deleted.map((data, key) => {
+									if (`${data.content}`.includes(searchValue)) {
+										return(
+											<ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
+										)
+									} 
+								})}
+						</>
+						: <>
+							{ToDo !== null ?
+								<>
+									Active:
+									{ToDo.tasks.map((data, key) => {
+									return <ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
+
+								})}
+									Completed:
+									{ToDo.completed.map((data, key) => {
+									return <ListGroup.Item variant="warning" key={key}>{data.content}</ListGroup.Item>
+
+								})}
+			   						Deleted:
+									{ToDo.deleted.map((data, key) => {
+									return <ListGroup.Item variant="danger" key={key}>{data.content}</ListGroup.Item>
+
+								})}
+								</> : ""} </>}
+				</ListGroup>
+			</>
+		)
+	}
 	return (
-		<div className="container">
-			<div className="row">
-				<div className="col-md-4">
-					<h3>
-						<i className="fa fa-tasks mt-2">ToDo</i>
-					</h3>
-				</div>
-				<div className="col-md-5">
-					<Button variant="outline-info mt-2 " className="button-search" onClick={handleShow}>
-						<i className="fa fa-plus-circle fa-1x" aria-hidden="true">
-							{' '}
+		<>
+			<Breadcrumb>
+				<Breadcrumb.Item active>TodoLists</Breadcrumb.Item>
+			</Breadcrumb>
+			<div className="container">
+				<div className="row">
+					<div className="col-md-4">
+					</div>
+					<div className="col-md-5 ml-4">
+						<Button variant="outline-info ml-4" className="button-search" onClick={handleShow}>
+							<i className="fa fa-plus-circle fa-1x" aria-hidden="true">
+								{' '}
 							new task{' '}
-						</i>
-					</Button>
+							</i>
+						</Button>
 
-					<Modal show={show} aria-labelledby="contained-modal-title-vcenter" centered onHide={handleClose}>
-						<Modal.Header closeButton>
-							<Modal.Title>Add Task</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							<Form noValidate validated={validated} onSubmit={handleSubmit}>
-								<Form.Group controlId="validationCustom02">
-									<Form.Label>Enter Task Title:</Form.Label>
-									<Form.Control
-										sm={12}
-										type="text"
-										placeholder="Type your symtoms"
-										name="title"
-										required
-										onChange={(e) => onInputChange(e)}
-									/>
-									<Form.Control.Feedback>Please Enter Title Task</Form.Control.Feedback>
-								</Form.Group>
-								<Form.Group controlId="exampleForm.ControlTextarea1">
-									<Form.Label>Task description</Form.Label>
-									<Form.Control
-										as="textarea"
-										name="content"
-										onChange={(e) => onInputChange(e)}
-										rows={3}
-									/>
-								</Form.Group>
-								<Form.Group controlId="validationCustom03">
-									<Form.Label>Due Date:</Form.Label>
-									<Form.Control
-										sm={12}
-										type="date"
-										name="date"
-										min={new Date().toISOString().split('T')[0]}
-										format= 'dd/mm/yyyy'
-										onChange={(e) => onInputChange(e)}
-										placeholder="City"
-										required
-									/>
-									<Form.Control.Feedback type="invalid">Please select a date</Form.Control.Feedback>
-								</Form.Group>
+						<Modal show={show} aria-labelledby="contained-modal-title-vcenter" centered onHide={handleClose}>
+							<Modal.Header closeButton>
+								<Modal.Title>Add Task</Modal.Title>
+							</Modal.Header>
+							<Modal.Body>
+								<Form noValidate validated={validated} onSubmit={handleSubmit}>
+									<Form.Group controlId="validationCustom02">
+										<Form.Label>Enter Task Title:</Form.Label>
+										<Form.Control
+											sm={12}
+											type="text"
+											placeholder="Enter Task Title"
+											name="title"
+											required
+											onChange={(e) => onInputChange(e)}
+										/>
+										<Form.Control.Feedback>Please Enter Title Task</Form.Control.Feedback>
+									</Form.Group>
+									<Form.Group controlId="exampleForm.ControlTextarea1">
+										<Form.Label>Task description</Form.Label>
+										<Form.Control
+											as="textarea"
+											name="content"
+											onChange={(e) => onInputChange(e)}
+											rows={3}
+										/>
+									</Form.Group>
+									<Form.Group controlId="validationCustom03">
+										<Form.Label>Due Date:</Form.Label>
+										<Form.Control
+											sm={12}
+											type="date"
+											name="date"
+											min={new Date().toISOString().split('T')[0]}
+											format='dd/mm/yyyy'
+											onChange={(e) => onInputChange(e)}
+											placeholder="City"
+											required
+										/>
+										<Form.Control.Feedback type="invalid">Please select a date</Form.Control.Feedback>
+									</Form.Group>
 
-								<Button variant="outline-warning" onClick={handleClose}>
-									Close
+									<Button variant="outline-warning" onClick={handleClose}>
+										Close
 								</Button>
-								<Button variant="outline-primary" className="ml-2" type="submit">
-									Submit
+									<Button variant="outline-primary" className="ml-2" type="submit">
+										Submit
 								</Button>
-							</Form>
-						</Modal.Body>
-					</Modal>
+								</Form>
+							</Modal.Body>
+						</Modal>
+					</div>
+				</div>
+
+				<div className="row mt-4">
+					<div className="col-lg-3 col-border">
+						{displayCompleteToDo()}
+
+					</div>
+					<div className="col-lg-5 mt-2 col-border" >
+						{displayTodo()}
+					</div>
+					<div className="col-lg-4 mt-2">
+						{toDoDescriptionVisible ? (
+							<TodoTaskDescription
+								updateTaskContent={updateTaskContent}
+								category={taskCategory}
+								data={toDoDescription}
+								showA={showA}
+								toggleShowA={toggleShowA}
+							/>
+						) : (
+								''
+							)}{' '}
+					</div>
 				</div>
 			</div>
-
-			<div className="row mt-4">
-				<div className="col-lg-3 col-border">
-					<Calendar className=" bg-info calendar-width sticky-top" />
-				</div>
-				<div className="col-lg-5 mt-2 col-border" >
-					{displayTodo()}
-				</div>
-				<div className="col-lg-4 mt-2">
-					{toDoDescriptionVisible ? (
-						<TodoTaskDescription
-							updateTaskContent={updateTaskContent}
-							category={taskCategory}
-							data={toDoDescription}
-							showA={showA}
-							toggleShowA={toggleShowA}
-						/>
-					) : (
-							''
-						)}{' '}
-				</div>
-			</div>
-		</div>
+		</>
 	);
 }

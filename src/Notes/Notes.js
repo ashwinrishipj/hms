@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Modal, Row, Col, Card, Container, Toast, Button, Popover, OverlayTrigger } from "react-bootstrap";
+import { Modal, Row, Col, Card, Container, Toast, Button,Breadcrumb } from "react-bootstrap";
 import { FetchData } from "../helpers/Fetch";
 
 export default function Notes(props) {
@@ -93,8 +93,11 @@ export default function Notes(props) {
     }
 
     return (
+        <>
+		 <Breadcrumb>
+        <Breadcrumb.Item active>Notes:</Breadcrumb.Item>
+    </Breadcrumb>
         <Container className="mt-4">
-            
                 {show ?
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
@@ -160,13 +163,13 @@ export default function Notes(props) {
 
                     <Col md={9}>
                         <Row>
-                            <Col className="mt-3 border-bottom">
-                                <p>clock: {date}</p>
+                            <Col className="mt-3 border-bottom ">
+                                <p>clock: <span className="text-danger">{date} </span> </p>
                             </Col>
                         </Row>
                         <Row className="ml-4 mt-4">
                             <div className="form">
-                                <textarea onChange={(e) => handleNote(e)} value={clearValue} style={{ backgroundColor: "lightpink" }} rows="17" cols="90" name="textarea" placeholder="type your notes here" class="form-control">
+                                <textarea onChange={(e) => handleNote(e)} value={clearValue} style={{ backgroundColor: "#c1eade" }} rows="17" cols="90" name="textarea" placeholder="type your notes here" class="form-control">
                                 </textarea>
                             </div>
                             <Button className="mt-4 float-right" onClick={() => createNote()}> Submit Note </Button>
@@ -176,5 +179,6 @@ export default function Notes(props) {
                 </Row>
             </Card>
         </Container>
+        </>
     )
 }

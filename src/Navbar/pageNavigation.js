@@ -1,13 +1,15 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import AppointmentSchedule from "../Appointments/AppointmentSchedule";
+import AppointmentLists from "../Appointments/ScheduledAppointmentList";
 import ToDoList from "../Apps&Chat/todoList";
 import EventCalendar from "../Calendar/Calendar";
+import Home from "../Home/home";
 import Notes from "../Notes/Notes";
 
 function PageNavigation (props){
   return (
-      <section>
+      <>
         <Switch>
           {(props.navigate === "toDoList" && (
             <Route path="/" component={ToDoList} />
@@ -27,7 +29,20 @@ function PageNavigation (props){
                    <AppointmentSchedule />
                   )}
                 />)) ||
-            (props.navigate === "settings" && "") ||
+                (props.navigate === "appointmentLists" && (
+                  <Route
+                    path="/"
+                    component={() => (
+                     <AppointmentLists />
+                    )}
+                  />)) ||
+            (props.navigate === "home" &&  (
+              <Route
+                path="/"
+                component={() => (
+                 <Home />
+                )}
+              />)) ||
             (props.navigate === "notes" && 
             (
               <Route
@@ -41,7 +56,7 @@ function PageNavigation (props){
             // )) ||
             ""}
         </Switch>
-      </section>
+      </>
   );
 };
 

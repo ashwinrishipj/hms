@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Form, Button, InputGroup, Modal, Toast } from 'react-bootstrap';
+import { Card, Row, Col, Form, Button, InputGroup, Modal, Toast,Breadcrumb } from 'react-bootstrap';
 import { hospitalLIst } from './HospitalList';
 
 export default function AppointmentSchedule() {
@@ -59,6 +59,7 @@ export default function AppointmentSchedule() {
 				break;
 			case 'none':
 				setisSearched(false);
+				setisFormSelected(false);
 				break;
 			default:
 				break;
@@ -81,7 +82,7 @@ export default function AppointmentSchedule() {
 			query: `
 			mutation{
 				createAppointment(input:{
-				  userId:"5f836ec7fdf4163744a70f1d",
+				  userId:"5e9df7a7327a33165026b98f",
 				  name:"${state.name}",
 				  startDate:"${state.startDate}",
 				  time:"${state.time}",
@@ -113,7 +114,7 @@ export default function AppointmentSchedule() {
 					responseJSON.data.createAppointment === true ? setisAppointmentScheduled(true) : setisAppointmentScheduled(false);
 				}
 			})
-			.catch((error) => console.error('error in fetching todo:', error));
+			.catch(err => console.error('error in fetching todo:', err));
 	};
 
 	const handleSubmit = (event) => {
@@ -128,8 +129,12 @@ export default function AppointmentSchedule() {
 			handleShow();
 		}
 	};
-	
+
 	return (
+		<>
+		 <Breadcrumb>
+        <Breadcrumb.Item active>Appointment Scheduler</Breadcrumb.Item>
+    </Breadcrumb>
 		<div className="container-fluid mt-4">
 			<div className="row">
 				<Modal show={show} onHide={handleClose}>
@@ -198,55 +203,82 @@ export default function AppointmentSchedule() {
 								);
 							})
 						) : (
-								<div className="col col-md-4">
-									<div className="choose">
-										<div className="choose-icon">
-											<i className="flaticon-telephone icon-color-3"></i>
-										</div>
-										<div className="choose-content">
-											<h4>Health Information</h4>
-											<p>
-												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
-												in a piece of classical Latin literature from 45 BC.
-									</p>
-										</div>
-									</div>
-									<div className="choose">
-										<div className="choose-icon">
-											<i className="flaticon-microscope icon-color-6"></i>
-										</div>
-										<div className="choose-content">
-											<h4>Medical Education</h4>
-											<p>
-												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
-												in a piece of classical Latin literature from 45 BC.
-									</p>
-										</div>
-									</div>
-									<div className="choose">
-										<div className="choose-icon">
-											<i className="flaticon-medical-2 icon-color-4 "></i>
-										</div>
-										<div className="choose-content">
-											<h4>Symptom Check</h4>
-											<p>
-												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
-												in a piece of classical Latin literature from 45 BC.
-									</p>
-										</div>
-									</div>
-									<div className="choose">
-										<div className="choose-icon">
-											<i className="flaticon-people-1 icon-color-7"></i>
-										</div>
-										<div className="choose-content">
-											<h4>Qualified Doctors</h4>
-											<p>
-												Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
-												in a piece of classical.
-									</p>
-										</div>
-									</div>
+								<div className="col col-md-6">
+									<Card className="rounded-border" style={{ width: '18rem'}}>
+										<li className="media">
+											<img src={require('./images/province/BC.png')} width="50" height="60" className="mr-3 " alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">British Coloumbia: </h5>
+												<li>Physician services</li>
+												<li>Medically necessary eye exams</li>
+												<li>Diagnostic services</li>
+												<li>Supplemental insurance is strongly recommended</li>
+												<li>Some orthodontic services</li>
+												<Button variant="outline-warning" href="http://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/benefits/services-covered-by-msp" target="_blank">Know More...</Button>
+											</div>
+										</li>
+
+									</Card>
+									<Card className="rounded-border mt-2" style={{ width: '18rem' }}>
+										<li className="media">
+											<img src={require('./images/province/Alberta.png')} width="50" height="60" className="mr-3 " alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">Alberta: </h5>
+												<li>Physician services, hospital services, surgery</li>
+												<li>Standard ward hospitalization and drugs administered in a hospital</li>
+												<li>Psychiatric visits.</li>
+												<li>Oral surgery in hospital</li>
+												<li>Podiatry is eligible to an extent</li>
+
+												<Button variant="outline-warning" href="https://www.alberta.ca/ahcip-what-is-covered.aspx" target="_blank">Know More...</Button>
+											</div>
+										</li>
+									</Card>
+									<Card className="rounded-border mt-2" style={{ width: '18rem' }}>
+										<li className="media">
+											<img src={require('./images/province/Manitoba.jpg')} width="50" height="60" className="mr-3 " alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">Manitoba: </h5>
+												<li>Physician services, surgery / anaesthesia, x-ray and laboratory services are covered</li>
+												<li>Dental surgery is reimbursed when hospitalization is required</li>
+												<li>Ambulance fees are covered</li>
+												<li>Chiropractic care is eligible up to seven visits per calendar year</li>
+												<li>Supplemental insurance is strongly recommended</li>
+
+												<Button variant="outline-warning" href="https://www.gov.mb.ca/health/mhsip/index.html" target="_blank">Know More...</Button>
+											</div>
+										</li>
+									</Card>
+									<Card className="rounded-border mt-2" style={{ width: '18rem' }}>
+										<li className="media">
+											<img src={require('./images/province/ontario.jpeg')} width="50" height="60" className="mr-3 " alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">Ontario: </h5>
+												<li>Doctor visits, including those at walk-in clinics</li>
+												<li> Dental surgery when performed in hospital</li>
+												<li>Prescription drugs: coverage is available for people up to age 25. There is a senior drug  for seniors over age 64</li>
+												<li>Ambulance services are covered to an extent, </li>
+												<li>Supplemental insurance is strongly recommended</li>
+
+												<Button variant="outline-warning" href="https://www.ontario.ca/page/what-ohip-covers" target="_blank">Know More...</Button>
+											</div>
+										</li>
+									</Card>
+									<Card className="rounded-border mt-2" style={{ width: '18rem' }}>
+										<li className="media">
+											<img src={require('./images/province/Quebec.png')} width="50" height="60" className="mr-3 " alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">Quebec: </h5>
+												<li>General practitioner and specialist physician services only by those who have not withdrawn from RAMQ</li>
+												<li>Cortisone, eye drops</li>
+												<li>Medical procedures (e.g. surgery) and anesthetics</li>
+												<li>Urine and glycemia tests</li>
+												<li>Supplemental Insurance is strongly recommended</li>
+
+												<Button variant="outline-warning" href="http://www.ramq.gouv.qc.ca/en/citizens/health-insurance/covered-services/Pages/covered-services-accessory-costs.aspx" target="_blank">Know More...</Button>
+											</div>
+										</li>
+									</Card>
 								</div>
 							)}
 					</div>
@@ -371,14 +403,64 @@ export default function AppointmentSchedule() {
 							</Form>
 						</div>
 					) : (
-							' '
+							<div>
+								<Form.Label>List of departments:</Form.Label>
+
+								<ul className="list-unstyled scroll-auto mt-3">
+									<Card className="rounded-border" style={{ width: '25rem' }}>
+										<li className="media">
+											<img src={require('./images/opd.png')} width="50" height="60" className="mr-3 " alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">Outpatient Clinic</h5>
+							An outpatient department or outpatient clinic is the part of a hospital designed for the treatment of outpatients, people with health problems who visit the hospital for diagnosis or treatment, but do not at this time require a bed or to be admitted for overnight care.
+							</div>
+										</li>
+									</Card>
+									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>
+										<li className="media">
+											<img src={require('./images/Gastroenterology.png')} width="50" height="60" className="mr-3" alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">GastroEntrology</h5>
+							Gastroenterology is the branch of medicine focused on the digestive system and its disorders. Diseases affecting the gastrointestinal tract, which include the organs from mouth into anus, along the alimentary canal, are the focus of this speciality.
+							 </div>
+										</li>
+									</Card>
+									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>
+										<li className="media">
+											<img src={require('./images/neurology.png')} width="50" height="60" className="mr-3" alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">Neurology</h5>
+							Neurology is a branch of medicine dealing with disorders of the nervous system. Neurology deals with the diagnosis and treatment of all categories of conditions and disease involving the central and peripheral nervous systems, including their coverings, blood vessels, and all effector tissue, such as muscle.
+							</div>
+										</li>
+									</Card>
+									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>
+										<li className="media">
+											<img src={require('./images/ENT.png')} width="50" height="60" className="mr-3" alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">ENT Department</h5>
+							Otorhinolaryngology is a surgical subspecialty within medicine that deals with the surgical and medical management of conditions of the head and neck. Doctors who specialize in this area are called otorhinolaryngologists, otolaryngologists, head and neck surgeons, or ENT surgeons or physicians.
+							 </div>
+										</li>
+									</Card>
+									<Card className="mt-2 rounded-border" style={{ width: '25rem' }}>
+										<li className="media">
+											<img src={require('./images/Onco.jpg')} width="50" height="60" className="mr-3" alt="..." />
+											<div className="media-body">
+												<h5 className="mt-0 mb-1">Oncology</h5>
+							Oncology is a branch of medicine that deals with the prevention, diagnosis, and treatment of cancer. A medical professional who practices oncology is an oncologist. The name's etymological origin is the Greek word ὄγκος, meaning 1. "burden, volume, mass" and 2. "barb", and the Greek word λόγος, meaning "study".
+							</div>
+										</li>
+									</Card>
+								</ul>
+							</div>
 						)}
 				</div>
 
 				<div className="col-lg-3 col-border">
+				<Form.Label>Last Scheduled appointments in this session:</Form.Label>
 					{isAppointmentScheduled ? (
 						<div >
-							<Form.Label>Scheduled appointments</Form.Label>
 							<Toast style={{ backgroundColor: "lightpink" }}>
 								<Toast.Header>
 									<img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
@@ -389,10 +471,15 @@ export default function AppointmentSchedule() {
 							</Toast>
 						</div>
 					) : (
-							''
+						<div >
+							<Toast style={{ backgroundColor: "lightpink" }}>
+								<Toast.Body>No appointment Booked!. please Schedule an appointment</Toast.Body>
+							</Toast>
+						</div>	
 						)}
 				</div>
 			</div>
 		</div>
+		</>
 	);
 }

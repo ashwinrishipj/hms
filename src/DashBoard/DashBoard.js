@@ -59,7 +59,7 @@ class DashBoard extends React.Component {
   };
 
   handleLogout = () => {
-    localStorage.clear();
+    localStorage.removeItem("userToken");
     this.props.updateRoute("login");
   };
 
@@ -108,11 +108,11 @@ class DashBoard extends React.Component {
                     <Nav.Link className="flex-css-nav-link fa fa-home mt-2" name="home"> Home</Nav.Link>
                     <Nav.Link className=" flex-css-nav-link fa fa-hospital-o mt-2" name="appointments">
                       {" "}
-                      Appointments
+                      Appointment Scheduler
                     </Nav.Link>
-                    <Nav.Link className="flex-css-nav-link fa fa-file-text mt-2" class="documents">
+                    <Nav.Link className="flex-css-nav-link fa fa-file-text mt-2" name="appointmentLists" class="documents">
                       {" "}
-                      Documents
+                      Apointment Lists
                     </Nav.Link>
                   </Nav>
 
@@ -135,8 +135,7 @@ class DashBoard extends React.Component {
               ) : (
                   ""
                 )}
-              <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
-               
+              <Col style={{ paddingLeft: "0", paddingRight: "0" ,backgroundColor:"#f8f9fa"}}>
                 <div className="display-content">
                   <PageNavigation navigate={this.state.loadContent} />
                 </div>

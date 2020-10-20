@@ -147,3 +147,25 @@ input[type='text'] :active {
 .modal-backdrop.in {
 	opacity: 0.5;
 }
+
+.font-recovered{
+	font-size: 2rem !important;
+	color: #ff9800!important;
+}
+.font-deaths{
+	color:rgb(236, 49, 75) !important;
+	font-size: 2rem !important;
+}
+.font-active{
+	color: rgb(5, 181, 132);
+	font-size: 2rem !important;
+}
+.home-list{
+	width:50%;
+}
+.home-list :hover{
+	background-color: lightcoral;
+}
+.home-list :active{
+	transform:translateY(4px);
+}
