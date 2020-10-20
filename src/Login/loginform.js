@@ -102,7 +102,8 @@ class LoginForm extends React.Component {
           emailId:"${this.state.emailId}",password :"${this.state.password}"
         }){
           token,
-          tokenExpiration
+          tokenExpiration,
+          userId
         }
       }
       `,
@@ -110,17 +111,10 @@ class LoginForm extends React.Component {
 
     this.setState({ spinner: true });
     LoginFetchData(requestBody).then((response) => {
-      if (response === true) {
-        this.props.updateRoute("dashBoard");
-        localStorage.setItem("userToken", JSON.stringify(Response.data));
-      }
-      else if (response === false) {
-        this.setAlert("Server is down!. We are working on it.");
-      } 
-      else{
-        this.setAlert(response.errors[0].message);
-      }
-    })
+      return response === true
+        ?  this.props.updateRoute("dashBoard")
+        : this.setAlert(response);
+    });
   }
 
   render() {

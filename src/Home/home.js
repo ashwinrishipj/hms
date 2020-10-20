@@ -148,7 +148,7 @@ function Home() {
                             </Card>
                             <Card className="text-center rounded-border ml-3">
                                 <Card.Body>
-                                    <Card.Text className="font-active">
+                                    <Card.Text className="font-deaths">
                                         {apiReceived ? generalAPI.response[0].deaths.total : ""}
                                     </Card.Text>
                                     <h3> deaths</h3>
@@ -176,8 +176,8 @@ function Home() {
                                 return (
                                     <>
                                         <Card
-                                            bg={"secondary"}
-                                            text={"light"}
+                                            bg={"info"}
+                                            text={"white"}
                                             style={{ width: '20rem' }}
                                             className="ml-2 mt-2"
                                             key={key}

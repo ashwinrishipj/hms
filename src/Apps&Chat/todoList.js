@@ -93,12 +93,14 @@ export default function TodoList() {
 			handleShow();
 			handleClose();
 
+			let userId = JSON.parse(localStorage.getItem('userToken'));
+			userId = userId.validateUser.userId;
 
 			let requestBody = {
 				query: ` 
 				mutation{
 					insertTask(input:{
-					  userId:"5e9df7a7327a33165026b98f",
+					  userId:"${userId}",
 					  title:"${toDoList.title}",
 					  content:"${toDoList.content}",
 					  date:"${toDoList.date}",

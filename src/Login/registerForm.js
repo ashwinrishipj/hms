@@ -1,6 +1,6 @@
 import React from "react";
 import NegativeAlert from "../Alerts/NegativeAlert";
-import { FetchData } from "../helpers/Fetch";
+import { FetchData, LoginFetchData } from "../helpers/Fetch";
 import { withRouter } from "react-router-dom";
 import Spinner from "../../node_modules/react-bootstrap/Spinner";
 
@@ -33,16 +33,17 @@ class RegisterUser extends React.Component {
     let requestBody = {
       query: `
         mutation{
-          RegisterUser(input:{emailId:"${this.state.emailId}",password:"${this.state.password}"}){
+          registerUser(input:{emailId:"${this.state.emailId}",password:"${this.state.password}"}){
             token,
-            tokenExpiration
+            tokenExpiration,
+            userId
           }
         }
         `,
     };
 
       this.setState({ spinner: true });
-      FetchData(requestBody).then((response) => {
+      LoginFetchData(requestBody).then((response) => {
         return response === true
           ? this.props.history.push("/home")
           : this.changeAlert(response);

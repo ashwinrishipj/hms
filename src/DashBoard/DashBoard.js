@@ -97,7 +97,7 @@ class DashBoard extends React.Component {
                         {" "}
                       </Nav.Link>
                       <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
-                      <Nav.Link onClick={()=> this.handleLogout} className="shadow-sm fa fa-sign-out fa-1x">
+                      <Nav.Link onClick={()=> this.handleLogout()} className="shadow-sm fa fa-sign-out fa-1x">
                         {" "}
                       </Nav.Link>
                     </Nav>

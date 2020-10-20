@@ -43,11 +43,11 @@ export const LoginFetchData = (body) => {
     })
     .then((Response) => {
       if (Response.data) {
+        localStorage.setItem("userToken", JSON.stringify(Response.data));
         return true;
       } else {
-        return Response;
-      }
-    })
+        return Response.errors[0].message;
+      }})
     .catch((error) => {
       if (!error.response) {
         return false;
