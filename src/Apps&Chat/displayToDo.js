@@ -51,7 +51,7 @@ const TodoTaskDescription = (props) => {
 			`,
 		};
 
-		fetch('http://localhost:4000/graphql', {
+		fetch('https://hms-server.herokuapp.com/graphql', {
 			method: 'POST',
 			body: JSON.stringify(requestBody),
 			headers: {
