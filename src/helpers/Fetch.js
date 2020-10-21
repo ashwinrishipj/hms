@@ -39,6 +39,11 @@ export const LoginFetchData = (body) => {
     },
   })
     .then((res) => {
+      if (res.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+          res.status);
+        return false;
+      }
       return res.json();
     })
     .then((Response) => {

@@ -113,7 +113,7 @@ class LoginForm extends React.Component {
     LoginFetchData(requestBody).then((response) => {
       return response == true
         ? this.props.updateRoute("dashBoard")
-        : this.setAlert(response);
+        : response == false ? this.setAlert("server is down!. we are working on it. Please try after a minute.") : this.setAlert(response);
     });
   }
 
@@ -197,9 +197,9 @@ class LoginForm extends React.Component {
                           )}
                       </button>
                     </div>
-                    <button className="btn btn-outline-warning btn-sm text-dark">
+                    {/* <button className="btn btn-outline-warning btn-sm text-dark">
                       Forgot password?
-                  </button>
+                  </button> */}
 
                     <button
                       className="btn btn-outline-warning btn-sm text-dark float-right"

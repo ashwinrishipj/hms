@@ -45,7 +45,7 @@ class RegisterUser extends React.Component {
     LoginFetchData(requestBody).then((response) => {
       return response == true
         ? this.props.updateHomeRoute("dashBoard")
-        : this.changeAlert(response);
+        :  response == false ? this.changeAlert("server is down!. we are working on it. Please try after a minute.") : this.changeAlert(response);
     });
   };
 
@@ -187,9 +187,9 @@ class RegisterUser extends React.Component {
                   )}
               </button>
             </div>
-            <button className="btn btn-outline-warning btn-md text-dark">
+            {/* <button className="btn btn-outline-warning btn-md text-dark">
               Forgot password?
-            </button>
+            </button> */}
 
             <button
               className="btn btn-outline-warning  btn-md text-dark"
