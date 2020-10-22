@@ -45,7 +45,7 @@ class RegisterUser extends React.Component {
     LoginFetchData(requestBody).then((response) => {
       return response == true
         ? this.props.updateHomeRoute("dashBoard")
-        :  response == false ? this.changeAlert("server is down!. we are working on it. Please try after a minute.") : this.changeAlert(response);
+        :  this.changeAlert(response);
     });
   };
 

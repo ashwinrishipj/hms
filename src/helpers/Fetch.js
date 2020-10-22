@@ -10,7 +10,7 @@ export const FetchData = (body) => {
     },
   })
     .then((res) => {
-      if (res.status !== 200) {
+      if (res.status !== 200 && res.status !== 500) {
         console.log('Looks like there was a problem. Status Code: ' +
           res.status);
         return false;
@@ -39,7 +39,7 @@ export const LoginFetchData = (body) => {
     },
   })
     .then((res) => {
-      if (res.status !== 200) {
+      if (res.status !== 200 && res.status !== 500) {
         console.log('Looks like there was a problem. Status Code: ' +
           res.status);
         return false;

@@ -12,7 +12,7 @@ function Login(props) {
         <div className="container-fluid p-0">
 
             <div className="container-fluid">
-                <Navbar collapseOnSelect expand="lg" className="fixed-top" bg="dark" variant="dark">
+                <Navbar collapseOnSelect expand="lg" fixed="top"  bg="dark" variant="dark">
                     <Navbar.Brand href="#home">HMS</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
