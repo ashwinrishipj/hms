@@ -106,7 +106,7 @@ function Home() {
             <Breadcrumb>
                 <Breadcrumb.Item active>Home</Breadcrumb.Item>
             </Breadcrumb>
-            <Container className="h-100">
+            <Container>
                 <Row>
                     <Col lg={8}>
                         <h3>Covid-19 Tracker </h3>
@@ -124,7 +124,7 @@ function Home() {
                             </ul>
 
                         </div>
-                        <h3 className="text-danger text-center"> {defaultCountryValue} covid cases: </h3>
+                        <h3 className="text-danger text-center"> {defaultCountryValue} covid cases </h3>
                         <CardGroup className="ml-4" >
                             <Card className="text-center rounded-border">
                                 <Card.Body>
@@ -164,8 +164,8 @@ function Home() {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col style={{ borderLeft: "1px solid black" }} className="scroll-auto">
-                        <h5> News </h5>
+                    <Col style={{ borderLeft: "1px solid black" }} className="scroll-auto h-100">
+                        <h5 className="mt-4"> News </h5>
 
                         <>
                             {newsData.map((data, key) => {

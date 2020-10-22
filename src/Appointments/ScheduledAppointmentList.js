@@ -66,7 +66,7 @@ function AppointmentLists() {
 								appointmentDetails.appointments.map((data, key) => {
 									return (
 										<Toast
-											
+
 											className="scheduledToast"
 											onClick={() => ModifyAppointment(data)}
 											key={key}
@@ -183,11 +183,24 @@ function AppointmentLists() {
 							</div>
 						</>
 					) : (
-							<div>
-								<Toast variant={"light"}>
-									<Toast.Body>Click on the Appointment list to view the description</Toast.Body>
-								</Toast>
-							</div>
+							<>
+								<div>
+									
+									<Toast variant={"light"}>
+										<Toast.Body>Click on the Appointment list to view the description</Toast.Body>
+									</Toast>
+									
+									<Col>
+									<div className="embed-responsive embed-responsive-16by9 mt-4">
+										<iframe className="embed-responsive-item"
+										width="890" height="515"
+										
+										src="https://youtube.com/embed/fp6UZ_I4zj0" frameborder="0" allowfullscreen></iframe>
+									</div>
+									</Col>
+								</div>
+							</>
+
 						)}
 
 				</Row>

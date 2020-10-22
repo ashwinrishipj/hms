@@ -102,7 +102,7 @@ class RegisterUser extends React.Component {
     return (
       <div className="card">
         <article className="card-body">
-          <h5 className="text-center">Register</h5>
+          <h5 className="text-center text-dark">Register</h5>
           <hr />
           <section className="col negativeAlert px-0">
             {this.state.Alert ? (
@@ -169,7 +169,7 @@ class RegisterUser extends React.Component {
             <div className="form-group">
               <button
                 type="submit"
-                className="btn btn-info btn-block"
+                className="btn btn-success btn-block"
                 onClick={this.submitSignup}
               >
                 {this.state.spinner ? (
@@ -187,12 +187,12 @@ class RegisterUser extends React.Component {
                   )}
               </button>
             </div>
-            {/* <button className="btn btn-outline-warning btn-md text-dark">
+            {/* <button className="btn btn-outline-info btn-md float-left">
               Forgot password?
             </button> */}
 
             <button
-              className="btn btn-outline-warning  btn-md text-dark"
+              className="btn btn-info  btn-md"
               onClick={this.props.triggerSignup}
               style={{ float: "right" }}
             >

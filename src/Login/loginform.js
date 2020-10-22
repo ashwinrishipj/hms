@@ -124,13 +124,13 @@ class LoginForm extends React.Component {
   render() {
     return (
       <div>
-        <aside className="col mt-4">
+        <aside className="col mt-4 card-transparent">
           {this.state.signup ? (
             <RegisterUser triggerSignup={this.triggerSignup} updateHomeRoute={this.updateHomeRoute} />
           ) : (
               <div className="card">
                 <article className="card-body">
-                  <h5 className="card-title text-center">Sign in</h5>
+                  <h5 className="card-title text-dark text-center">Sign in</h5>
                   <hr />
                   <section className="col negativeAlert px-0">
                     {this.state.alert ? (
@@ -178,7 +178,7 @@ class LoginForm extends React.Component {
                     <div className="form-group">
                       <button
                         type="submit"
-                        className="btn btn-primary btn-block"
+                        className="btn btn-success btn-block"
                         onClick={this.onSubmitSignIn}
                         disabled={this.state.buttonDisabled}
                       >
@@ -197,15 +197,15 @@ class LoginForm extends React.Component {
                           )}
                       </button>
                     </div>
-                    {/* <button className="btn btn-outline-warning btn-sm text-dark">
+                    {/* <button className="btn btn-outline-info btn-sm float-left">
                       Forgot password?
                   </button> */}
 
                     <button
-                      className="btn btn-outline-warning btn-sm text-dark float-right"
+                      className="btn btn-info btn-sm float-right"
                       onClick={this.triggerSignup}
                     >
-                      Create An Account
+                      Sign Up
                   </button>
                   </form>
                 </article>

@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./LandingPage.css"
 import LockScreen from "./LockScreen";
 import DashBoard from "../DashBoard/DashBoard";
+import Login from "./login";
 
 export const LandingPage = (props) => {
   const [route, setroute] = useState(props.intialize);
@@ -25,20 +26,7 @@ export const LandingPage = (props) => {
             <Route
               path="/"
               component={() => (
-                <div className="container-fluid p-0">
-                  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <a className="navbar-brand" href=";false">
-                      HMS
-               </a>
-                  </nav>
-
-                  <div className="row d-inline">
-                    <div className="col-md-4 mx-auto mt-4">
-                      <LoginForm updateRoute={updateRoute} />
-                    </div>
-                  </div>
-
-                </div>
+               <Login updateRoute={updateRoute}/>
               )}
             />
           )) ||

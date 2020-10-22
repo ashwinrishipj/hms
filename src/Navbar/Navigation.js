@@ -4,6 +4,7 @@ import {
   OverlayTrigger,
   Popover,
   Nav,
+  Row,
 } from "react-bootstrap";
 import "./navbar.css";
 import { UserConsumer } from "../DashBoard/DashBoard";
@@ -15,8 +16,8 @@ function Navigation() {
       <UserConsumer>
         {({ handleCall, profileClick, handleLogout, handleSearch }) => (
           <div id="navbarSupportedContent ">
-            <ul className="navbar-nav ml-4">
-              <li className="nav-item ml-4">
+            <ul className="navbar-nav ml-4 text-center">
+              <li className="nav-item ml-4 ">
                 <Nav.Link
                   className="nav-link pointer fa fa-home"
                   name="home"
@@ -26,16 +27,7 @@ function Navigation() {
                   Home
                 </Nav.Link>
               </li>
-              <li className="nav-item ml-4" name="blogs" onClick={handleCall}>
-                <Nav.Link
-                  className="nav-link pointer fa fa-newspaper-o "
-                  name="blog"
-                  href="#blog"
-                >
-                  Blog
-                </Nav.Link>
-              </li>
-                <Search displayImages={handleSearch} />
+                <Search className="ml-2" displayImages={handleSearch} />
               <li>
               <OverlayTrigger
                 trigger="click"
@@ -114,6 +106,7 @@ function Navigation() {
               </ul>
           </div>
         )}
+       
       </UserConsumer>
     </React.Fragment>
   );

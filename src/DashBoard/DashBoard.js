@@ -65,8 +65,7 @@ class DashBoard extends React.Component {
 
   profileClick = (e) => {
     e.preventDefault();
-    alert("Its under development. Please choose from sidebar & thank you so much for logging in! :)")
-    // this.setState({ profileSelected: false, loadContent: e.target.name });
+    this.setState({ profileSelected: false, loadContent: e.target.name });
   };
 
   handleNotifications = () => {
@@ -94,8 +93,8 @@ class DashBoard extends React.Component {
                   <div>
                     <img src={require('../helpers/Profile.png')} width="50px" height="50px"/>
                     <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                      <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-2x "></Nav.Link>
-                      <Nav.Link onClick={()=> this.handleLogout()} className="shadow-sm fa fa-sign-out fa-2x ml-4">
+                      <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
+                      <Nav.Link onClick={()=> this.handleLogout()} className="shadow-sm fa fa-sign-out fa-1x ml-4">
                         {" "}
                       </Nav.Link>
                     </Nav>
@@ -103,12 +102,12 @@ class DashBoard extends React.Component {
 
                   <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
                     <span className="flex-css-nav-link text-warning">Basics:</span>
-                    <Nav.Link className="flex-css-nav-link fa fa-home mt-2" name="home"> Home</Nav.Link>
-                    <Nav.Link className="flex-css-nav-link fa fa-hospital-o mt-2" name="appointments">
+                    <Nav.Link className="flex-css-nav-link fa fa-home fa-fw mt-2" name="home"> Home</Nav.Link>
+                    <Nav.Link className="flex-css-nav-link fa fa-hospital-o fa-fw mt-2" name="appointments">
                       {" "}
                       Appointment Scheduler
                     </Nav.Link>
-                    <Nav.Link className="flex-css-nav-link fa fa fa-list mt-2" name="appointmentLists">
+                    <Nav.Link className="flex-css-nav-link fa fa fa-list fa-fw mt-2" name="appointmentLists">
                       {" "}
                       Apointment Lists
                     </Nav.Link>
@@ -116,15 +115,15 @@ class DashBoard extends React.Component {
 
                   <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
                     <span className="text-warning">Apps & chat:</span>
-                    <Nav.Link name="toDoList" className="flex-css-nav-link fa fa-tasks mt-2">
+                    <Nav.Link name="toDoList" className="flex-css-nav-link fa fa-tasks fa-fw mt-2">
                       {" "}
                       To-do List
                     </Nav.Link>
-                    <Nav.Link name="calendar" className="flex-css-nav-link fa fa-calendar mt-2">
+                    <Nav.Link name="calendar" className="flex-css-nav-link fa fa-calendar fa-fw mt-2">
                       {" "}
                       Calendar
                     </Nav.Link>
-                    <Nav.Link name="notes" className=" flex-css-nav-link fa fa-sticky-note-o mt-2">
+                    <Nav.Link name="notes" className=" flex-css-nav-link fa fa-sticky-note-o fa-fw  mt-2">
                       {" "}
                       Notes
                     </Nav.Link>

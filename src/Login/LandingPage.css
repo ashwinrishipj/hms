@@ -52,3 +52,16 @@
   .rounded-border{
     border-radius: 20px !important;
   }
+  .h-100{
+    height: 100vh !important;
+  }
+  .pointer-css{
+    cursor: pointer !important;
+  }
+  .pointer-css  :active{
+    transform: translateY(5px);
+    background-color: lightpink !important;
+  }
+  .h-90{
+    height: 70vh !important;
+  }
