@@ -6,7 +6,7 @@ export default function Footer() {
 
       <div
 
-        className=" col-sm-12 col-md-4"
+        className="col-sm-12 col-md-4"
       >
         <h3 className="text-warning"> Ashwin Rishi </h3>
         <ul className="footerMyProfile text-light">
@@ -58,14 +58,14 @@ export default function Footer() {
       </div>
 
       <div
-        className="col-sm-12 col-md-4"
+        className="col-sm-12 col-md-4 "
         
       >
         <h3 className="text-warning" >My bloggings:</h3>
 
         <div
           className="alert alert-outline-success card bg-transparent text-white border-white pointer-css"
-
+          style={{width:"23rem"}}
         >
           <a href="https://medium.com/@ashwinrishipj/javascript-the-fuzz-about-hoisting-variable-shadowing-and-closure-b8937bae349e" target={"_blank"}>
             JavaScript — the fuzz about hoisting,variable shadowing and
@@ -78,7 +78,7 @@ export default function Footer() {
         <div
           className="alert alert-outline-danger card  bg-transparent text-white border-white pointer-css"
          
-
+          style={{width:"23rem"}}
         >
           <a href="https://medium.com/@ashwinrishipj/html-and-css-the-fun-language-of-all-b4214db90fad" target={"_blank"}>
             Html and css: the fun language of all.
