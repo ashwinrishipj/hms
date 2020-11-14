@@ -3,7 +3,6 @@ import { Modal, Row, Col, Card, Container, Toast, Button,Breadcrumb } from "reac
 import { FetchData } from "../helpers/Fetch";
 
 export default function Notes(props) {
-
     const [show, setshow] = useState(false)
     const [noteValue, setnoteValue] = useState("");
     const [toastContent, setToastContent] = useState([]);

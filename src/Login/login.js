@@ -10,7 +10,6 @@ function Login(props) {
 
     return (
         <div className="container-fluid p-0">
-
             <div className="container-fluid">
                 <Navbar collapseOnSelect expand="lg" fixed="top"  bg="dark" variant="dark">
                     <Navbar.Brand href="#home">HMS</Navbar.Brand>

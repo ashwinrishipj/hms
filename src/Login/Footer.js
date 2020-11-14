@@ -3,9 +3,7 @@ import React from "react";
 export default function Footer() {
   return (
     <div className="row mt-4" id="contact">
-
       <div
-
         className="col-sm-12 col-md-4"
       >
         <h3 className="text-warning"> Ashwin Rishi </h3>
