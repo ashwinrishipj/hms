@@ -24,9 +24,12 @@ const TodoTaskDescription = (props) => {
 		}
 	};
 	const updateData = async (data, updateTo) => {
+		let userId = JSON.parse(localStorage.getItem('userToken'));
+		userId = userId.validateUser.userId;
+
 		let requestBody = {
 			query: ` mutation{
-                updateTask(input:{userId:"5e9df7a7327a33165026b98f", id:"${data._id}",title:"${data.title}",content:"${data.content}",date:"${data.date}",from:"${fromTask}",updateTo:"${updateTo}"}){
+                updateTask(input:{userId:"${userId}", id:"${data._id}",title:"${data.title}",content:"${data.content}",date:"${data.date}",from:"${fromTask}",updateTo:"${updateTo}"}){
                   userId,
                   tasks{
 					_id

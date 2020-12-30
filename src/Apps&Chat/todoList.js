@@ -304,7 +304,6 @@ export default function TodoList() {
 									Active:
 									{ToDo.tasks.map((data, key) => {
 									return <ListGroup.Item variant="primary" key={key}>{data.content}</ListGroup.Item>
-
 								})}
 									Completed:
 									{ToDo.completed.map((data, key) => {

@@ -104,7 +104,7 @@ function Home() {
     return (
         <>
             <Breadcrumb>
-                <Breadcrumb.Item active>Home</Breadcrumb.Item>
+            <Breadcrumb.Item active>Home</Breadcrumb.Item>
             </Breadcrumb>
             <Container>
                 <Row>
@@ -166,7 +166,6 @@ function Home() {
                     </Col>
                     <Col style={{ borderLeft: "1px solid black" }} className="scroll-auto h-100">
                         <h5 className="mt-4"> News </h5>
-
                         <>
                             {newsData.map((data, key) => {
                                 return (
@@ -191,7 +190,6 @@ function Home() {
                                 );
                             })}
                         </>
-
                     </Col>
                 </Row>
             </Container>
