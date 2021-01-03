@@ -6,38 +6,44 @@ import "./LandingPage.css"
 import LockScreen from "./LockScreen";
 import DashBoard from "../DashBoard/DashBoard";
 import Login from "./login";
+import { Provider ,useSelector } from "react-redux";
+import { createStore } from "redux";
+import allReducers from "../redux/reducers";
 
-export const LandingPage = (props) => {
-  const [route, setroute] = useState(props.intialize);
+const myStore = createStore(
+  allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
-  const updateRoute = (path) => {
-    setroute(path)
-  }
+export const LandingPage = () => {
+  const route = useSelector(state => state.routePage);
 
   return (
     <BrowserRouter>
-      <Switch>
-        {(route === "lockScreen" && (
-          <Route path="/" component={() => (
-            <LockScreen updateRoute={updateRoute} />
-          )} />
-        )) ||
-          (route === "login" && (
-            <Route
-              path="/"
-              component={() => (
-               <Login updateRoute={updateRoute}/>
-              )}
-            />
+      <Provider store={myStore}>
+        <Switch>
+          {(route === "lockScreen" && (
+            <Route path="/" component={() => (
+              <LockScreen />
+            )} />
           )) ||
-          (route === "dashBoard" && (
-            <Route
-              path="/"
-              component={() => (
-                <DashBoard updateRoute={updateRoute} />
-              )}
-            />)) || ""}
-      </Switch>
+            (route === "login" && (
+              <Route
+                path="/"
+                component={() => (
+                  <Login />
+                )}
+              />
+            )) ||
+            (route === "dashBoard" && (
+              <Route
+                path="/"
+                component={() => (
+                  <DashBoard />
+                )}
+              />)) || ""}
+        </Switch>
+      </Provider>
     </BrowserRouter>
 
   );

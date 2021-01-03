@@ -103,9 +103,6 @@ function Home() {
 
     return (
         <>
-            <Breadcrumb>
-            <Breadcrumb.Item active>Home</Breadcrumb.Item>
-            </Breadcrumb>
             <Container>
                 <Row>
                     <Col lg={8}>

@@ -7,27 +7,27 @@ import {
   Row,
 } from "react-bootstrap";
 import "./navbar.css";
-import { UserConsumer } from "../DashBoard/DashBoard";
 import Search from "./search";
+import {useDispatch} from "react-redux";
+import {currentPage} from "../redux/actions";
 
 function Navigation() {
+  const dispatch = useDispatch();
+
   return (
     <React.Fragment>
-      <UserConsumer>
-        {({ handleCall, profileClick, handleLogout, handleSearch }) => (
-          <div id="navbarSupportedContent ">
-            <ul className="navbar-nav ml-4 text-center">
-              <li className="nav-item ml-4 ">
+          <div id="navbarSupportedContent" style={{color:"#1c2324 !important"}}>
+            <ul className="navbar-nav text-center">
+              <li className="nav-item">
                 <Nav.Link
                   className="nav-link pointer fa fa-home"
                   name="home"
-                  onClick={handleCall}
-                  href="#home"
+                  onClick={()=> dispatch(currentPage("home"))}
                 >
                   Home
                 </Nav.Link>
               </li>
-                <Search className="ml-2" displayImages={handleSearch} />
+                <Search className="ml-2" />
               <li>
               <OverlayTrigger
                 trigger="click"
@@ -43,15 +43,13 @@ function Navigation() {
                       <div
                         className="list-group"
                         style={{ border: "none !important" }}
-                        id="list-tab"
                         role="tablist"
                       >
                         <Nav.Link
                           className="list-group-item selectItem list-group-item-action"
                           tabIndex="0"
-                          href="#list-home"
                           name="profile"
-                          onClick={profileClick}
+                          onClick={()=> dispatch(currentPage("ProfileSettings"))}
                         >
                           <span
                             className=" fa fa-address-book-o mr-2"
@@ -62,9 +60,8 @@ function Navigation() {
                         <Nav.Link
                           className="list-group-item selectItem list-group-item-action"
                           tabIndex="1"
-                          href="#list-profile"
                           name="messages"
-                          onClick={profileClick}
+                          onClick={()=> dispatch(currentPage("messages"))}
                         >
                           <span
                             className=" fa fa-envelope mr-2"
@@ -75,8 +72,7 @@ function Navigation() {
                         <Nav.Link
                           className="list-group-item selectItem list-group-item-action"
                           tabIndex="2"
-                          href="#list-messages"
-                          onClick={profileClick}
+                          onClick={()=> dispatch(currentPage("settings"))}
                           name="settings"
                         >
                           <i className="fa fa-gear mr-2"></i>
@@ -85,9 +81,8 @@ function Navigation() {
                         <Nav.Link
                           className="list-group-item selectItem list-group-item-action"
                           tabIndex="3"
-                          href=""
                           name="signout"
-                          onClick={handleLogout}
+                          onClick={()=> dispatch(currentPage("logout"))}
                         >
                           <i className="fa fa-sign-out mr-2"></i>
                           Logout
@@ -98,16 +93,12 @@ function Navigation() {
                 }
               >
                 <Button className="align-end-css fa fa-user f-lg" variant="bg-red text-warning outline-dark">
-                 
                  <i className="fa fa-caret-down fa-lg mt-2 ml-1"/>
                 </Button>
               </OverlayTrigger>
               </li>
               </ul>
           </div>
-        )}
-       
-      </UserConsumer>
     </React.Fragment>
   );
 }

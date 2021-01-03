@@ -53,10 +53,6 @@ function AppointmentLists() {
 
 	return (
 		<>
-
-			<Breadcrumb>
-				<Breadcrumb.Item active>History of appointments</Breadcrumb.Item>
-			</Breadcrumb>
 			<Container>
 				<Row>
 					<Col lg={3} style={{ borderRight: '1px solid red', height: '100vh' }}>

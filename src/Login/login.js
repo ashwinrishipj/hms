@@ -3,11 +3,7 @@ import { CardColumns, Card, Row, Navbar, Nav } from "react-bootstrap";
 import Footer from "./Footer";
 import LoginForm from "./loginform";
 
-function Login(props) {
-    const updateRoute = (data) => {
-        props.updateRoute(data)
-    }
-
+function Login() {
     return (
         <div className="container-fluid p-0">
             <div className="container-fluid">
@@ -29,7 +25,7 @@ function Login(props) {
                 <div className="container-fluid text-center">
                     <div className="row h-100 w-100 mr-0">
                         <div className="col-sm-4 my-auto mx-auto">
-                            <LoginForm updateRoute={updateRoute} />
+                            <LoginForm />
                         </div>
                     </div>
                 </div>

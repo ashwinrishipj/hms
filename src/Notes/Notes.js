@@ -104,9 +104,6 @@ export default function Notes(props) {
          <button type="button" className="close" data-dismiss="alert">&times;</button>
      </div>
         :" "}
-		 <Breadcrumb>
-        <Breadcrumb.Item active>Notes:</Breadcrumb.Item>
-    </Breadcrumb>
         <Container className="mt-4">
                 {show ?
                     <Modal show={show} onHide={handleClose}>

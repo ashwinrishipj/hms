@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./DashBoard.css";
 import {
   Nav,
@@ -6,150 +6,51 @@ import {
   Row,
   Col,
   Navbar,
+  Breadcrumb
 } from "../../node_modules/react-bootstrap";
 import Navigation from "../Navbar/Navigation";
 import PageNavigation from "../Navbar/pageNavigation";
+import SideBar from "../Navbar/SideBar";
+import { useDispatch,useSelector } from "react-redux";
+import { toggle } from "../redux/actions";
 
-const UserData = React.createContext();
-export const UserConsumer = UserData.Consumer;
+function DashBoard() {
+  const dispatch = useDispatch();
+  const currentPage = useSelector(state => state.currentPage);
 
-class DashBoard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      navigationIsSet: true,
-      loadContent: "home",
-      loadUserSettings: false,
-      collapsed: false,
-      currentUser: true,
-      profileSelected: true,
-      searchedContent: "",
-      handleLogout: this.handleLogout,
-      handleCall: this.handleCall,
-      profileClick: this.profileClick,
-      handleSearch: this.handleSearch,
-    };
-  }
-
-  handleMenu = () => {
-    this.setState({ navigationIsSet: !this.state.navigationIsSet });
-  };
-
-  handleSearch = (searchedContent) => {
-    this.setState({ loadContent: "home", searchedContent: searchedContent });
-  };
-
-  handleCall = (e) => {
-    e.preventDefault();
-    this.setState({
-      loadContent: e.target.name,
-    });
-  };
-
-  handleUserSettings = () => {
-    this.setState({
-      loadUserSettings: true,
-    });
-  };
-
-  toggleNavbar = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
-
-  handleLogout = () => {
-    localStorage.clear();
-    this.props.updateRoute("login");
-  };
-
-  profileClick = (e) => {
-    e.preventDefault();
-    this.setState({ profileSelected: false, loadContent: e.target.name });
-  };
-
-  handleNotifications = () => {
-    alert("notified:");
-  };
-
-  render() {
-    if (localStorage.getItem("userToken")) {
-      return (
-        <React.Fragment>
-          <Container fluid="true">
-          <Navbar bg="dark" variant="dark">
-                  <Navbar.Brand onClick={this.handleMenu}>
+  if (localStorage.getItem("userToken")) {
+    return (
+      <React.Fragment>
+        <Container fluid="true">
+          <Row style={{ marginLeft: "0", marginRight: "0" }}>
+            <SideBar />
+            <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
+              <div className="display-content">
+                <Navbar style={{backgroundColor: "#dae0e5"}}>
+                  <Navbar.Brand onClick={() => dispatch(toggle())}>
                     <i className="fa fa-bars" aria-hidden="true"></i>
                   </Navbar.Brand>
                   <Nav className="mr-auto">
-                    <UserData.Provider value={this.state}>
-                      <Navigation />
-                    </UserData.Provider>
+                    <Navigation />
                   </Nav>
                 </Navbar>
-            <Row style={{ marginLeft: "0", marginRight: "0" }}>
-              {this.state.navigationIsSet ? (
-                <Col sm={2} className="navbar-flex-css leftView slideIn">
-                  <div>
-                    <img src={require('../helpers/Profile.png')} width="50px" height="50px"/>
-                    <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                      <Nav.Link onClick={()=> this.props.updateRoute("lockScreen")} className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
-                      <Nav.Link onClick={()=> this.handleLogout()} className="shadow-sm fa fa-sign-out fa-1x ml-4">
-                        {" "}
-                      </Nav.Link>
-                    </Nav>
-                  </div>
-
-                  <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
-                    <span className="flex-css-nav-link text-warning">Basics:</span>
-                    <Nav.Link className="flex-css-nav-link fa fa-home fa-fw mt-2" name="home"> Home</Nav.Link>
-                    <Nav.Link className="flex-css-nav-link fa fa-hospital-o fa-fw mt-2" name="appointments">
-                      {" "}
-                      Appointment Scheduler
-                    </Nav.Link>
-                    <Nav.Link className="flex-css-nav-link fa fa fa-list fa-fw mt-2" name="appointmentLists">
-                      {" "}
-                      Apointment Lists
-                    </Nav.Link>
-                  </Nav>
-
-                  <Nav className="flex_css_for_navigation mt-4" onClick={this.handleCall}>
-                    <span className="text-warning">Apps & chat:</span>
-                    <Nav.Link name="toDoList" className="flex-css-nav-link fa fa-tasks fa-fw mt-2">
-                      {" "}
-                      To-do List
-                    </Nav.Link>
-                    <Nav.Link name="calendar" className="flex-css-nav-link fa fa-calendar fa-fw mt-2">
-                      {" "}
-                      Calendar
-                    </Nav.Link>
-                    <Nav.Link name="notes" className=" flex-css-nav-link fa fa-sticky-note-o fa-fw  mt-2">
-                      {" "}
-                      Notes
-                    </Nav.Link>
-                  </Nav>
-                </Col>
-              ) : (
-                  ""
-                )}
-              <Col style={{ paddingLeft: "0", paddingRight: "0" ,backgroundColor:"#f8f9fa"}}>
-                <div className="display-content">
-                  <PageNavigation navigate={this.state.loadContent} />
-                </div>
-              </Col>
-            </Row>
-          </Container>
-        </React.Fragment>
-      );
-    }
-    else {
-      return (
-        <>
-          {this.props.updateRoute("login")}
-        </>
-      )
-    }
-
+                <Breadcrumb style={{backgroundColor:"whitesmoke"}}>
+                <Breadcrumb.Item   style={{color:"red"}} >{currentPage}</Breadcrumb.Item>
+              </Breadcrumb>
+                <PageNavigation />
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </React.Fragment>
+    );
+  }
+  else {
+    return (
+      <>
+        {this.props.updateRoute("login")}
+      </>
+    )
   }
 }
 

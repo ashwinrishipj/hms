@@ -1,22 +1,9 @@
 .leftView {
 	padding-top: 50px;
 	padding-bottom: 39px;
-	background-color: #343a40;
+	background-color: #1c2324;
 	text-align: center;
 	height: 100vh;
-}
-.border-begining {
-	border-top: 1px solid gray;
-}
-.border-begining :hover,
-:focus {
-	border-bottom: 1px solid gray;
-}
-
-.flex_css_for_navigation {
-	display: flex !important;
-	  flex-direction: column;
-	  align-items: flex-start;
 }
 
 .flex-css-nav-link {
@@ -24,18 +11,22 @@
 	width: 100%;
 	text-align: start;
 	justify-content: left;
+	flex-direction: column;
 	align-content: flex-start;
-	left: 0px !important;
-	border-bottom: 1px solid gray;
+	align-items: flex-start;
 }
-.flex-css-nav-link:hover {
+.text-color {
+	/* color: #1fbbbb !important; */
+	color: #35a0a0 !important;
+}
+.flex-css-nav-link :hover {
 	color: white !important;
 	border: none;
-	border-bottom: 1px solid gray;
+	transform: scale(1.1);
 }
-.flex-css-nav-link:focus {
+.flex-css-nav-link :focus {
 	color: white !important;
-	border-bottom: 1px solid gray;
+	transform: scale(1.1);
 }
 
 .sidebar-profile {
@@ -52,15 +43,17 @@
 	align-items: flex-start;
 	overflow: auto;
 }
-.sidebar-profile-navbar-align :hover,
-:focus {
+.sidebar-profile-navbar-align :hover  {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
-	box-shadow: none;
+	box-shadow: 10px;
+	color: white !important;
+	transform: scale(1);
 }
 
 .sidebar-profile-navbar-align :active {
 	color: white !important;
+	transform: scale(1);
 }
 
 .scroll-bar {
@@ -72,7 +65,7 @@ input[type='text'] :active {
 	padding: 15px 22px;
 	margin: 10px 5px;
 	box-sizing: border-box;
-	color: red;
+	color: red !important;
 }
 .to_do_list_box-shadow {
 	box-shadow: 5px grey;
@@ -107,7 +100,7 @@ input[type='text'] :active {
 	position: sticky !important;
 	top: 0;
 }
-.navbar-flex-css :focus,
+.navbar-flex-css,
 :hover {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
@@ -148,33 +141,56 @@ input[type='text'] :active {
 	opacity: 0.5;
 }
 
-.font-recovered{
+.font-recovered {
 	font-size: 2rem !important;
-	color: #ff9800!important;
+	color: #ff9800 !important;
 }
-.font-deaths{
-	color:rgb(236, 49, 75) !important;
+.font-deaths {
+	color: rgb(236, 49, 75) !important;
 	font-size: 2rem !important;
 }
-.font-active{
+.font-active {
 	color: rgb(5, 181, 132);
 	font-size: 2rem !important;
 }
-.home-list{
-	width:50%;
+.home-list {
+	width: 50%;
 }
-.home-list :hover{
+.home-list :hover {
 	background-color: lightcoral;
 }
-.home-list :active{
-	transform:translateY(4px);
+.home-list :active {
+	transform: translateY(4px);
 }
-.scheduledToast
-{
+.scheduledToast {
 	background-color: #17a2b8;
-	cursor:  pointer !important;
+	cursor: pointer !important;
 }
-.scheduledToast :active{
+.scheduledToast :active {
 	background-color: lightpink;
-	transform:translateY(4px);
+	transform: translateY(4px);
+}
+
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="select"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border-color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+   /* 0 0 8px rgba(126, 239, 104, 0.6); */
+  outline: 0 none;
 }

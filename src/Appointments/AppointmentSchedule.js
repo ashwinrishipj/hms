@@ -140,9 +140,6 @@ export default function AppointmentSchedule() {
 
 	return (
 		<>
-		 <Breadcrumb>
-        <Breadcrumb.Item active>Appointment Scheduler</Breadcrumb.Item>
-    </Breadcrumb>
 		<div className="container-fluid mt-4">
 			<div className="row">
 				<Modal show={show} onHide={handleClose}>

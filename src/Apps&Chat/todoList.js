@@ -322,9 +322,6 @@ export default function TodoList() {
 	}
 	return (
 		<>
-			<Breadcrumb>
-				<Breadcrumb.Item active>TodoLists</Breadcrumb.Item>
-			</Breadcrumb>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-4">

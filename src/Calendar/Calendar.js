@@ -101,9 +101,6 @@ const events = [
 export default function EventCalendar() {
     return (
         <>
-            <Breadcrumb>
-                <Breadcrumb.Item active>calendar</Breadcrumb.Item>
-            </Breadcrumb>
             <>
                 <Card>
                     <RevoCalendar events={events} />

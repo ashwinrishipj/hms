@@ -1,55 +1,53 @@
-import React, { useState } from 'react';
-import { Nav, Col, Navbar } from 'react-bootstrap';
+import React from 'react';
+import { Nav, Col } from 'react-bootstrap';
+import { useSelector, useDispatch } from "react-redux";
+import { currentPage } from "../redux/actions";
 
 export default function SideBar(props) {
-    const [navigationIsSet, setnavigationIsSet] = useState(true);
-
-    const handleMenu = () => {
-        setnavigationIsSet(!navigationIsSet);
-    }
+    const navigationIsSet = useSelector(state => state.toggleSideBar);
+    const dispatch = useDispatch();
 
     return (
         <>
             {navigationIsSet ? (
                 <Col sm={2} className="navbar-flex-css leftView slideIn">
                     <div className="sidebar-profile ">
-                        <Navbar.Brand onClick={handleMenu}>
-                            <i className="fa fa-bars" aria-hidden="true"></i>
-                        </Navbar.Brand>
                         <span className="text-light">Ashwin Rishi</span>
-                        <Nav className="sidebar-profile-navbar-align mt-4 ml-4">
-                            <Nav.Link className="shadow-sm fa fa-lock fa-1x "></Nav.Link>
-                            <Nav.Link className="shadow-sm fa fa-sign-out fa-1x"> </Nav.Link>
+                        <Nav className="sidebar-profile-navbar-align mt-4">
+                            <Nav.Link name="ProfileSettings" className="text-color fa fa-user fa-1x"></Nav.Link>
+                            <Nav.Link name="MailBox" className="text-color fa fa-envelope fa-1x"> </Nav.Link>
+                            <Nav.Link name="lockScreen" className="text-color fa fa-lock fa-1x "></Nav.Link>
+                            <Nav.Link name="logout"className="text-color fa fa-sign-out fa-1x"> </Nav.Link>
                         </Nav>
                     </div>
 
-                    <Nav className="flex_css_for_navigation mt-4" onClick={props.handleUpdateFromSideBar(name)}>
+                    <Nav className="flex-css-nav-link mt-4" onClick={(e) => dispatch(currentPage(e.target.name))}>
                         <span className="text-warning">Basics:</span>
-                        <Nav.Link className="fa fa-home mt-2" name="home">
+                        <Nav.Link className="text-color fa fa-home mt-2" name="home">
                             {' '}
 							Home
 						</Nav.Link>
-                        <Nav.Link className="fa fa-hospital-o mt-2" name="appointments">
+                        <Nav.Link className="text-color fa fa-hospital-o mt-2" name="appointments">
                             {' '}
 							Appointments
 						</Nav.Link>
-                        <Nav.Link className="fa fa-file-text mt-2" className="documents">
+                        <Nav.Link className="text-color fa fa-file-text mt-2" name="appointmentLists">
                             {' '}
-							Documents
+							History
 						</Nav.Link>
                     </Nav>
 
-                    <Nav className="flex_css_for_navigation mt-4" onClick={props.handleUpdateFromSideBar(name)}>
+                    <Nav className="flex-css-nav-link mt-4" onClick={(e) => dispatch(currentPage(e.target.name))}>
                         <span className="text-warning">Apps & chat:</span>
-                        <Nav.Link name="toDoList" className="fa fa-tasks mt-2">
+                        <Nav.Link name="toDoList" className="text-color fa fa-tasks mt-2">
                             {' '}
 							To-do List
 						</Nav.Link>
-                        <Nav.Link name="calendar" className="fa fa-calendar mt-2">
+                        <Nav.Link name="calendar" className="text-color fa fa-calendar mt-2">
                             {' '}
 							Calendar
 						</Nav.Link>
-                        <Nav.Link name="notes" className="fa fa-sticky-note-o mt-2">
+                        <Nav.Link name="notes" className="text-color fa fa-sticky-note-o mt-2">
                             {' '}
 							Notes
 						</Nav.Link>

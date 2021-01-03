@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Container, Card, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
+import { useDispatch } from "react-redux";
 import { FetchData } from '../helpers/Fetch';
+import { route } from "../redux/actions";
 
 const LockScreen = (props) => {
     const [password, setpassword] = useState('');
     const [error, seterror] = useState('');
     const [disabled, setdisabled] = useState(true);
     const [alert, setalert] = useState('');
+
+    const dispatch = useDispatch();
 
     const validatePassword = (e) => {
         var password = e.target.value;
@@ -40,7 +44,7 @@ const LockScreen = (props) => {
 
         FetchData(requestBody).then((response) => {
             return response.data.lockScreenValidation === true
-                ? props.updateRoute('dashBoard')
+                ? () => dispatch(route("dashBoard"))
                 : response === (null || undefined)
                     ? setalert('Server is down!. We are working on it.')
                     : setalert(response);
