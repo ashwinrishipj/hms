@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Container, Card, Col, Row, CardGroup, Breadcrumb, Button } from "react-bootstrap";
+import { Container, Card, Col, Row, CardColumns, CardGroup, Breadcrumb, Button } from "react-bootstrap";
 
 function Home() {
     const [generalAPI, setgeneralAPI] = useState();
@@ -105,10 +105,10 @@ function Home() {
         <>
             <Container>
                 <Row>
-                    <Col lg={8}>
-                        <h3>Covid-19 Tracker </h3>
+                    <Col >
+                        <h5 className="text-primary mt-4">Covid-19 Tracker </h5>
                         <div className="text-center">
-                            <input autoComplete="off" className="form-control align-items-center ml-2" value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." />
+                            <input autoComplete="off" className="form-control align-items-center " value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." />
                             <ul className="list-group scroll-auto home-list" id="myList">
                                 {isCountrySuggestied ?
                                     <>
@@ -121,14 +121,15 @@ function Home() {
                             </ul>
 
                         </div>
-                        <h3 className="text-danger text-center"> {defaultCountryValue} covid cases </h3>
-                        <CardGroup className="ml-4" >
+
+                        <h3 className="text-danger mt-2 text-center"> {defaultCountryValue} covid cases </h3>
+                        <CardGroup className="text-light">
                             <Card className="text-center rounded-border">
                                 <Card.Body>
                                     <Card.Text className="font-recovered ">
                                         {apiReceived ? generalAPI.response[0].cases.recovered : ""}
                                     </Card.Text>
-                                    <h3>Recovered </h3>
+                                    Recovered
                                 </Card.Body>
                             </Card>
                             <Card className="text-center rounded-border ml-3">
@@ -136,7 +137,7 @@ function Home() {
                                     <Card.Text className="font-active">
                                         {apiReceived ? generalAPI.response[0].cases.active : ""}
                                     </Card.Text>
-                                    <h3> active</h3>
+                                     active
                                 </Card.Body>
                             </Card>
                             <Card className="text-center rounded-border ml-3">
@@ -144,11 +145,11 @@ function Home() {
                                     <Card.Text className="font-deaths">
                                         {apiReceived ? generalAPI.response[0].deaths.total : ""}
                                     </Card.Text>
-                                    <h3> deaths</h3>
+                                     deaths
                                 </Card.Body>
                             </Card>
                         </CardGroup>
-                        <Card className="text-center rounded-border mx-auto" style={{ width: "50%" }}>
+                        <Card className="text-center  text-light rounded-border mx-auto mt-4">
                             <Card.Body>
                                 Critical:
                                     <Card.Text className="font-active">
@@ -161,34 +162,32 @@ function Home() {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col style={{ borderLeft: "1px solid black" }} className="scroll-auto h-100">
-                        <h5 className="mt-4"> News </h5>
-                        <>
-                            {newsData.map((data, key) => {
-                                return (
-                                    <>
-                                        <Card
-                                            bg={"info"}
-                                            text={"white"}
-                                            style={{ width: '20rem' }}
-                                            className="ml-2 mt-2"
-                                            key={key}
-                                        >
-                                            <Card.Body>
-                                                <Card.Title text={"dark"}> {data.name}</Card.Title>
-                                                <Card.Text>
-                                                    {data.description}
-                                                </Card.Text>
-                                                <Button variant="outline-warning" className="mt-2" href={newsData[key].url} target="_blank">Read More...</Button>
-
-                                            </Card.Body>
-                                        </Card>
-                                    </>
-                                );
-                            })}
-                        </>
-                    </Col>
                 </Row>
+                <Col>
+                    <h5 className="mt-4 text-primary"> News </h5>
+                    <CardColumns>
+                        {newsData.map((data, key) => {
+                            return (
+                                <>
+                                    <Card
+                                        text={"white"}
+                                        className="mt-2 text-light rounded-border"
+                                        key={key}
+                                    >
+                                        <Card.Body>
+                                            <Card.Title text={"dark"}> {data.name}</Card.Title>
+                                            <Card.Text>
+                                                {data.description}
+                                            </Card.Text>
+                                            <Button variant="outline-warning" className="mt-2" href={newsData[key].url} target="_blank">Read More...</Button>
+
+                                        </Card.Body>
+                                    </Card>
+                                </>
+                            );
+                        })}
+                    </CardColumns>
+                </Col>
             </Container>
         </>
     )

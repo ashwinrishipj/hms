@@ -23,12 +23,12 @@ function Search(props) {
       {show ? (
         <>
         <form
-          className="form-inline input-wrapper ml-4"
+          className="form-inline input-wrapper"
           onSubmit={(e) => validateSearch(e)}
         >
           <input
             className="form-control input-wrapper"
-            placeholder="Search Images"
+            placeholder="Search Content"
             aria-label="Search"
             onChange={(e) => intializeSearchContent(e)}
           />
@@ -37,7 +37,7 @@ function Search(props) {
          </>
       ) : (
         <li className="nav-item ml-4" name="blogs" onClick={() => setShow(!show)}>
-          <a className="nav-link pointer fa fa-fw fa-search " href>
+          <a className="nav-link pointer fa fa-fw fa-search text-light" href>
             Search
           </a>
         </li>

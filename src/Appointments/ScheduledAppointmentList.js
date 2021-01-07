@@ -53,10 +53,11 @@ function AppointmentLists() {
 
 	return (
 		<>
+			
 			<Container>
 				<Row>
-					<Col lg={3} style={{ borderRight: '1px solid red', height: '100vh' }}>
-						<h4> Appointment Lists:</h4>
+					<Col lg={3} style={{ borderRight: '1px solid red' }}>
+						<h5 className="text-primary"> Appointment Lists:</h5>
 						<ul className="list-unstyled scroll-auto mt-3">
 							{isAppointmentSet ? (
 								appointmentDetails.appointments.map((data, key) => {
@@ -88,7 +89,7 @@ function AppointmentLists() {
 						<>
 							<div className="col-lg-5">
 								{' '}
-								<h4 className="subtitle">Patient Information</h4>{' '}
+								<h5 className="subtitle">Patient Information</h5>{' '}
 								<table className="table table-simple">
 									{' '}
 									<tbody>

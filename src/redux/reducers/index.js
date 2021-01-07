@@ -1,10 +1,12 @@
 import toggleSideBar from "./ToggleSideBar";
 import currentPage from "./currentPage";
-import {combineReducers} from "redux";
+import routePage from "./routePage";
+import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
     toggleSideBar,
-    currentPage
+    currentPage,
+    routePage
 });
 
 export default allReducers;

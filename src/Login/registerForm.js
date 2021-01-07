@@ -45,7 +45,7 @@ class RegisterUser extends React.Component {
     LoginFetchData(requestBody).then((response) => {
       return response == true
         ? this.props.updateHomeRoute("dashBoard")
-        :  response == false ? this.changeAlert("server is down!. we are working on it. Please try after a minute.") : this.changeAlert(response);
+        : response == false ? this.changeAlert("server is down!. we are working on it. Please try after a minute.") : this.changeAlert(response);
     });
   };
 
@@ -187,16 +187,16 @@ class RegisterUser extends React.Component {
                   )}
               </button>
             </div>
-            {/* <button className="btn btn-outline-info btn-md float-left">
+            <button className="btn btn-info btn-md float-left">
               Forgot password?
-            </button> */}
+            </button>
 
             <button
               className="btn btn-info  btn-md"
               onClick={this.props.triggerSignup}
               style={{ float: "right" }}
             >
-              Go back
+              Sign In
             </button>
           </form>
         </article>

@@ -1,7 +1,5 @@
 .profile-flex-css{
-    position: fixed;
-    right: 0%;
-    top: 1%;
+    position: -webkit-sticky;
 }
 
 .text{

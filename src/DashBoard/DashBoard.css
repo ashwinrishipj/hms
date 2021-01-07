@@ -1,32 +1,38 @@
 .leftView {
 	padding-top: 50px;
 	padding-bottom: 39px;
-	background-color: #1c2324;
+	background-color: #161b22;
 	text-align: center;
 	height: 100vh;
+}
+
+.dashboard {
+	background-color: #171721 !important;
 }
 
 .flex-css-nav-link {
 	display: flex;
 	width: 100%;
 	text-align: start;
-	justify-content: left;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
 	flex-direction: column;
 	align-content: flex-start;
 	align-items: flex-start;
 }
 .text-color {
 	/* color: #1fbbbb !important; */
-	color: #35a0a0 !important;
+	color: whitesmoke !important;
 }
 .flex-css-nav-link :hover {
 	color: white !important;
 	border: none;
-	transform: scale(1.1);
+	transform: scale(1.5);
 }
 .flex-css-nav-link :focus {
 	color: white !important;
-	transform: scale(1.1);
+	transform: scale(1.5);
 }
 
 .sidebar-profile {
@@ -43,7 +49,7 @@
 	align-items: flex-start;
 	overflow: auto;
 }
-.sidebar-profile-navbar-align :hover  {
+.sidebar-profile-navbar-align :hover {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: 10px;
@@ -113,12 +119,14 @@ input[type='text'] :active {
 	right: 0% !important;
 	position: absolute;
 }
-.fa fa-user {
-	color: red;
+.align-end-css :hover {
+	list-style-type: none !important;
+	border: none !important;
+	border-style: none !important;
 }
+
 .col-border {
 	border-right: 0.5px solid gray;
-	height: fit-content;
 }
 .sticky-coloumn {
 	position: -webkit-sticky !important;
@@ -171,26 +179,42 @@ input[type='text'] :active {
 	transform: translateY(4px);
 }
 
-
 textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="select"]:focus,
-input[type="color"]:focus,
-.uneditable-input:focus {   
-  border-color: rgba(0, 0, 0, 0.8);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-   /* 0 0 8px rgba(126, 239, 104, 0.6); */
-  outline: 0 none;
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='datetime']:focus,
+input[type='datetime-local']:focus,
+input[type='date']:focus,
+input[type='month']:focus,
+input[type='time']:focus,
+input[type='week']:focus,
+input[type='number']:focus,
+input[type='email']:focus,
+input[type='url']:focus,
+input[type='search']:focus,
+input[type='tel']:focus,
+input[type='select']:focus,
+input[type='color']:focus,
+.uneditable-input:focus {
+	border-color: rgba(0, 0, 0, 0.8);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	/* 0 0 8px rgba(126, 239, 104, 0.6); */
+	outline: 0 none;
+}
+
+.sidebar-background {
+	background-color: rgba(0, 123, 255, 0.25) !important;
+	color: whitesmoke !important;
+	border: 1px solid #007bff !important;
+}
+.arrow-head {
+	position: inherit;
+	width: 10px;
+	height: 10px;
+	border: 1px solid #007bff !important;
+	transform: rotate(45deg);
+	top: 10px;
+	left: 100px;
+	border-right: none !important;
+	border-bottom: none !important;
 }

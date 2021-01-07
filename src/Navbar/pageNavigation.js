@@ -6,66 +6,67 @@ import ToDoList from "../Apps&Chat/todoList";
 import EventCalendar from "../Calendar/Calendar";
 import Home from "../Home/home";
 import Notes from "../Notes/Notes";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import ProfileSettings from "../ProfileSettings/Profiles";
 
-function PageNavigation (){
+function PageNavigation() {
   const navigateTo = useSelector(state => state.currentPage);
-  
+
   return (
-      <>
-        <Switch>
-          {(navigateTo === "toDoList" && (
-            <Route path="/" component={ToDoList} />
+    <>
+      
+      <Switch>
+        {(navigateTo === "toDoList" && (
+          <Route path="/" component={ToDoList} />
+        )) ||
+          (navigateTo === "calendar" && (
+            <Route
+              path="/"
+              component={() => (
+                <EventCalendar />
+              )}
+            />
           )) ||
-            (navigateTo === "calendar" && (
-              <Route
-                path="/"
-                component={() => (
-                  <EventCalendar />
-                )}
-              />
-            )) ||
-            (navigateTo === "appointments" && (
-                <Route
-                  path="/"
-                  component={() => (
-                   <AppointmentSchedule />
-                  )}
-                />)) ||
-                (navigateTo === "appointmentLists" && (
-                  <Route
-                    path="/"
-                    component={() => (
-                     <AppointmentLists />
-                    )}
-                  />)) ||
-            (navigateTo === "home" &&  (
-              <Route
-                path="/"
-                component={() => (
-                 <Home />
-                )}
-              />)) ||
-            (navigateTo === "notes" && 
+          (navigateTo === "appointments" && (
+            <Route
+              path="/"
+              component={() => (
+                <AppointmentSchedule />
+              )}
+            />)) ||
+          (navigateTo === "appointmentLists" && (
+            <Route
+              path="/"
+              component={() => (
+                <AppointmentLists />
+              )}
+            />)) ||
+          (navigateTo === "home" && (
+            <Route
+              path="/"
+              component={() => (
+                <Home />
+              )}
+            />)) ||
+          (navigateTo === "notes" &&
             (
               <Route
                 path="/"
                 component={() => (
-                 <Notes />
+                  <Notes />
                 )}
               />)) ||
-              (navigateTo === "ProfileSettings" && 
-              (
-                <Route
-                  path="/"
-                  component={() => (
-                   <ProfileSettings />
-                  )}
-                />)) ||
-            ""}
-        </Switch>
-      </>
+          (navigateTo === "ProfileSettings" &&
+            (
+              <Route
+                path="/"
+                component={() => (
+                  <ProfileSettings />
+                )}
+              />)) ||
+          ""}
+      </Switch>
+    </>
   );
 };
 

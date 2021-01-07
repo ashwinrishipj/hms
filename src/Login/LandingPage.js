@@ -6,21 +6,13 @@ import "./LandingPage.css"
 import LockScreen from "./LockScreen";
 import DashBoard from "../DashBoard/DashBoard";
 import Login from "./login";
-import { Provider ,useSelector } from "react-redux";
-import { createStore } from "redux";
-import allReducers from "../redux/reducers";
-
-const myStore = createStore(
-  allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import { useSelector } from "react-redux";
 
 export const LandingPage = () => {
   const route = useSelector(state => state.routePage);
 
   return (
     <BrowserRouter>
-      <Provider store={myStore}>
         <Switch>
           {(route === "lockScreen" && (
             <Route path="/" component={() => (
@@ -43,7 +35,6 @@ export const LandingPage = () => {
                 )}
               />)) || ""}
         </Switch>
-      </Provider>
     </BrowserRouter>
 
   );

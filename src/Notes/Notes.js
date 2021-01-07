@@ -115,13 +115,13 @@ export default function Notes(props) {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
-                                okay
+                                close
 						</Button>
                         </Modal.Footer>
                     </Modal>
                     : ""}
             
-            <Card body style={{ boxShadow: "1px 1px 1px 1px grey", border: "1px gray",height:"100vh !important" }}>
+            <Card body style={{ boxShadow: "1px 1px 1px 1px grey", border: "1px gray"}}>
                 <Row>
                     <Col className="col-border" md={3}>
                         <Row>
@@ -176,7 +176,7 @@ export default function Notes(props) {
                         </Row>
                         <Row className="ml-4 mt-4">
                             <div className="form">
-                                <textarea onChange={(e) => handleNote(e)} value={clearValue} style={{ backgroundColor: "#c1eade" }} rows="17" cols="90" name="textarea" placeholder="type your notes here" className="form-control">
+                                <textarea onChange={(e) => handleNote(e)} value={clearValue} style={{ backgroundColor: "#c1eade" }} rows="15" cols="90" name="textarea" placeholder="type your notes here" className="form-control">
                                 </textarea>
                             </div>
                             <Button className="mt-4 float-right" onClick={() => createNote()}> Submit Note </Button>
