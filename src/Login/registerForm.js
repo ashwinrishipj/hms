@@ -1,46 +1,30 @@
-import React from "react";
-import NegativeAlert from "../Alerts/NegativeAlert";
-import { LoginFetchData } from "../helpers/Fetch";
-import { withRouter } from "react-router-dom";
-import Spinner from "../../node_modules/react-bootstrap/Spinner";
-import { connect } from "react-redux";
-import { route } from "../redux/actions";
-import ForgetPassword from "./ForgotPassword";
+import React, { useState } from 'react';
+import NegativeAlert from '../Alerts/NegativeAlert';
+import { LoginFetchData } from '../helpers/Fetch';
+import { OverlayTrigger, Spinner } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { route, FormRoute } from "../redux/actions";
+import { emailToolTip, passwordToolTip } from "../Alerts/emailToolTip";
 
-class RegisterUser extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      emailId: "",
-      password: "",
-      confirmPassword: "",
-      Terms: "",
-      error: "",
-      Alert: false,
-      spinner: false,
-      buttonDisabled: true,
-      forgotPassword: false
-    };
-  }
+function RegisterUser() {
+	const [emailError, setemailError] = useState(false);
+	const [passwordError, setpasswordError] = useState(false);
+	const [buttonDisabled, setbuttonDisabled] = useState(true);
+	const [emailId, setemailId] = useState('');
+	const [password, setpassword] = useState('');
+	const [spinner, setspinner] = useState(false);
+	const [alert, setalert] = useState('');
+	const [emailStyle, setemailStyle] = useState({});
+  const [passwordStyle, setpasswordStyle] = useState({});
+  const [reTypePasswordError, setreTypePasswordError] = useState(false);
+  const [reTypePasswordStyle, setreTypePasswordStyle] = useState(false)
 
-  updateRoute = (data) => {
-    const { route } = this.props;
-    route(data);
-  }
+	const dispatch = useDispatch();
 
-  changeAlert = (contentText) => {
-    this.setState({
-      Alert: !this.state.Alert,
-      error: contentText,
-      spinner: false,
-    });
-  };
-
-  submitSignup = (e) => {
-    e.preventDefault();
-
-    let requestBody = {
-      query: `
+	const submitSignup = (e) => {
+		e.preventDefault();
+		let requestBody = {
+			query: `
         mutation{
           registerUser(input:{emailId:"${this.state.emailId}",password:"${this.state.password}"}){
             token,
@@ -49,191 +33,221 @@ class RegisterUser extends React.Component {
           }
         }
         `,
-    };
+		};
 
-    this.setState({ spinner: true });
-    LoginFetchData(requestBody).then((response) => {
-      return response == true
-        ? this.updateRoute("dashBoard")
-        : response == false ? this.changeAlert("server is down!. we are working on it. Please try after a minute.") : this.changeAlert(response);
-    });
-  };
+		LoginFetchData(requestBody).then((response) => {
+			{
+				response == true ? dispatch(route('dashBoard')) : setspinner(false);
+				setbuttonDisabled(false);
+				response == false
+					? setalert('server is down!. we are working on it. Please try after a minute.')
+					: setalert(response);
+			}
+		});
+	};
 
-  validateField = (e) => {
-    let type = e.target.name;
-    let value = e.target.value;
+	const validateField = (e) => {
+		e.preventDefault();
+		let validation = e.target.value;
+		let fieldName = e.target.type;
 
-    switch (type) {
-      case "emailId":
-        if (
-          value.match(new RegExp(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i))
-        ) {
-          {
-            this.state.Alert
-              ? this.setState({ buttonDisabled: false })
-              : this.setState({ buttonDisabled: true })
-          }
-          this.setState({ [type]: value, Alert: false, error: "" });
-        } else this.setState({ error: "gmail is not valid", Alert: true });
+		switch (fieldName) {
+			case 'email':
+				if (validation.match(new RegExp(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i))) {
+					{
+						!passwordError && password !== '' ? setbuttonDisabled(false) : setbuttonDisabled(true);
+					}
+					setemailError(false);
+					setemailId(validation);
+					setemailStyle({ border: '1px solid green' });
+				} else {
+					setemailError(true);
+					setbuttonDisabled(true);
+					setemailStyle({ border: '1px solid red' });
+				}
+				break;
+
+			case 'password':
+				if (
+					validation.match(
+						new RegExp(
+							'^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})'
+						)
+					)
+				) {
+					{
+						!emailError && emailId !== '' ? setbuttonDisabled(false) : setbuttonDisabled(true);
+					}
+
+					setpasswordError(false);
+					setpassword(validation);
+					setpasswordStyle({ border: '1px solid green' });
+				} else {
+					setpasswordError(true);
+					setbuttonDisabled(true);
+					setpasswordStyle({ border: '1px solid red' });
+				}
         break;
-      case "password":
-        if (
-          value.match(
-            new RegExp(
-              "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
+        case 'retypePassword' :
+          if (
+            validation.match(
+              new RegExp(
+                '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})'
+              )
             )
-          )
-        ) {
+           && validation == password ){
+            setreTypePasswordError(false);
+            setpassword(validation);
+            setreTypePasswordStyle({ border: '1px solid green' });
+           }else{
+            setreTypePasswordError(true);
+            setbuttonDisabled(true);
+            setreTypePasswordStyle({ border: '1px solid red' });
+           }
+			default:
+				break;
+		}
+	};
 
-          {
-            this.state.Alert
-              ? this.setState({ buttonDisabled: false })
-              : this.setState({ buttonDisabled: true })
-          }
+	return (
+					<div className="card">
+						<article className="card-body">
+							<h5 className="card-title text-dark text-center">Sign in</h5>
+							<hr />
+							<section className="col negativeAlert px-0">
+								{alert.length > 0 ? <NegativeAlert content={alert} /> : ''}
+							</section>
+							<form>
+								<div className="form-group">
+									<div className="input-group">
+										<div className="input-group-prepend">
+											<span className="input-group-text">
+												{' '}
+												<i className="fa fa-envelope fa-xs"></i>{' '}
+											</span>
+										</div>
+										<input
+											style={emailStyle}
+											className="form-control shadow-none"
+											placeholder="EmailId"
+											type="email"
+											onChange={(event) => validateField(event)}
+										/>
+										{emailError ? (
+											<OverlayTrigger
+												placement="right"
+												delay={{ show: 250, hide: 400 }}
+												overlay={emailToolTip}
+											>
+												<i
+													style={{ color: 'red' }}
+													className="fa fa-info-circle fa-1x"
+													variant="success"
+												/>
+											</OverlayTrigger>
+										) : (
+											' '
+										)}
+									</div>
+								</div>
+								<div className="form-group">
+									<div className="input-group">
+										<div className="input-group-prepend">
+											<span className="input-group-text">
+												{' '}
+												<i className="fa fa-key fa-xs"></i>{' '}
+											</span>
+										</div>
+										<input
+											style={passwordStyle}
+											className="form-control shadow-none"
+											placeholder="******"
+											type="password"
+											onChange={(event) => validateField(event)}
+										/>
+										{passwordError ? (
+											<OverlayTrigger
+												placement="right"
+												delay={{ show: 250, hide: 400 }}
+												overlay={passwordToolTip}
+											>
+												<i
+													style={{ color: 'red' }}
+													className="fa fa-info-circle "
+													variant="success"
+												/>
+											</OverlayTrigger>
+										) : (
+											' '
+										)}
+									</div>
+								</div>
+								<div className="form-group">
+									<div className="input-group">
+										<div className="input-group-prepend">
+											<span className="input-group-text">
+												{' '}
+												<i className="fa fa-key fa-xs"></i>{' '}
+											</span>
+										</div>
+										<input
+											style={reTypePasswordStyle}
+											className="form-control shadow-none"
+											placeholder="Re-type Password"
+											type="password"
+											name="retypePassword"
+											onChange={(event) => validateField(event)}
+										/>
+										{reTypePasswordError ? (
+											<OverlayTrigger
+												placement="right"
+												delay={{ show: 250, hide: 400 }}
+												overlay={passwordToolTip}
+											>
+												<i
+													style={{ color: 'red' }}
+													className="fa fa-info-circle "
+													variant="success"
+												/>
+											</OverlayTrigger>
+										) : (
+											' '
+										)}
+									</div>
+								</div>
+								<div className="form-group">
+									<button
+										type="submit"
+										className="btn btn-success btn-block"
+										onClick={(event) => submitSignup(event)}
+										disabled={buttonDisabled}
+									>
+										{spinner ? (
+											<>
+												Registering...
+												<Spinner animation="border" size="sm" role="status" variant="dark" />
+											</>
+										) : (
+											<>Register</>
+										)}
+									</button>
+								</div>
+								<button
+									className="btn btn-info btn-sm float-left"
+									onClick={() => dispatch(FormRoute('resetpassword'))}
+								>
+									Forgot password?
+								</button>
 
-          this.setState({ [type]: value, Alert: false });
-        } else
-          this.setState({
-            error:
-              "The password must be 6 characters with one upper case and one number and one special characters ",
-            Alert: true,
-          });
-        break;
-      case "confirmPassword":
-        if (
-          value.match(
-            new RegExp(
-              "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
-            )
-          ) &&
-          value === this.state.password
-        ) {
-          {
-            this.state.Alert
-              ? this.setState({ buttonDisabled: false })
-              : this.setState({ buttonDisabled: true })
-          }
-          this.setState({ [type]: value, Alert: false, error: "" });
-        } else
-          this.setState({
-            error: "Your both password doesnt match ",
-            Alert: true,
-          });
-        break;
-      default:
-        break;
-    }
-  };
-
-  render() {
-    return (
-      <div>
-        {this.state.forgotPassword ? (
-          <ForgetPassword triggerSignup={this.triggerSignup} />) :
-          <div className="card">
-            <article className="card-body">
-              <h5 className="text-center text-dark">Register</h5>
-              <hr />
-              <section className="col negativeAlert px-0">
-                {this.state.Alert ? (
-                  <NegativeAlert
-                    content={this.state.error}
-                    changeAlert={() => this.changeAlert()}
-                  />
-                ) : (
-                    ""
-                  )}
-              </section>
-              <form>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        {" "}
-                        <i className="fa fa-envelope fa-xs"></i>{" "}
-                      </span>
-                    </div>
-                    <input
-                      className="form-control"
-                      placeholder="EmailId"
-                      type="email"
-                      name="emailId"
-                      onChange={this.validateField}
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        {" "}
-                        <i className="fa fa-key fa-xs"></i>{" "}
-                      </span>
-                    </div>
-                    <input
-                      className="form-control"
-                      placeholder="******"
-                      type="password"
-                      name="password"
-                      onChange={this.validateField}
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        {" "}
-                        <i className="fa fa-key fa-xs"></i>{" "}
-                      </span>
-                    </div>
-                    <input
-                      className="form-control"
-                      placeholder="Re-type your password"
-                      type="password"
-                      name="confirmPassword"
-                      onChange={this.validateField}
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <button
-                    type="submit"
-                    className="btn btn-success btn-block"
-                    onClick={this.submitSignup}
-                  >
-                    {this.state.spinner ? (
-                      <>
-                        Registering ...
-                    <Spinner
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          variant="dark"
-                          disabled={this.state.buttonDisabled}
-                        />
-                      </>
-                    ) : (
-                        <>Register</>
-                      )}
-                  </button>
-                </div>
-                <button className="btn btn-info btn-md float-left" onClick={() => this.setState({ forgotPassword: true })}>
-                  Forgot password?
-            </button>
-                <button
-                  className="btn btn-info  btn-md"
-                  onClick={this.props.triggerSignup}
-                  style={{ float: "right" }}
-                >
-                  Sign In
-            </button>
-              </form>
-            </article>
-          </div>
-        }
-      </div>
-    );
-  }
+								<button
+									className="btn btn-info btn-sm float-right"
+									onClick={() => dispatch(FormRoute('signUp'))}
+								>
+									Sign Up
+								</button>
+							</form>
+						</article>
+					</div>
+	);
 }
-export default withRouter(RegisterUser);
+export default RegisterUser;

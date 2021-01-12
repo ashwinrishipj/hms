@@ -1,46 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import RegisterUser from "./registerForm";
 import { LoginFetchData } from "../helpers/Fetch";
 import NegativeAlert from "../Alerts/NegativeAlert";
-import Spinner from "../../node_modules/react-bootstrap/Spinner";
-import { connect ,useSelector } from "react-redux";
-import { route,FormRoute } from "../redux/actions";
+import { OverlayTrigger, Spinner } from "react-bootstrap";
+import { withRouter } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { route, FormRoute } from "../redux/actions";
 import ForgetPassword from "./ForgotPassword";
+import { emailToolTip, passwordToolTip } from "../Alerts/emailToolTip";
 
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      emailIdError: "",
-      passwordError: "",
-      emailId: "",
-      password: "",
-      alert: false,
-      content: "",
-      signup: false,
-      spinner: false,
-      buttonDisabled: true,
-      forgotPassword: false
-    };
-  }
+function LoginForm() {
+  const [emailError, setemailError] = useState(false);
+  const [passwordError, setpasswordError] = useState(false);
+  const [buttonDisabled, setbuttonDisabled] = useState(true);
+  const [emailId, setemailId] = useState("");
+  const [password, setpassword] = useState("");
+  const [spinner, setspinner] = useState(false);
+  const [alert, setalert] = useState("")
+  const [emailStyle, setemailStyle] = useState({});
+  const [passwordStyle, setpasswordStyle] = useState({});
 
-  setAlert = (contentText) => {
-    this.setState({
-      alert: true,
-      content: contentText,
-      spinner: false,
-    });
-  };
+  const dispatch = useDispatch();
+  const formRoute = useSelector(state => state.FormRoute);
 
-  unsetAlert = () => {
-    this.setState({ alert: false });
-  };
-
-  triggerSignup = () => {
-    this.setState({ signup: !this.state.signup });
-  };
-
-  validateField = (e) => {
+  const validateField = (e) => {
     e.preventDefault();
     let validation = e.target.value;
     let fieldName = e.target.type;
@@ -52,18 +35,18 @@ class LoginForm extends React.Component {
             new RegExp(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)
           )
         ) {
-          this.state.passwordError === ""
-            ? this.setState({ buttonDisabled: false })
-            : this.setState({ buttonDisabled: true });
-
-          this.setState({
-            emailIdError: "",
-            emailId: validation,
-            alert: false,
-          });
+          {
+            (!passwordError && password !== "")
+              ? setbuttonDisabled(false)
+              : setbuttonDisabled(true)
+          }
+          setemailError(false);
+          setemailId(validation);
+          setemailStyle({ border: "1px solid green" });
         } else {
-          this.setAlert("Enter valid Email Id");
-          this.setState({ emailIdError: "email error", buttonDisabled: true });
+          setemailError(true);
+          setbuttonDisabled(true);
+          setemailStyle({ border: "1px solid red" });
         }
         break;
 
@@ -75,21 +58,20 @@ class LoginForm extends React.Component {
             )
           )
         ) {
-          this.state.emailIdError === ""
-            ? this.setState({ buttonDisabled: false })
-            : this.setState({ buttonDisabled: true });
+          {
+            (!emailError && emailId !== "")
+              ? setbuttonDisabled(false)
+              : setbuttonDisabled(true)
+          }
 
-          this.setState({
-            passwordError: "",
-            password: validation,
-            alert: false,
-          });
+          setpasswordError(false);
+          setpassword(validation);
+          setpasswordStyle({ border: "1px solid green" });
+
         } else {
-          this.setAlert("Try aplha numeric with a digit");
-          this.setState({
-            passwordError: "password Error",
-            buttonDisabled: true,
-          });
+          setpasswordError(true);
+          setbuttonDisabled(true);
+          setpasswordStyle({ border: "1px solid red" });
         }
         break;
       default:
@@ -97,15 +79,16 @@ class LoginForm extends React.Component {
     }
   };
 
-  onSubmitSignIn = (e) => {
+
+  const onSubmitSignIn = (e) => {
     e.preventDefault();
 
-    // this.updateRoute("dashBoard");
+    // updateRoute("dashBoard");
 
     let requestBody = {
       query: ` query{
         validateUser(input:{
-          emailId:"${this.state.emailId}",password :"${this.state.password}"
+          emailId:"${emailId}",password :"${password}"
         }){
           token,
           tokenExpiration,
@@ -114,122 +97,132 @@ class LoginForm extends React.Component {
       }
       `,
     };
-
-    this.setState({ spinner: true });
+    setspinner(true);
     LoginFetchData(requestBody).then((response) => {
-      return response == true
-        ? this.updateRoute("dashBoard")
-        : response == false ? this.setAlert("server is down!. we are working on it. Please try after a minute.") : this.setAlert(response);
+      {
+        response == true
+        ? dispatch(route("dashBoard"))
+        :
+        setspinner(false)
+        setbuttonDisabled(false)
+        response == false ? setalert("server is down!. we are working on it. Please try after a minute.") : setalert(response);
+      }
     });
   }
 
-  updateRoute = (data) => {
-    const { route } = this.props;
-    route(data);
-  }
 
-  updateFormRoute = (pageName) =>{
-    const { FormRoute } = this.props;
-    FormRoute(pageName);
-  }
-  render() {
-    return (
-      <div>
-        <aside className="col mt-4 card-transparent">
-          {this.state.signup ? (
-            <RegisterUser triggerSignup={this.triggerSignup} />
-          ) : (
-              <div>
-                {this.state.forgotPassword ? (
-                  <ForgetPassword triggerSignup={this.triggerSignup} />
-                ) : (
-                    <div className="card">
-                      <article className="card-body">
-                        <h5 className="card-title text-dark text-center">Sign in</h5>
-                        <hr />
-                        <section className="col negativeAlert px-0">
-                          {this.state.alert ? (
-                            <NegativeAlert
-                              changeAlert={this.unsetAlert}
-                              content={this.state.content}
-                            />
-                          ) : (
-                              ""
-                            )}
-                        </section>
-                        <form>
-                          <div className="form-group">
-                            <div className="input-group">
-                              <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                  {" "}
-                                  <i className="fa fa-envelope fa-xs"></i>{" "}
-                                </span>
-                              </div>
-                              <input
-                                className="form-control shadow-none"
-                                placeholder="EmailId"
-                                type="email"
-                                onChange={this.validateField}
-                              />
-                            </div>
-                          </div>
-                          <div className="form-group">
-                            <div className="input-group">
-                              <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                  {" "}
-                                  <i className="fa fa-key fa-xs"></i>{" "}
-                                </span>
-                              </div>
-                              <input
-                                className="form-control shadow-none"
-                                placeholder="******"
-                                type="password"
-                                onChange={this.validateField}
-                              />
-                            </div>
-                          </div>
-                          <div className="form-group">
-                            <button
-                              type="submit"
-                              className="btn btn-success btn-block"
-                              onClick={this.onSubmitSignIn}
-                              disabled={this.state.buttonDisabled}
-                            >
-                              {this.state.spinner ? (
-                                <>
-                                  Loging In...
+  return (
+    <div>
+      <aside className="col mt-4 card-transparent">
+        {formRoute === "signUp" ? <RegisterUser /> :
+          <div>
+            {formRoute === "resetpassword" ? <ForgetPassword /> :
+              <div className="card">
+                <article className="card-body">
+                  <h5 className="card-title text-dark text-center">Sign in</h5>
+                  <hr />
+                  <section className="col negativeAlert px-0">
+                    {alert.length > 0 ? (
+                      <NegativeAlert
+                        content={alert}
+                      />
+                    ) : (
+                        ""
+                      )}
+                  </section>
+                  <form>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            {" "}
+                            <i className="fa fa-envelope fa-xs"></i>{" "}
+                          </span>
+                        </div>
+                        <input
+                          style={emailStyle}
+                          className="form-control shadow-none"
+                          placeholder="EmailId"
+                          type="email"
+                          onChange={(event) => validateField(event)}
+                        />
+                        {emailError ?
+                          <OverlayTrigger
+                            placement="right"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={emailToolTip}
+                          >
+                            <i style={{ color: "red" }} className="fa fa-info-circle fa-1x" variant="success" />
+                          </OverlayTrigger>
+                          : " "}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            {" "}
+                            <i className="fa fa-key fa-xs"></i>{" "}
+                          </span>
+                        </div>
+                        <input
+                          style={passwordStyle}
+                          className="form-control shadow-none"
+                          placeholder="******"
+                          type="password"
+                          onChange={(event) => validateField(event)}
+                        />
+                        {passwordError ?
+                          <OverlayTrigger
+                            placement="right"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={passwordToolTip}
+                          >
+                            <i style={{ color: "red" }} className="fa fa-info-circle " variant="success" />
+                          </OverlayTrigger>
+                          : " "}
+                      </div>
+
+                    </div>
+                    <div className="form-group">
+                      <button
+                        type="submit"
+                        className="btn btn-success btn-block"
+                        onClick={(event) => onSubmitSignIn(event)}
+                        disabled={buttonDisabled}
+                      >
+                        {spinner ? (
+                          <>
+                            Loging In...
                           <Spinner
-                                    animation="border"
-                                    size="sm"
-                                    role="status"
-                                    variant="dark"
-                                  />
-                                </>
-                              ) : (
-                                  <>Login</>
-                                )}
-                            </button>
-                          </div>
-                          <button className="btn btn-info btn-sm float-left" onClick={() => { this.setState({ forgotPassword: true }) }}>
-                            Forgot password?
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              variant="dark"
+                            />
+                          </>
+                        ) : (
+                            <>Login</>
+                          )}
+                      </button>
+                    </div>
+                    <button className="btn btn-info btn-sm float-left" onClick={() => dispatch(FormRoute("resetpassword"))}>
+                      Forgot password?
                            </button>
 
-                          <button
-                            className="btn btn-info btn-sm float-right"
-                            onClick={this.triggerSignup}
-                          >
-                            Sign Up
+                    <button
+                      className="btn btn-info btn-sm float-right"
+                      onClick={() => dispatch(FormRoute("signUp"))}
+                    >
+                      Sign Up
                           </button>
-                        </form>
-                      </article>
-                    </div>)}
+                  </form>
+                </article>
               </div>
-            )}
-        </aside>
-      </div>
-    );
-  }
+            }
+          </div>}
+      </aside>
+    </div>
+  );
 }
-export default connect(null, { route, FormRoute })(LoginForm); 
+export default withRouter(LoginForm); 

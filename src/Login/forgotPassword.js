@@ -11,7 +11,7 @@ function ForgetPassword(props) {
     const [emailId, setemailId] = useState("");
     const [OTPSent, setOTPSent] = useState(false);
     const [verficationCode, setverficationCode] = useState();
-    const [OTPVerified, setOTPVerified] = useState(false)
+    const [OTPVerified, setOTPVerified] = useState(false);
 
     const unsetAlert = () => {
         seterror("");
@@ -96,6 +96,7 @@ function ForgetPassword(props) {
     }
 
     return (
+        
         <div className="card">
             <article className="card-body">
                 <h5 className="card-title text-dark text-center">forgotPassword</h5>
