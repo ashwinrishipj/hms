@@ -1,5 +1,5 @@
-import React from 'react';
-import { Row, Breadcrumb, Nav, Col, Modal, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Nav, Col, Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggle, currentPage } from '../redux/actions';
 
@@ -27,9 +27,9 @@ export default function SideBar() {
     const navigationIsSet = useSelector((state) => state.toggleSideBar);
     const profilFormIsComplete = true;
     const [modalShow, setModalShow] = React.useState(false);
+    const [onScrollUser, setonScrollUser] = useState(false);
 
     const dispatch = useDispatch();
-
     const currentPageName = useSelector(state => state.currentPage);
 
     const updateRoute = (e) => {
@@ -43,25 +43,23 @@ export default function SideBar() {
     return (
         <>
             <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false)} />
+            {onScrollUser ?
+                <Button style={{ backgroundColor: "rgba(0,123,255,.25)" }} className="sidebar-profile" onClick={() => dispatch(toggle())}>
+                    <i className="fa fa-bars" aria-hidden="true"></i>
+                </Button> : " "}
             {navigationIsSet ? (
-                <Col className="mt-2 sidebar-profile " md={1}>
-                    <Button style={{ backgroundColor: "rgba(0,123,255,.25)" }} onClick={() => dispatch(toggle())}>
-                        <i className="fa fa-bars" aria-hidden="true"></i>
-                        <span className="text-light" >
-                            {currentPageName}
-                        </span>
-                    </Button>
-                    <div className="list-group sidebar-background mt-4 " role="tablist">
+
+                <Col className="mt-2 sidebar-profile" md={1}>
+                    <div className="list-group sidebar-background" role="tablist">
                         <span className="arrow-head" />
-                        <Nav className="flex-css-nav-link" onClick={(e) => updateRoute(e)}>
-                            <span className="text-warning">Basics:</span>
+                        <span className="text-warning">Basics:</span>
+                        <Nav className="flex-css-nav-link mt-2" onClick={(e) => updateRoute(e)}>
                             <Nav.Link className="text-color fa fa-home fa-lg mt-2" name="home" />
                             <Nav.Link className="text-color fa fa-hospital-o fa-lg mt-2" name="appointments" />
                             <Nav.Link className="text-color fa fa-file-text fa-lg mt-2" name="appointmentLists" />
                         </Nav>
-
-                        <Nav className="flex-css-nav-link mt-4" onClick={(e) => updateRoute(e)}>
-                            <span className="text-warning">Apps</span>
+                        <span className="text-warning mt-2">Apps</span>
+                        <Nav className="flex-css-nav-link mt-2" onClick={(e) => updateRoute(e)}>
                             <Nav.Link name="toDoList" className="text-color fa fa-tasks fa-lg mt-2" />
                             <Nav.Link name="calendar" className="text-color fa fa-calendar fa-lg mt-2" />
                             <Nav.Link name="notes" className="text-color fa fa-sticky-note-o fa-lg mt-2" />
@@ -71,14 +69,9 @@ export default function SideBar() {
                 </Col>
             ) : (
                     <Col className="mt-2 sidebar-profile" md={2}>
-                        <Button style={{ backgroundColor: "rgba(0,123,255,.25)" }} onClick={() => dispatch(toggle())}>
-                            <i className="fa fa-bars" aria-hidden="true"></i>
-                            <span className="text-light ml-4" >
-                                {currentPageName}
-                            </span>
-                        </Button>
-                        <div className="list-group sidebar-background mt-4" role="tablist">
+                        <div className="list-group sidebar-background" role="tablist">
                             <Nav className="flex-css-nav-link" onClick={(e) => updateRoute(e)}>
+                                <span className="arrow-head" />
                                 <span className="text-warning">Basics:</span>
                                 <Nav.Link className="text-color fa fa-home mt-2" name="home">
                                     {' '}

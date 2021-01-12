@@ -12,7 +12,6 @@
 
 .flex-css-nav-link {
 	display: flex;
-	width: 100%;
 	text-align: start;
 	justify-content: center;
 	align-items: center;
@@ -26,12 +25,12 @@
 	color: whitesmoke !important;
 }
 .flex-css-nav-link :hover {
-	color: white !important;
+	color: aquamarine !important;
 	border: none;
 	transform: scale(1.5);
 }
 .flex-css-nav-link :focus {
-	color: white !important;
+	color: aquamarine !important;
 	transform: scale(1.5);
 }
 
@@ -205,16 +204,23 @@ input[type='color']:focus,
 .sidebar-background {
 	background-color: rgba(0, 123, 255, 0.25) !important;
 	color: whitesmoke !important;
-	border: 1px solid #007bff !important;
 }
 .arrow-head {
-	position: inherit;
-	width: 10px;
-	height: 10px;
-	border: 1px solid #007bff !important;
-	transform: rotate(45deg);
-	top: 10px;
-	left: 100px;
-	border-right: none !important;
-	border-bottom: none !important;
+	content: '';
+	position: absolute;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid rgba(0, 123, 255, 0.25);
+	top: -5px;
+	left: 40px;
+	transform: translate(-50%);
+}
+.navbar-background {
+	background-color: #1e1e2e !important;
+}
+.warning {
+	-webkit-user-select: none; /* Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none;
 }

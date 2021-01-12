@@ -94,6 +94,11 @@ function Home() {
         }
     }, [])
 
+    const validateEscape = (e)=>{
+        if (e.keyCode === 27){
+            setisCountrySuggested(false);
+        }
+    }
     const selectedCountry = (data) => {
         setcountrySuggestions([]);
         setisCountrySuggested(false);
@@ -108,7 +113,7 @@ function Home() {
                     <Col >
                         <h5 className="text-primary mt-4">Covid-19 Tracker </h5>
                         <div className="text-center">
-                            <input autoComplete="off" className="form-control align-items-center " value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." />
+                            <input autoComplete="nope" onKeyDown={(e)=>validateEscape(e)} className="form-control align-items-center " value={defaultCountryValue} style={{ width: "30%" }} id="myInput" onChange={(e) => getCountrySuggestionList(e)} type="text" placeholder="Search Country!." />
                             <ul className="list-group scroll-auto home-list" id="myList">
                                 {isCountrySuggestied ?
                                     <>

@@ -3,6 +3,9 @@ import NegativeAlert from "../Alerts/NegativeAlert";
 import { LoginFetchData } from "../helpers/Fetch";
 import { withRouter } from "react-router-dom";
 import Spinner from "../../node_modules/react-bootstrap/Spinner";
+import { connect } from "react-redux";
+import { route } from "../redux/actions";
+import ForgetPassword from "./ForgotPassword";
 
 class RegisterUser extends React.Component {
   constructor(props) {
@@ -15,7 +18,14 @@ class RegisterUser extends React.Component {
       error: "",
       Alert: false,
       spinner: false,
+      buttonDisabled: true,
+      forgotPassword: false
     };
+  }
+
+  updateRoute = (data) => {
+    const { route } = this.props;
+    route(data);
   }
 
   changeAlert = (contentText) => {
@@ -44,7 +54,7 @@ class RegisterUser extends React.Component {
     this.setState({ spinner: true });
     LoginFetchData(requestBody).then((response) => {
       return response == true
-        ? this.props.updateHomeRoute("dashBoard")
+        ? this.updateRoute("dashBoard")
         : response == false ? this.changeAlert("server is down!. we are working on it. Please try after a minute.") : this.changeAlert(response);
     });
   };
@@ -58,6 +68,11 @@ class RegisterUser extends React.Component {
         if (
           value.match(new RegExp(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i))
         ) {
+          {
+            this.state.Alert
+              ? this.setState({ buttonDisabled: false })
+              : this.setState({ buttonDisabled: true })
+          }
           this.setState({ [type]: value, Alert: false, error: "" });
         } else this.setState({ error: "gmail is not valid", Alert: true });
         break;
@@ -69,6 +84,13 @@ class RegisterUser extends React.Component {
             )
           )
         ) {
+
+          {
+            this.state.Alert
+              ? this.setState({ buttonDisabled: false })
+              : this.setState({ buttonDisabled: true })
+          }
+
           this.setState({ [type]: value, Alert: false });
         } else
           this.setState({
@@ -86,6 +108,11 @@ class RegisterUser extends React.Component {
           ) &&
           value === this.state.password
         ) {
+          {
+            this.state.Alert
+              ? this.setState({ buttonDisabled: false })
+              : this.setState({ buttonDisabled: true })
+          }
           this.setState({ [type]: value, Alert: false, error: "" });
         } else
           this.setState({
@@ -100,106 +127,111 @@ class RegisterUser extends React.Component {
 
   render() {
     return (
-      <div className="card">
-        <article className="card-body">
-          <h5 className="text-center text-dark">Register</h5>
-          <hr />
-          <section className="col negativeAlert px-0">
-            {this.state.Alert ? (
-              <NegativeAlert
-                content={this.state.error}
-                changeAlert={() => this.changeAlert()}
-              />
-            ) : (
-                ""
-              )}
-          </section>
-          <form>
-            <div className="form-group">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    {" "}
-                    <i className="fa fa-envelope fa-xs"></i>{" "}
-                  </span>
-                </div>
-                <input
-                  className="form-control"
-                  placeholder="EmailId"
-                  type="email"
-                  name="emailId"
-                  onChange={this.validateField}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    {" "}
-                    <i className="fa fa-key fa-xs"></i>{" "}
-                  </span>
-                </div>
-                <input
-                  className="form-control"
-                  placeholder="******"
-                  type="password"
-                  name="password"
-                  onChange={this.validateField}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    {" "}
-                    <i className="fa fa-key fa-xs"></i>{" "}
-                  </span>
-                </div>
-                <input
-                  className="form-control"
-                  placeholder="Re-type your password"
-                  type="password"
-                  name="confirmPassword"
-                  onChange={this.validateField}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <button
-                type="submit"
-                className="btn btn-success btn-block"
-                onClick={this.submitSignup}
-              >
-                {this.state.spinner ? (
-                  <>
-                    Registering ...
-                    <Spinner
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      variant="dark"
-                    />
-                  </>
+      <div>
+        {this.state.forgotPassword ? (
+          <ForgetPassword triggerSignup={this.triggerSignup} />) :
+          <div className="card">
+            <article className="card-body">
+              <h5 className="text-center text-dark">Register</h5>
+              <hr />
+              <section className="col negativeAlert px-0">
+                {this.state.Alert ? (
+                  <NegativeAlert
+                    content={this.state.error}
+                    changeAlert={() => this.changeAlert()}
+                  />
                 ) : (
-                    <>Register</>
+                    ""
                   )}
-              </button>
-            </div>
-            <button className="btn btn-info btn-md float-left">
-              Forgot password?
+              </section>
+              <form>
+                <div className="form-group">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">
+                        {" "}
+                        <i className="fa fa-envelope fa-xs"></i>{" "}
+                      </span>
+                    </div>
+                    <input
+                      className="form-control"
+                      placeholder="EmailId"
+                      type="email"
+                      name="emailId"
+                      onChange={this.validateField}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">
+                        {" "}
+                        <i className="fa fa-key fa-xs"></i>{" "}
+                      </span>
+                    </div>
+                    <input
+                      className="form-control"
+                      placeholder="******"
+                      type="password"
+                      name="password"
+                      onChange={this.validateField}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">
+                        {" "}
+                        <i className="fa fa-key fa-xs"></i>{" "}
+                      </span>
+                    </div>
+                    <input
+                      className="form-control"
+                      placeholder="Re-type your password"
+                      type="password"
+                      name="confirmPassword"
+                      onChange={this.validateField}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <button
+                    type="submit"
+                    className="btn btn-success btn-block"
+                    onClick={this.submitSignup}
+                  >
+                    {this.state.spinner ? (
+                      <>
+                        Registering ...
+                    <Spinner
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          variant="dark"
+                          disabled={this.state.buttonDisabled}
+                        />
+                      </>
+                    ) : (
+                        <>Register</>
+                      )}
+                  </button>
+                </div>
+                <button className="btn btn-info btn-md float-left" onClick={() => this.setState({ forgotPassword: true })}>
+                  Forgot password?
             </button>
-
-            <button
-              className="btn btn-info  btn-md"
-              onClick={this.props.triggerSignup}
-              style={{ float: "right" }}
-            >
-              Sign In
+                <button
+                  className="btn btn-info  btn-md"
+                  onClick={this.props.triggerSignup}
+                  style={{ float: "right" }}
+                >
+                  Sign In
             </button>
-          </form>
-        </article>
+              </form>
+            </article>
+          </div>
+        }
       </div>
     );
   }

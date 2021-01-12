@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Form, Button, InputGroup, Modal, Toast, ModalDialog } from 'react-bootstrap';
-import { hospitalLIst } from './HospitalList';
+import { Card, Row, Col, Form, Button, InputGroup, Modal, Toast, CardColumns, CardDeck } from 'react-bootstrap';
+import { hospitalLIst, ProvinceList } from './HospitalList';
 
 export default function AppointmentSchedule() {
 	const [validated, setValidated] = useState(false);
@@ -263,7 +263,7 @@ export default function AppointmentSchedule() {
 				) : (
 						<div>
 							<Form.Label>List of departments:</Form.Label>
-							<ul className="list-unstyled scroll-auto mt-3">
+							<ul className="scroll-auto mt-3">
 								<Card className="rounded-border">
 									<li className="media">
 										<img src={require('./images/opd.png')} width="50" height="60" className="mr-3 " alt="..." />
@@ -345,7 +345,7 @@ export default function AppointmentSchedule() {
 						</Modal.Footer>
 					</Modal>
 
-					<div className="col-lg-8">
+					<div className="col-lg-10">
 						<Form.Group controlId="exampleForm.ControlSelect1">
 							<Form.Label>Select Your Province</Form.Label>
 							<Form.Control sm={12} as="select" onChange={(e) => handleForm(e)}>
@@ -357,7 +357,7 @@ export default function AppointmentSchedule() {
 								<option value="Quebec">Quebec</option>
 							</Form.Control>
 						</Form.Group>
-						<div className="scroll-auto">
+						<div >
 							{isSearched ? (
 								hospitalList.map((data, index) => {
 									return (
@@ -387,83 +387,30 @@ export default function AppointmentSchedule() {
 									);
 								})
 							) : (
-									<div>
-										<Card className="rounded-border" >
-											<li className="media">
-												<img src={require('./images/province/BC.png')} width="50" height="60" className="mr-3 " alt="..." />
-												<div className="media-body">
-													<h5 className="mt-0 mb-1">British Coloumbia: </h5>
-													<li>Physician services</li>
-													<li>Medically necessary eye exams</li>
-													<li>Diagnostic services</li>
-													<li>Supplemental insurance is strongly recommended</li>
-													<li>Some orthodontic services</li>
-													<Button variant="outline-warning" href="http://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/benefits/services-covered-by-msp" target="_blank">Know More...</Button>
-												</div>
-											</li>
 
-										</Card>
-										<Card className="rounded-border mt-2" >
-											<li className="media">
-												<img src={require('./images/province/Alberta.png')} width="50" height="60" className="mr-3 " alt="..." />
-												<div className="media-body">
-													<h5 className="mt-0 mb-1">Alberta: </h5>
-													<li>Physician services, hospital services, surgery</li>
-													<li>Standard ward hospitalization and drugs administered in a hospital</li>
-													<li>Psychiatric visits.</li>
-													<li>Oral surgery in hospital</li>
-													<li>Podiatry is eligible to an extent</li>
+									<CardColumns>
+										{ProvinceList.map((data, key) => {
+											return (
+												<>
+													<Card
+														text={"white"}
+														className="mt-2 text-light rounded-border"
+														key={key}
+													>
+														<Card.Img variant="top" src={require(`./images/province/${data.image}`)} />
+														<Card.Body>
+															<Card.Title text={"dark"}> {data.name}</Card.Title>
+															<Card.Text>
+																{data.features}
+															</Card.Text>
+															<Button variant="outline-warning" className="mt-2" href={data.link} target="_blank">Read More...</Button>
 
-													<Button variant="outline-warning" href="https://www.alberta.ca/ahcip-what-is-covered.aspx" target="_blank">Know More...</Button>
-												</div>
-											</li>
-										</Card>
-										<Card className="rounded-border mt-2">
-											<li className="media">
-												<img src={require('./images/province/Manitoba.jpg')} width="50" height="60" className="mr-3 " alt="..." />
-												<div className="media-body">
-													<h5 className="mt-0 mb-1">Manitoba: </h5>
-													<li>Physician services, surgery / anaesthesia, x-ray and laboratory services are covered</li>
-													<li>Dental surgery is reimbursed when hospitalization is required</li>
-													<li>Ambulance fees are covered</li>
-													<li>Chiropractic care is eligible up to seven visits per calendar year</li>
-													<li>Supplemental insurance is strongly recommended</li>
-
-													<Button variant="outline-warning" href="https://www.gov.mb.ca/health/mhsip/index.html" target="_blank">Know More...</Button>
-												</div>
-											</li>
-										</Card>
-										<Card className="rounded-border mt-2" >
-											<li className="media">
-												<img src={require('./images/province/ontario.jpeg')} width="50" height="60" className="mr-3 " alt="..." />
-												<div className="media-body">
-													<h5 className="mt-0 mb-1">Ontario: </h5>
-													<li>Doctor visits, including those at walk-in clinics</li>
-													<li> Dental surgery when performed in hospital</li>
-													<li>Prescription drugs: coverage is available for people up to age 25. There is a senior drug  for seniors over age 64</li>
-													<li>Ambulance services are covered to an extent, </li>
-													<li>Supplemental insurance is strongly recommended</li>
-
-													<Button variant="outline-warning" href="https://www.ontario.ca/page/what-ohip-covers" target="_blank">Know More...</Button>
-												</div>
-											</li>
-										</Card>
-										<Card className="rounded-border mt-2" >
-											<li className="media">
-												<img src={require('./images/province/Quebec.png')} width="50" height="60" className="mr-3 " alt="..." />
-												<div className="media-body">
-													<h5 className="mt-0 mb-1">Quebec: </h5>
-													<li>General practitioner and specialist physician services only by those who have not withdrawn from RAMQ</li>
-													<li>Cortisone, eye drops</li>
-													<li>Medical procedures (e.g. surgery) and anesthetics</li>
-													<li>Urine and glycemia tests</li>
-													<li>Supplemental Insurance is strongly recommended</li>
-
-													<Button variant="outline-warning" href="http://www.ramq.gouv.qc.ca/en/citizens/health-insurance/covered-services/Pages/covered-services-accessory-costs.aspx" target="_blank">Know More...</Button>
-												</div>
-											</li>
-										</Card>
-									</div>
+														</Card.Body>
+													</Card>
+												</>
+											);
+										})}
+									</CardColumns>
 								)}
 						</div>
 						<div className="row">
@@ -471,7 +418,7 @@ export default function AppointmentSchedule() {
 						</div>
 					</div>
 
-					<div className="col-lg-3 ">
+					<div className="col-lg-2 ">
 						<Form.Label>Last Scheduled appointments in this session:</Form.Label>
 						{isAppointmentScheduled ? (
 							<div >

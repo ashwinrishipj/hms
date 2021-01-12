@@ -209,3 +209,40 @@ export const hospitalLIst = {
 		},
 	],
 };
+
+
+export const ProvinceList = [{
+	key: 1,
+	image: 'BC.png',
+	name: 'British Coloumbia',
+	link: "http://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/benefits/services-covered-by-msp",
+	features: "	Physician services ,Medically necessary eye exams,Diagnostic services ,Supplemental insurance is strongly recommended ,Some orthodontic services"
+},
+{
+	key: 2,
+	image: 'Alberta.png',
+	name: 'Alberta',
+	link: "https://www.alberta.ca/ahcip-what-is-covered.aspx",
+	features:
+		" Physician services, hospital services, surgery , Standard ward hospitalization and drugs administered in a hospital,Psychiatric visits, Oral surgery in hospital, Podiatry is eligible to an extent"
+}, {
+	key: 3,
+	image: 'Manitoba.jpg',
+	link: "https://www.gov.mb.ca/health/mhsip/index.html",
+	name: 'Manitoba',
+	features: "Physician services, surgery / anaesthesia, x-ray and laboratory services are covered, Dental surgery is reimbursed when hospitalization is required,Ambulance fees are covered Chiropractic care is eligible up to seven visits per calendar year,Supplemental insurance is strongly recommended "
+},
+{
+	key: 4,
+	image: 'ontario.jpeg',
+	name: 'Ontario',
+	link: "https://www.ontario.ca/page/what-ohip-covers",
+	features: 'Doctor visits, including those at walk-in clinics, Dental surgery when performed in hospital,Prescription drugs: coverage is available for people up to age 25. There is a senior drug  for seniors over age 6,Ambulance services are covered to an extent,Supplemental insurance is strongly recommended'
+},
+{
+	key: 5,
+	image: 'Quebec.png',
+	name: 'Quebec',
+	link: "http://www.ramq.gouv.qc.ca/en/citizens/health-insurance/covered-services/Pages/covered-services-accessory-costs.aspx",
+	features: 'General practitioner and specialist physician services only by those who have not withdrawn from RAMQ,Cortisone, eye drop,Medical procedures (e.g. surgery) and anesthetics ,Urine and glycemia test,Supplemental Insurance is strongly recommended'
+}];
