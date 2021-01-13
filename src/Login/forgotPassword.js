@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
 import NegativeAlert from "../Alerts/NegativeAlert";
+import { useDispatch } from "react-redux";
+import { FormRoute } from "../redux/actions";
 
-function ForgetPassword(props) {
+function ForgetPassword() {
 
     const [error, seterror] = useState("");
     const [spinner, setSpinner] = useState(false);
@@ -13,10 +15,37 @@ function ForgetPassword(props) {
     const [verficationCode, setverficationCode] = useState();
     const [OTPVerified, setOTPVerified] = useState(false);
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const dispatch = useDispatch();
+
     const unsetAlert = () => {
         seterror("");
         setalert(false);
         setbuttonDisabled(false);
+    }
+
+    const forgotPasswordForm = () => {
+        return (
+            <>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                  </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                  </Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
+        );
     }
 
     const validateEmail = () => {
@@ -43,19 +72,27 @@ function ForgetPassword(props) {
             })
                 .then((response) => response.json())
                 .then((responseJSON) => {
-                    responseJSON.data.resetPassword
-                        ? setOTPSent(true)
-                        : setOTPSent(false)
+                    setSpinner(false);
+                    if (responseJSON.data.resetPassword) {
+                        setOTPVerified(true)
+                        handleShow();
+                    }
+                    else {
+                        setOTPVerified(false)
+                    }
                 })
                 .catch((error) => console.error('error in fetching todo:', error));
 
+
         } else {
             let requestBody = {
-                query: `query{s
-                        resetPassword(input:{
-                        emailId:'${emailId}',
-                      })
-                    } `,
+                query: `
+                query{
+                    resetPassword(input:{
+                    emailId:"${emailId}"
+                  })
+                }
+                `,
             }
 
             fetch('http://localhost:4000/graphql', {
@@ -68,9 +105,10 @@ function ForgetPassword(props) {
             })
                 .then((response) => response.json())
                 .then((responseJSON) => {
+                    setSpinner(false);
                     responseJSON.data.resetPassword
-                        ? setOTPVerified(true)
-                        : setOTPVerified(false)
+                        ? setOTPSent(true)
+                        : setOTPSent(false)
                 })
                 .catch((error) => console.error('error in fetching todo:', error));
         }
@@ -88,7 +126,7 @@ function ForgetPassword(props) {
                 setalert(true);
             }
         } else {
-            if (event.target.value.length() > 6) {
+            if (event.target.value.length > 5) {
                 unsetAlert("");
                 setverficationCode(event.target.value);
             }
@@ -96,89 +134,91 @@ function ForgetPassword(props) {
     }
 
     return (
-        
-        <div className="card">
-            <article className="card-body">
-                <h5 className="card-title text-dark text-center">forgotPassword</h5>
-                <hr />
-                <section className="col negativeAlert px-0">
-                    {alert ? (
-                        <NegativeAlert
-                            content={error}
-                        />
-                    ) : (
-                            ""
-                        )}
-                </section>
-                <form>
-                    <div className="form-group">
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    {" "}
-                                    <i className="fa fa-envelope fa-xs"></i>{" "}
-                                </span>
-                            </div>
-                            <input
-                                className="form-control shadow-none"
-                                placeholder="EmailId"
-                                type="email"
-                                name="emailId"
-                                onChange={(e) => validateField(e)}
+        <div>
+            {show ? forgotPasswordForm() : ""}
+            <div className="card">
+                <article className="card-body">
+                    <h5 className="card-title text-dark text-center">forgotPassword</h5>
+                    <hr />
+                    <section className="col negativeAlert px-0">
+                        {alert ? (
+                            <NegativeAlert
+                                content={error}
                             />
-                        </div>
-                    </div>
-                    {OTPSent ?
+                        ) : (
+                                ""
+                            )}
+                    </section>
+                    <form>
                         <div className="form-group">
                             <div className="input-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">
                                         {" "}
-                                        <i className="fa fa-key fa-xs"></i>{" "}
+                                        <i className="fa fa-envelope fa-xs"></i>{" "}
                                     </span>
                                 </div>
                                 <input
                                     className="form-control shadow-none"
-                                    placeholder="Enter OTP Here"
-                                    type="password"
-                                    name="otp"
+                                    placeholder="EmailId"
+                                    type="email"
+                                    name="emailId"
                                     onChange={(e) => validateField(e)}
                                 />
                             </div>
                         </div>
-                        : " "}
-                    <div className="form-group">
-                        <button
-                            type="submit"
-                            className="btn btn-success btn-block"
-                            onClick={() => validateEmail()}
-                            disabled={buttonDisabled}
-                        >
-                            {spinner ? (
-                                <>
-                                    Validating...
-                                    <Spinner
-                                        animation="border"
-                                        size="sm"
-                                        role="status"
-                                        variant="dark"
+                        {OTPSent ?
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text">
+                                            {" "}
+                                            <i className="fa fa-key fa-xs"></i>{" "}
+                                        </span>
+                                    </div>
+                                    <input
+                                        className="form-control shadow-none"
+                                        placeholder="Enter OTP Here"
+                                        type="number"
+                                        name="otp"
+                                        onChange={(e) => validateField(e)}
                                     />
-                                </>
-                            ) : (
-                                    <>Submit</>
-                                )}
-                        </button>
-                    </div>
-                    <button className="btn btn-info btn-sm float-left" >
-                        Sign In
+                                </div>
+                            </div>
+                            : " "}
+                        <div className="form-group">
+                            <button
+                                type="submit"
+                                className="btn btn-success btn-block"
+                                onClick={() => validateEmail()}
+                                disabled={buttonDisabled}
+                            >
+                                {spinner ? (
+                                    <>
+                                        Validating...
+                                    <Spinner
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            variant="dark"
+                                        />
+                                    </>
+                                ) : (
+                                        <>Submit</>
+                                    )}
+                            </button>
+                        </div>
+                        <button className="btn btn-info btn-sm float-left" onClick={() => dispatch(FormRoute("login"))} >
+                            Sign In
                      </button>
 
-                    <button
-                        className="btn btn-info btn-sm float-right" onClick={()=>props.triggerSignup()}>
-                        Sign Up
+                        <button
+                            className="btn btn-info btn-sm float-right" onClick={() => dispatch(FormRoute("signUp"))}>
+                            Sign Up
                     </button>
-                </form>
-            </article>
+                    </form>
+                </article>
+            </div>
         </div>
     );
 }

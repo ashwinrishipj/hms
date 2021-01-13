@@ -13,3 +13,10 @@ export const emailToolTip = (props) => (
     ex: <strong> alphaBeta123@ </strong>
   </Tooltip>
   )
+  export const retypePassword = (props) =>(
+    <Tooltip id="button-tooltip" {...props}>
+    Password must be one upper case and lower case:, One digit and one unicode string:
+    ex: <strong> alphaBeta123@ </strong>
+    <strong>It must match your previous password: </strong>
+  </Tooltip>
+  )
