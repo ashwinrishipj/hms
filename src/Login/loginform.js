@@ -83,7 +83,7 @@ function LoginForm() {
   const onSubmitSignIn = (e) => {
     e.preventDefault();
 
-    // updateRoute("dashBoard");
+    // dispatch(route("dashBoard"))
 
     let requestBody = {
       query: ` query{

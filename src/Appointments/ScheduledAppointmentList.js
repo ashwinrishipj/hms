@@ -63,7 +63,6 @@ function AppointmentLists() {
 								appointmentDetails.appointments.map((data, key) => {
 									return (
 										<Toast
-
 											className="scheduledToast"
 											onClick={() => ModifyAppointment(data)}
 											key={key}
@@ -89,15 +88,15 @@ function AppointmentLists() {
 						<>
 							<div className="col-lg-5">
 								{' '}
-								<h5 className="subtitle">Patient Information</h5>{' '}
+								<h5 className="subtitle text-info">Patient Information</h5>{' '}
 								<table className="table table-simple">
 									{' '}
 									<tbody>
 										{' '}
 										<tr>
 											{' '}
-											<td>Appointment Id:</td>
-											<th className="text-info">
+											<td className="text-info">Appointment Id:</td>
+											<th className="text-white">
 
 												{modifyAppointmentDetails._id}
 
@@ -105,40 +104,40 @@ function AppointmentLists() {
 										</tr>
 										<tr>
 											{' '}
-											<td>Patient Name:</td>
-											<th className="text-info">
+											<td  className="text-info">Patient Name:</td>
+											<th className="text-white">
 												{modifyAppointmentDetails.name}
 
 											</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Date Of Appointment:</td>
-											<th>{modifyAppointmentDetails.startDate}</th>{' '}
+											<td  className="text-info"> Date Of Appointment:</td>
+											<th className="text-white">{modifyAppointmentDetails.startDate}</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Time:</td>
-											<th>{modifyAppointmentDetails.time}</th>{' '}
+											<td  className="text-info"> Time:</td>
+											<th className="text-white">{modifyAppointmentDetails.time}</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Title:</td>
-											<th>{modifyAppointmentDetails.title}</th>{' '}
+											<td  className="text-info">Title:</td>
+											<th className="text-white">{modifyAppointmentDetails.title}</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Patient Symptoms:</td>
-											<th>{modifyAppointmentDetails.description}</th>{' '}
+											<td  className="text-info">Patient Symptoms:</td>
+											<th className="text-white">{modifyAppointmentDetails.description}</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Department of Visit:</td>
-											<th>{modifyAppointmentDetails.dept}</th>{' '}
+											<td  className="text-info">Department of Visit:</td>
+											<th className="text-white">{modifyAppointmentDetails.dept}</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Status of Appointment:</td>
+											<td  className="text-info">Status of Appointment:</td>
 											<th className="text-warning">{modifyAppointmentDetails.status}</th>{' '}
 										</tr>
 									</tbody>{' '}
@@ -146,31 +145,31 @@ function AppointmentLists() {
 							</div>
 							<div className="col-md-4">
 								{' '}
-								<h4 className="subtitle">Hospial Information</h4>{' '}
+								<h4 className="subtitle text-info">Hospial Information</h4>{' '}
 								<table className="table table-simple">
 									{' '}
 									<tbody>
 										{' '}
 										<tr>
 											{' '}
-											<td>Hospital Name:</td>
-											<th className="text-info">{modifyAppointmentDetails.hospital.name}</th>{' '}
+											<td  className="text-info">Hospital Name:</td>
+											<th className="text-white">{modifyAppointmentDetails.hospital.name}</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Hospital Description:</td>
-											<th>{modifyAppointmentDetails.hospital.description}</th>{' '}
+											<td  className="text-info">Hospital Description:</td>
+											<th className="text-white">{modifyAppointmentDetails.hospital.description}</th>{' '}
 										</tr>
 										<tr>
 											{' '}
-											<td>Hospitak Location:</td>
-											<th>{modifyAppointmentDetails.hospital.location}</th>{' '}
+											<td  className="text-info">Hospitak Location:</td>
+											<th className="text-white">{modifyAppointmentDetails.hospital.location}</th>{' '}
 										</tr>
 
 										<tr>
 											{' '}
-											<td>Hospital phoneNumber:</td>
-											<th className="text-info">{modifyAppointmentDetails.hospital.phoneNumber}</th>{' '}
+											<td  className="text-info">Hospital phoneNumber:</td>
+											<th className="text-white">{modifyAppointmentDetails.hospital.phoneNumber}</th>{' '}
 										</tr>
 
 

@@ -8,6 +8,8 @@
 
 .dashboard {
 	background-color: #171721 !important;
+	min-height: 50em !important;
+    max-height: fit-content !important;
 }
 
 .flex-css-nav-link {

@@ -8,12 +8,11 @@ import {
 } from "react-bootstrap";
 import "./navbar.css";
 import Search from "./search";
-import { useDispatch ,useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 import { currentPage, route,toggle } from "../redux/actions";
 
 function Navigation() {
   const dispatch = useDispatch();
-  const currentPageName = useSelector(state => state.currentPage);
 
   return (
     <React.Fragment>
@@ -21,9 +20,6 @@ function Navigation() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav navbar-background" />
         <Navbar.Collapse id="responsive-navbar-nav">
         <i className="fa fa-bars text-light" aria-hidden="true" onClick={() => dispatch(toggle())}></i>
-                        <span className="text-light ml-4" >
-                            {currentPageName}
-                        </span>
           <Nav className="mr-auto ml-auto">
             <div id="navbarSupportedContent">
               <ul className="navbar-nav text-center">

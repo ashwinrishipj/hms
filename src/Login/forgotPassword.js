@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Spinner from "react-bootstrap/esm/Spinner";
+import { Spinner, Modal, Form, Col, Button } from "react-bootstrap";
 import NegativeAlert from "../Alerts/NegativeAlert";
 import { useDispatch } from "react-redux";
 import { FormRoute } from "../redux/actions";
@@ -30,11 +30,17 @@ function ForgetPassword() {
     const forgotPasswordForm = () => {
         return (
             <>
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal show={show} onHide={handleClose} style={{ backgroundColor: "#27293d" }}>
+                    <Form>
+                        <Form.Group as={Col} controlId="formGridPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridPassword">
+                            <Form.Label>Confirm password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" />
+                        </Form.Group>
+                    </Form>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
