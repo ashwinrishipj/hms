@@ -8,18 +8,20 @@ import {
 } from "react-bootstrap";
 import "./navbar.css";
 import Search from "./search";
-import { useDispatch } from "react-redux";
-import { currentPage, route,toggle } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { currentPage, route, toggle } from "../redux/actions";
 
 function Navigation() {
   const dispatch = useDispatch();
+  const currentPageName = useSelector(state => state.currentPage);
 
   return (
     <React.Fragment>
-      <Navbar collapseOnSelect >
+      <Navbar collapseOnSelect>
         <Navbar.Toggle aria-controls="responsive-navbar-nav navbar-background" />
         <Navbar.Collapse id="responsive-navbar-nav">
-        <i className="fa fa-bars text-light" aria-hidden="true" onClick={() => dispatch(toggle())}></i>
+          <i className="fa fa-bars text-light" aria-hidden="true" onClick={() => dispatch(toggle())}></i>
+          <span className="ml-4 text-white">{currentPageName} </span>
           <Nav className="mr-auto ml-auto">
             <div id="navbarSupportedContent">
               <ul className="navbar-nav text-center">
@@ -94,8 +96,8 @@ function Navigation() {
                       </Popover>
                     }
                   >
-                    <span className="align-end-css fa fa-gear fa-spin fa-2x mr-4" style={{color:"red"}} />
-                      
+                    <span className="align-end-css fa fa-gear fa-spin fa-2x mr-4" style={{ color: "red" }} />
+
                   </OverlayTrigger>
                 </li>
               </ul>

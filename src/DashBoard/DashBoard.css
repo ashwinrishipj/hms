@@ -226,3 +226,8 @@ input[type='color']:focus,
 	-ms-user-select: none; /* IE10+/Edge */
 	user-select: none;
 }
+.breadcrumb-dashboard{
+	border-radius: 2%;
+	background-color: #74d6e6 !important;
+	height:20% !important;
+}

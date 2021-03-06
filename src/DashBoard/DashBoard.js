@@ -14,8 +14,7 @@ import { OnScrollEvent } from "../redux/actions";
 
 function DashBoard() {
   const dispatch = useDispatch();
-  const currentPageName = useSelector(state => state.currentPage);
-
+ 
   const onUserScrollView = () => {
     dispatch(OnScrollEvent());
   }
@@ -28,13 +27,6 @@ function DashBoard() {
           <Row style={{ marginLeft: "0", marginRight: "0" }}>
             <SideBar />
             <Col lg={10} style={{ paddingLeft: "0", paddingRight: "0", height: "200%" }}>
-              <div className="sidebar-background">
-                <Breadcrumb>
-                  <Breadcrumb.Item >
-                    {currentPageName}
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
               <PageNavigation />
             </Col>
           </Row>
