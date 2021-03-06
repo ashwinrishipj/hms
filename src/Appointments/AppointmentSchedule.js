@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Form, Button, InputGroup, Modal, Toast, CardColumns } from 'react-bootstrap';
+import { Card, CardDeck, Row, Col, Form, Button, InputGroup, Modal, Toast, CardColumns, Nav } from 'react-bootstrap';
 import { hospitalLIst, ProvinceList } from './HospitalList';
 
 export default function AppointmentSchedule() {
@@ -7,7 +7,7 @@ export default function AppointmentSchedule() {
 	const [isSearched, setisSearched] = useState(false);
 	const [hospitalList, sethospitalList] = useState({});
 	const [isFormSelected, setisFormSelected] = useState(false);
-	const [modalShow, setModalShow] = useState(false);
+	const [isProvince, setisProvince] = useState(true);
 	const [isAppointmentScheduled, setisAppointmentScheduled] = useState(false);
 	const [show, setShow] = useState(false);
 
@@ -145,7 +145,7 @@ export default function AppointmentSchedule() {
 				{isFormSelected ? (
 					<div className="container" style={{ backgroundColor: 'cadetblue' }}>
 						<Modal
-							onHide={()=>setisFormSelected(false)} show={true}
+							onHide={() => setisFormSelected(false)} show={true}
 							size="lg"
 							aria-labelledby="contained-modal-title-vcenter"
 							centered
@@ -275,13 +275,11 @@ export default function AppointmentSchedule() {
 								{/* <Button onClick={handleClose()}>Close</Button> */}
 							</Modal.Footer>
 						</Modal>
-
-
 					</div>
 
 				) : ("")
 				}
-				<div>
+				<div className="ml-4">
 					<Form.Label className="text-primary">List of departments:</Form.Label>
 					<ul className="scroll-auto mt-3">
 						<Card className="rounded-border">
@@ -365,76 +363,162 @@ export default function AppointmentSchedule() {
 					</Modal>
 
 					<div className="col-lg-10">
-						<Form.Group controlId="exampleForm.ControlSelect1">
-							<Form.Label className="text-primary">Select Your Province</Form.Label>
-							<Form.Control sm={12} as="select" onChange={(e) => handleForm(e)}>
-								<option value="none">none</option>
-								<option value="BritishColumbia">British Columbia</option>
-								<option value="Alberta">Alberta</option>
-								<option value="Manitoba">Manitoba</option>
-								<option value="Ontario">Ontario</option>
-								<option value="Quebec">Quebec</option>
-							</Form.Control>
-						</Form.Group>
-						<div >
-							{isSearched ? (
-								hospitalList.map((data, index) => {
-									return (
-										<Card bg={'light'} className="mt-2 text-dark " key={index}>
-											<Card.Header>
-												<b>
-													{index + 1}: {data.name}{' '}
-												</b>{' '}
-											</Card.Header>
-											<Card.Body>
-												<Card.Text>{data.description}</Card.Text>
-											</Card.Body>
-											<Card.Footer>
-												<Row>
-													<Col>
-														<b>Location:</b> {data.location}
-													</Col>
-													<Col md={{ span: 4, offset: 4 }}>
-														<b>Phone Number:</b> {data.phoneNumber}
-													</Col>
-												</Row>
-											</Card.Footer>
-											<Button variant="info" onClick={() => displayAppointmentForm(data)}>
-												Schedule Appointment
-									</Button>
-										</Card>
-									);
-								})
-							) : (
+						<div>
+							<Nav justify variant="tabs text-white" >
+								<Nav.Item>
+									<Nav.Link onClick={() => setisProvince(true)} >Province Appointments</Nav.Link>
+								</Nav.Item>
+								<Nav.Item>
+									<Nav.Link onClick={() => setisProvince(false)} >Doctor Appointments</Nav.Link>
+								</Nav.Item>
+							</Nav>
+						</div>
 
-									<CardColumns>
-										{ProvinceList.map((data, key) => {
+						{isProvince ?
+							<>
+								<div>
+									<Form.Group controlId="exampleForm.ControlSelect1">
+										<Form.Label className="text-primary mt-4">Select Your Province</Form.Label>
+										<Form.Control sm={12} as="select" onChange={(e) => handleForm(e)}>
+											<option value="none">none</option>
+											<option value="BritishColumbia">British Columbia</option>
+											<option value="Alberta">Alberta</option>
+											<option value="Manitoba">Manitoba</option>
+											<option value="Ontario">Ontario</option>
+											<option value="Quebec">Quebec</option>
+										</Form.Control>
+									</Form.Group>
+									{isSearched ? (
+										hospitalList.map((data, index) => {
 											return (
-												<>
-													<Card
-														text={"white"}
-														className="mt-2 text-light rounded-border"
-														key={key}
-													>
-														<Card.Img variant="top" src={require(`./images/province/${data.image}`)} />
-														<Card.Body>
-															<Card.Title text={"dark"}> {data.name}</Card.Title>
-															<Card.Text>
-																{data.features}
-															</Card.Text>
-															<Button variant="outline-warning" className="mt-2" href={data.link} target="_blank">Read More...</Button>
-
-														</Card.Body>
-													</Card>
-												</>
+												<Card bg={'light'} className="mt-2 text-dark " key={index}>
+													<Card.Header>
+														<b>
+															{index + 1}: {data.name}{' '}
+														</b>{' '}
+													</Card.Header>
+													<Card.Body>
+														<Card.Text>{data.description}</Card.Text>
+													</Card.Body>
+													<Card.Footer>
+														<Row>
+															<Col>
+																<b>Location:</b> {data.location}
+															</Col>
+															<Col md={{ span: 4, offset: 4 }}>
+																<b>Phone Number:</b> {data.phoneNumber}
+															</Col>
+														</Row>
+													</Card.Footer>
+													<Button variant="info" onClick={() => displayAppointmentForm(data)}>
+														Schedule Appointment
+									</Button>
+												</Card>
 											);
-										})}
-									</CardColumns>
-								)}
-						</div>
-						<div className="row">
-							{departmentList()}
-						</div>
+										})
+									) : (
+
+											<CardColumns>
+												{ProvinceList.map((data, key) => {
+													return (
+														<>
+															<Card
+																text={"white"}
+																className="mt-2 text-light rounded-border"
+																key={key}
+															>
+																<Card.Img variant="top" src={require(`./images/province/${data.image}`)} />
+																<Card.Body>
+																	<Card.Title text={"dark"}> {data.name}</Card.Title>
+																	<Card.Text>
+																		{data.features}
+																	</Card.Text>
+																	<Button variant="outline-warning" className="mt-2" href={data.link} target="_blank">Read More...</Button>
+
+																</Card.Body>
+															</Card>
+														</>
+													);
+												})}
+											</CardColumns>
+										)}
+								</div>
+								<div className="row">
+									{departmentList()}
+								</div>
+							</>
+							:
+							<div>
+								<div class="row">
+									<div class="col-xs-8 col-xs-offset-2">
+										<div class="input-group">
+											<div class="input-group-btn search-panel">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+													<span id="search_concept">Filter by</span> <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li><a href="#contains">Contains</a></li>
+													<li><a href="#its_equal">It's equal</a></li>
+													<li><a href="#its_equal">It's k</a></li>
+													<li><a href="#its_equal">It's l</a></li>
+
+													<li class="divider"></li>
+													<li><a href="#all">Anything</a></li>
+												</ul>
+											</div>
+											<input type="hidden" name="search_param" value="all" id="search_param" />
+											<input type="text" class="form-control" name="x" placeholder="Search term..." />
+											<span class="input-group-btn">
+												<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+											</span>
+										</div>
+									</div>
+								</div>
+
+								<CardDeck className="mt-4">
+									<Card>
+										<Card.Img variant="top" src="holder.js/100px160" />
+										<Card.Body>
+											<Card.Title>Card title</Card.Title>
+											<Card.Text>
+												This is a wider card with supporting text below as a natural lead-in to
+												additional content. This content is a little bit longer.
+      										</Card.Text>
+										</Card.Body>
+										<Card.Footer>
+											<small className="text-muted">Last updated 3 mins ago</small>
+										</Card.Footer>
+									</Card>
+									<Card>
+										<Card.Img variant="top" src="holder.js/100px160" />
+										<Card.Body>
+											<Card.Title>Card title</Card.Title>
+											<Card.Text>
+												This card has supporting text below as a natural lead-in to additional
+      										  content.{' '}
+											</Card.Text>
+										</Card.Body>
+										<Card.Footer>
+											<small className="text-muted">Last updated 3 mins ago</small>
+										</Card.Footer>
+									</Card>
+									<Card>
+										<Card.Img variant="top" src="holder.js/100px160" />
+										<Card.Body>
+											<Card.Title>Card title</Card.Title>
+											<Card.Text>
+												This is a wider card with supporting text below as a natural lead-in to
+												additional content. This card has even longer content than the first to
+												show that equal height action.
+      										</Card.Text>
+										</Card.Body>
+										<Card.Footer>
+											<small className="text-muted">Last updated 3 mins ago</small>
+										</Card.Footer>
+									</Card>
+								</CardDeck>
+							</div>
+						}
 					</div>
 
 					<div className="col-lg-2 ">
