@@ -4,6 +4,9 @@ import AppointmentSchedule from "../Appointments/AppointmentSchedule";
 import AppointmentLists from "../Appointments/ScheduledAppointmentList";
 import ToDoList from "../Apps&Chat/todoList";
 import EventCalendar from "../Calendar/Calendar";
+import Chat from "../Chat/Chat";
+import MailBox from "../Chat/MailBox";
+import VideoCall from "../Chat/VideoCall";
 import Home from "../Home/home";
 import Notes from "../Notes/Notes";
 import { useSelector } from "react-redux";
@@ -14,7 +17,6 @@ function PageNavigation() {
 
   return (
     <>
-      
       <Switch>
         {(navigateTo === "toDoList" && (
           <Route path="/" component={ToDoList} />
@@ -54,6 +56,29 @@ function PageNavigation() {
                 path="/"
                 component={() => (
                   <Notes />
+                )}
+              />)) ||
+          (navigateTo === "chat" &&
+            (
+              <Route
+                path="/"
+                component={() => (
+                  <Chat />
+                )}
+              />)) || (navigateTo === "MailBox" &&
+                (
+                  <Route
+                    path="/"
+                    component={() => (
+                      <MailBox />
+                    )}
+                  />)) ||
+          (navigateTo === "VideoCall" &&
+            (
+              <Route
+                path="/"
+                component={() => (
+                  <VideoCall />
                 )}
               />)) ||
           (navigateTo === "ProfileSettings" &&

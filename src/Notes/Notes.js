@@ -136,7 +136,7 @@ export default function Notes(props) {
                             <form className="form-inline input-wrapper mt-3 ml-2"><input className="form-control input-wrapper" placeholder="Search Images" aria-label="Search" />
                             </form>
 
-                            <div className="mt-4 ml-2 mr-2 scroll-auto toast-onclick">
+                            <div className="mt-4 ml-2 toast-onclick scroll-auto">
                                 {(toastContent.length !== 0 || null) ?
                                     <>
                                         {toastContent.map((data, index) => {

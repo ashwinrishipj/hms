@@ -48,7 +48,6 @@ export default function SideBar() {
                     <i className="fa fa-bars" aria-hidden="true"></i>
                 </Button> : " "}
             {navigationIsSet ? (
-
                 <Col className="mt-2 sidebar-profile" md={1}>
                     <div className="list-group sidebar-background" role="tablist">
                         <span className="arrow-head" />
@@ -57,6 +56,12 @@ export default function SideBar() {
                             <Nav.Link className="text-color fa fa-home fa-lg mt-2" name="home" />
                             <Nav.Link className="text-color fa fa-hospital-o fa-lg mt-2" name="appointments" />
                             <Nav.Link className="text-color fa fa-file-text fa-lg mt-2" name="appointmentLists" />
+                        </Nav>
+                        <span className="text-warning mt-2">chat:</span>
+                        <Nav className="flex-css-nav-link mt-2" onClick={(e) => updateRoute(e)}>
+                            <Nav.Link className="text-color fa fa-comments fa-lg mt-2" name="chat" />
+                            <Nav.Link className="text-color fa fa-video-camera fa-lg mt-2" name="videocall" />
+                            <Nav.Link className="text-color fa fa-envelope fa-lg mt-2" name="mail" />
                         </Nav>
                         <span className="text-warning mt-2">Apps</span>
                         <Nav className="flex-css-nav-link mt-2" onClick={(e) => updateRoute(e)}>
@@ -68,43 +73,50 @@ export default function SideBar() {
 
                 </Col>
             ) : (
-                    <Col className="mt-2 sidebar-profile" md={2}>
-                        <div className="list-group sidebar-background" role="tablist">
-                            <Nav className="flex-css-nav-link" onClick={(e) => updateRoute(e)}>
-                                <span className="arrow-head" />
-                                <span className="text-warning">Basics:</span>
-                                <Nav.Link className="text-color fa fa-home mt-2" name="home">
-                                    {' '}
+                <Col className="mt-2 sidebar-profile" md={2}>
+                    <div className="list-group sidebar-background" role="tablist">
+                        <Nav className="flex-css-nav-link" onClick={(e) => updateRoute(e)}>
+                            <span className="arrow-head" />
+                            <span className="text-warning">Basics:</span>
+                            <Nav.Link className="text-color fa fa-home mt-2" name="home">
+                                {' '}
                                     Home
                                 </Nav.Link>
-                                <Nav.Link className="text-color fa fa-hospital-o mt-2" name="appointments">
-                                    {' '}
+                            <Nav.Link className="text-color fa fa-hospital-o mt-2" name="appointments">
+                                {' '}
                                     Appointments
                                 </Nav.Link>
-                                <Nav.Link className="text-color fa fa-file-text mt-2" name="appointmentLists">
-                                    {' '}
+                            <Nav.Link className="text-color fa fa-file-text mt-2" name="appointmentLists">
+                                {' '}
                                     History
                                 </Nav.Link>
-                            </Nav>
-
-                            <Nav className="flex-css-nav-link mt-4" onClick={(e) => updateRoute(e)}>
-                                <span className="text-warning">Apps & chat:</span>
-                                <Nav.Link name="toDoList" className="text-color fa fa-tasks mt-2">
-                                    {' '}
+                        </Nav>
+                        <Nav className="flex-css-nav-link mt-4" onClick={(e) => updateRoute(e)}>
+                            <span className="arrow-head" />
+                            <span className="text-warning ">Chat:</span>
+                            <Nav.Link className="text-color fa fa-comments  mt-2" name="chat" >Chat </Nav.Link>
+                            <Nav.Link className="text-color fa fa-video-camera mt-2" name="videocall" > Video Call </Nav.Link>
+                            <Nav.Link className="text-color fa fa-envelope mt-2" name="mail" > MailBox </Nav.Link>
+                        </Nav>
+                        <Nav className="flex-css-nav-link mt-4" onClick={(e) => updateRoute(e)}>
+                            <span className="text-warning">Apps:</span>
+                            <Nav.Link name="toDoList" className="text-color fa fa-tasks mt-2">
+                                {' '}
                                     To-do List
                                 </Nav.Link>
-                                <Nav.Link name="calendar" className="text-color fa fa-calendar mt-2">
-                                    {' '}
+                            <Nav.Link name="calendar" className="text-color fa fa-calendar mt-2">
+                                {' '}
                                     Calendar
                                 </Nav.Link>
-                                <Nav.Link name="notes" className="text-color fa fa-sticky-note-o mt-2">
-                                    {' '}
+                            <Nav.Link name="notes" className="text-color fa fa-sticky-note-o mt-2">
+                                {' '}
                                     Notes
                                 </Nav.Link>
-                            </Nav>
-                        </div>
-                    </Col>
-                )}
+                        </Nav>
+                    </div>
+                </Col >
+            )
+            }
         </>
     );
 }
