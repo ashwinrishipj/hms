@@ -1,9 +1,26 @@
 import React, { useState } from 'react';
-import { Modal, Row, Col, Card, Container, Toast, Button, Form } from 'react-bootstrap';
+import { Modal, Row, Col, Card, Container, Toast, Button, Form, Popover } from 'react-bootstrap';
 
 export default function Chat() {
     const [show, setshow] = useState(false);
     const [toastContent, settoastContent] = useState('');
+    const [message, setmessage] = useState("")
+    const [userMessage, setuserMessage] = useState([]);
+    const [disableButton, setdisableButton] = useState(true);
+
+    const updateMessage = (event) => {
+        event.preventDefault();
+        const value = event.target.value;
+        setmessage(value);
+        setdisableButton(false);
+    }
+
+    const sendMessage = (event) => {
+        event.preventDefault();
+        setuserMessage(userMessage => [...userMessage, message]);
+        setmessage("");
+        setdisableButton(true);
+    }
 
     return (
         <Container fluid className="mt-4">
@@ -84,31 +101,60 @@ export default function Chat() {
                 </Row> */}
 
                         <Row className="ml-4 mt-4">
-                               
-                                    <Card className="text-center">
-                                        <Card.Header>Featured</Card.Header>
-                                        <Card.Body>
-                                            <Card.Title>Special title treatment</Card.Title>
-                                            <Card.Text>
-                                                With supporting text below as a natural lead-in to additional content.
-                                            </Card.Text>
-                                            <Button variant="primary">Go somewhere</Button>
-                                        </Card.Body>
-                                        <Card.Footer className="text-muted"><Form inline>
-                                            <Form.Group>
-                                                <Form.Label htmlFor="inputPassword6">Password</Form.Label>
-                                                <Form.Control
-                                                    type="password"
-                                                    className="mx-sm-3"
-                                                    id="inputPassword6"
-                                                    aria-describedby="passwordHelpInline"
-                                                />
-                                                <Form.Text id="passwordHelpInline" muted>
-                                                    Must be 8-20 characters long.
-											</Form.Text>
-                                            </Form.Group>
-                                        </Form></Card.Footer>
-                                    </Card>
+
+                            <Card className="text-center">
+                                <Card.Header>Communicate with the doctor</Card.Header>
+                                <Card.Body>
+                                    {userMessage.length !== 0 || null ? (
+                                        <>
+                                            {userMessage.map((data, index) => {
+                                                return (
+                                                    <>
+                                                        <div
+                                                            aria-live="polite"
+                                                            aria-atomic="true"
+                                                            style={{
+                                                                position: 'relative',
+                                                                minHeight: '50px',
+                                                                minWidth: '100px',
+                                                            }}
+                                                        >
+                                                            <Toast style={{
+                                                                position: 'absolute',
+                                                                left: 0,
+                                                            }} key={index}>
+                                                                <Toast.Body>
+                                                                    {data}
+                                                                </Toast.Body>
+                                                            </Toast>
+                                                        </div>
+                                                    </>
+                                                );
+                                            })}
+                                        </>
+                                    ) : ""
+                                    }
+                                </Card.Body>
+                                <Card.Footer className="text-muted"><Form inline>
+                                    <Form.Group onSubmit={(event) => event.preventDefault()}>
+                                        <Form.Label htmlFor="inputPassword6">Enter your message</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            className="mx-sm-3"
+                                            id="inputPassword6"
+                                            aria-describedby="passwordHelpInline"
+                                            value={message}
+                                            required
+                                            aria-required
+                                            onChange={(event) => updateMessage(event)}
+                                            onKeyPress={(e) => { e.key === 'Enter' && sendMessage(e) }}
+                                        />
+                                        <Button variant="primary" disabled={disableButton} onClick={(event) => sendMessage(event)}>
+                                            Send
+                                    </Button>
+                                    </Form.Group>
+                                </Form></Card.Footer>
+                            </Card>
                         </Row>
                     </Col>
                 </Row>
