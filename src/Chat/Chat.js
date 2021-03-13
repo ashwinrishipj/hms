@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, Row, Col, Card, Container, Toast, Button, Form, Popover } from 'react-bootstrap';
+import ChatRoom from './ChatRoom';
 
 export default function Chat() {
     const [show, setshow] = useState(false);
     const [toastContent, settoastContent] = useState('');
     const [message, setmessage] = useState("")
-    const [userMessage, setuserMessage] = useState([]);
+    const { userMessage, senduserMessage } = ChatRoom('ashwin');
     const [disableButton, setdisableButton] = useState(true);
 
     const updateMessage = (event) => {
@@ -17,7 +18,7 @@ export default function Chat() {
 
     const sendMessage = (event) => {
         event.preventDefault();
-        setuserMessage(userMessage => [...userMessage, message]);
+        senduserMessage(message);
         setmessage("");
         setdisableButton(true);
     }
@@ -105,35 +106,30 @@ export default function Chat() {
                             <Card className="text-center">
                                 <Card.Header>Communicate with the doctor</Card.Header>
                                 <Card.Body>
-                                    {userMessage.length !== 0 || null ? (
-                                        <>
-                                            {userMessage.map((data, index) => {
-                                                return (
-                                                    <>
-                                                        <div
-                                                            aria-live="polite"
-                                                            aria-atomic="true"
-                                                            style={{
-                                                                position: 'relative',
-                                                                minHeight: '50px',
-                                                                minWidth: '100px',
-                                                            }}
-                                                        >
-                                                            <Toast style={{
-                                                                position: 'absolute',
-                                                                left: 0,
-                                                            }} key={index}>
-                                                                <Toast.Body>
-                                                                    {data}
-                                                                </Toast.Body>
-                                                            </Toast>
-                                                        </div>
-                                                    </>
-                                                );
-                                            })}
-                                        </>
-                                    ) : ""
-                                    }
+                                    {userMessage.map((data, index) => {
+                                        return (
+                                            <>
+                                                <div
+                                                    aria-live="polite"
+                                                    aria-atomic="true"
+                                                    style={{
+                                                        position: 'relative',
+                                                        minHeight: '50px',
+                                                        minWidth: '100px',
+                                                    }}
+                                                >
+                                                    <Toast style={{
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                    }} key={index}>
+                                                        <Toast.Body>
+                                                            {data}
+                                                        </Toast.Body>
+                                                    </Toast>
+                                                </div>
+                                            </>
+                                        );
+                                    })}
                                 </Card.Body>
                                 <Card.Footer className="text-muted"><Form inline>
                                     <Form.Group onSubmit={(event) => event.preventDefault()}>
