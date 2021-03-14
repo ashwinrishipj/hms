@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, Row, Col, Card, Container, Toast, Button, Form, Popover } from 'react-bootstrap';
+import { Modal, Row, Col, Card, Container, Toast, Button, Form } from 'react-bootstrap';
 import ChatRoom from './ChatRoom';
+import "./Chat.css"
 
 export default function Chat() {
     const [show, setshow] = useState(false);
@@ -41,7 +42,7 @@ export default function Chat() {
                 ''
             )}
 
-            <Card body style={{ boxShadow: '1px 1px 1px 1px grey', border: '1px gray' }}>
+            <Card body style={{ boxShadow: '1px 1px 1px 1px grey', border: '1px gray', backgroundColor: "inherit" }}>
                 <Row>
                     <Col className="col-border" md={3}>
                         <Row>
@@ -95,17 +96,9 @@ export default function Chat() {
                     </Col>
 
                     <Col md={9}>
-                        {/* <Row>
-                    <Col className="mt-3 border-bottom ">
-                        <p>clock: <span className="text-danger">{date} </span> </p>
-                    </Col>
-                </Row> */}
-
-                        <Row className="ml-4 mt-4">
-
-                            <Card className="text-center">
-                                <Card.Header>Communicate with the doctor</Card.Header>
-                                <Card.Body>
+                            <Card className="text-center mt-4 ml-2" style={{ backgroundColor: "rgb(0 0 0 / 8%)" , height:"450px"}}>
+                                <Card.Header className="text-white">Communicate with the doctor</Card.Header>
+                                <Card.Body className="scroll-auto">
                                     {userMessage.map((data, index) => {
                                         return (
                                             <>
@@ -117,15 +110,32 @@ export default function Chat() {
                                                         minHeight: '50px',
                                                         minWidth: '100px',
                                                     }}
-                                                >
-                                                    <Toast style={{
-                                                        position: 'absolute',
-                                                        left: 0,
-                                                    }} key={index}>
-                                                        <Toast.Body>
-                                                            {data}
-                                                        </Toast.Body>
-                                                    </Toast>
+                                                >   {
+                                                        data.ownedByCurrentUser
+                                                            ?
+                                                            <Toast style={{
+                                                                position: 'absolute',
+                                                                left: 0,
+                                                                backgroundColor: 'green',
+                                                                color: "white"
+                                                            }} key={index}>
+                                                                <Toast.Body>
+                                                                    {data.body}
+                                                                </Toast.Body>
+                                                            </Toast>
+
+                                                            : <Toast style={{
+                                                                position: 'absolute',
+                                                                right: 0,
+                                                                backgroundColor: 'red',
+                                                                color: "white"
+                                                            }} key={index}>
+                                                                <Toast.Body>
+                                                                    {data.body}
+                                                                </Toast.Body>
+                                                            </Toast>
+                                                    }
+
                                                 </div>
                                             </>
                                         );
@@ -151,7 +161,6 @@ export default function Chat() {
                                     </Form.Group>
                                 </Form></Card.Footer>
                             </Card>
-                        </Row>
                     </Col>
                 </Row>
             </Card>
