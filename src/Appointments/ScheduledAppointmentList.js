@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Toast, Breadcrumb, Button } from 'react-bootstrap';
 import { FetchData } from '../helpers/Fetch';
+import ScheduleDoctorAppointment from "./ScheduleDoctorAppointment";
 
 function AppointmentLists() {
 	const [appointmentDetails, setappointmentDetails] = useState([]);
@@ -53,7 +54,6 @@ function AppointmentLists() {
 
 	return (
 		<>
-			
 			<Container>
 				<Row>
 					<Col lg={3} style={{ borderRight: '1px solid red' }}>

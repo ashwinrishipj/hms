@@ -246,3 +246,117 @@ export const ProvinceList = [{
 	link: "http://www.ramq.gouv.qc.ca/en/citizens/health-insurance/covered-services/Pages/covered-services-accessory-costs.aspx",
 	features: 'General practitioner and specialist physician services only by those who have not withdrawn from RAMQ,Cortisone, eye drop,Medical procedures (e.g. surgery) and anesthetics ,Urine and glycemia test,Supplemental Insurance is strongly recommended'
 }];
+
+
+export const doctorsList = [
+	{
+		name: "ashwin rishi",
+		qualification: "MBBS,MD(Gastro)",
+		experience: 25,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in treating ibs and ibd and Respond to patients’ medical problems by referring to their history, carrying out diagnosis, treatment, counseling, and referral, where necessary and Order lab tests and interprets the test results,Maintain confidentiality and impartiality at all times.",
+		slots: [10, 12, 14, 18, 20, 22],
+		email: "ashwinrishi",
+		consultationFees: 800,
+		patientsCount: 1000
+	},
+	{
+		name: "naveen prasad",
+		qualification: "MBBS,MD(Gastro)",
+		experience: 28,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in treating liver and kidney functions & Meet targets set by the government for specified treatments eg. child immunization.Discuss and evaluate new pharmaceutical products with pharmaceutical representatives.",
+		slots: [10, 12, 14, 18, 20, 22],
+		email: "naveenprasad",
+		consultationFees: 1000,
+		patientsCount: 10000
+	},
+	{
+		name: "devi prasad",
+		qualification: "MBBS,MD(Gastro),DM",
+		experience: 30,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in surgery & Collect, record, and maintain sensitive patient information such as examination results, medical history, and reports.Perform minor surgeries.Explain procedures or prescribed treatments to patients,Liaise with medical professionals in the community and hospitals.",
+		slots: [10, 12, 14, 18, 20, 22],
+		email: "deviprasad",
+		consultationFees: 1200,
+		patientsCount: 1000
+	},
+	{
+		name: "yamini",
+		qualification: "MBBS",
+		experience: 22,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in treating ibs and ibd Degree in Medicine (essential) . 5 years of residency training (essential).current state medical license and Federal DEA license (essential).Completed U.S. Medical Licensing Examination (essential).",
+		slots: [10, 12, 14, 20, 22],
+		email: "yaminipanchala",
+		consultationFees: 600,
+		patientsCount: 100
+	},
+	{
+		name: "devi prasad",
+		qualification: "MBBS,MD(Gastro),DM",
+		experience: 30,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in treating ibs and ibd Degree in Medicine (essential) . 5 years of residency training (essential).current state medical license and Federal DEA license (essential).Completed U.S. Medical Licensing Examination (essential).",
+		slots: [10, 12, 14, 18, 20, 22],
+		email: "deviprasad",
+		consultationFees: 1200,
+		patientsCount: 1000
+	},
+	{
+		name: "yamini",
+		qualification: "MBBS",
+		experience: 22,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in surgery & Collect, record, and maintain sensitive patient information such as examination results, medical history, and reports.Perform minor surgeries.Explain procedures or prescribed treatments to patients,Liaise with medical professionals in the community and hospitals.",
+		slots: [10, 12, 14, 20, 22],
+		email: "yaminipanchala",
+		consultationFees: 600,
+		patientsCount: 100
+	},
+	{
+		name: "akhil",
+		qualification: "MBBS,MD(Gastro),DM",
+		experience: 30,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in surgery & Collect, record, and maintain sensitive patient information such as examination results, medical history, and reports.Perform minor surgeries.Explain procedures or prescribed treatments to patients,Liaise with medical professionals in the community and hospitals.",
+		slots: [10, 12, 14, 18, 20, 22],
+		email: "akhil",
+		consultationFees: 1200,
+		patientsCount: 1000
+	},
+	{
+		name: "selvaraj",
+		qualification: "MBBS",
+		experience: 22,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in surgery & Collect, record, and maintain sensitive patient information such as examination results, medical history, and reports.Perform minor surgeries.Explain procedures or prescribed treatments to patients,Liaise with medical professionals in the community and hospitals.",
+		slots: [10, 12, 14, 20, 22],
+		email: "selvaraj",
+		consultationFees: 600,
+		patientsCount: 100
+	},
+	{
+		name: "indhumathi",
+		qualification: "MBBS,MD(Gastro),DM",
+		experience: 30,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in surgery",
+		slots: [10, 12, 14, 18, 20, 22],
+		email: "indhumathi",
+		consultationFees: 1200,
+		patientsCount: 1000
+	},
+	{
+		name: "pethu",
+		qualification: "MBBS",
+		experience: 22,
+		hospitalName: "Apollo Greams Road",
+		description: "specialist in treating ibs and ibd",
+		slots: [10, 12, 14, 20, 22],
+		email: "pethuraj",
+		consultationFees: 600,
+		patientsCount: 100
+	}
+]

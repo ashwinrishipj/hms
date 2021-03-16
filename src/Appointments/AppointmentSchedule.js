@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardDeck, Row, Col, Form, Button, InputGroup, Modal, Toast, CardColumns, Nav } from 'react-bootstrap';
-import { hospitalLIst, ProvinceList } from './HospitalList';
+import { hospitalLIst, ProvinceList, doctorsList } from './HospitalList';
+import ScheduleDoctorAppointment from './ScheduleDoctorAppointment';
 
 export default function AppointmentSchedule() {
 	const [validated, setValidated] = useState(false);
@@ -77,6 +78,10 @@ export default function AppointmentSchedule() {
 			location: data.location,
 		});
 	};
+
+	const bookDoctorAppointment = (data) => {
+		ScheduleDoctorAppointment(data)
+	}
 
 	const sendAppointmentDetails = () => {
 		var referenceId = JSON.parse(localStorage.getItem("userToken"));
@@ -418,30 +423,30 @@ export default function AppointmentSchedule() {
 										})
 									) : (
 
-											<CardColumns>
-												{ProvinceList.map((data, key) => {
-													return (
-														<>
-															<Card
-																text={"white"}
-																className="mt-2 text-light rounded-border"
-																key={key}
-															>
-																<Card.Img variant="top" src={require(`./images/province/${data.image}`)} />
-																<Card.Body>
-																	<Card.Title text={"dark"}> {data.name}</Card.Title>
-																	<Card.Text>
-																		{data.features}
-																	</Card.Text>
-																	<Button variant="outline-warning" className="mt-2" href={data.link} target="_blank">Read More...</Button>
+										<CardColumns>
+											{ProvinceList.map((data, key) => {
+												return (
+													<>
+														<Card
+															text={"white"}
+															className="mt-2 text-light rounded-border"
+															key={key}
+														>
+															<Card.Img variant="top" src={require(`./images/province/${data.image}`)} />
+															<Card.Body>
+																<Card.Title text={"dark"}> {data.name}</Card.Title>
+																<Card.Text>
+																	{data.features}
+																</Card.Text>
+																<Button variant="outline-warning" className="mt-2" href={data.link} target="_blank">Read More...</Button>
 
-																</Card.Body>
-															</Card>
-														</>
-													);
-												})}
-											</CardColumns>
-										)}
+															</Card.Body>
+														</Card>
+													</>
+												);
+											})}
+										</CardColumns>
+									)}
 								</div>
 								<div className="row">
 									{departmentList()}
@@ -450,73 +455,30 @@ export default function AppointmentSchedule() {
 							:
 							<div>
 								<div class="row">
-									<div class="col-xs-8 col-xs-offset-2">
-										<div class="input-group">
-											<div class="input-group-btn search-panel">
-												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-													<span id="search_concept">Filter by</span> <span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="#contains">Contains</a></li>
-													<li><a href="#its_equal">It's equal</a></li>
-													<li><a href="#its_equal">It's k</a></li>
-													<li><a href="#its_equal">It's l</a></li>
 
-													<li class="divider"></li>
-													<li><a href="#all">Anything</a></li>
-												</ul>
-											</div>
-											<input type="hidden" name="search_param" value="all" id="search_param" />
-											<input type="text" class="form-control" name="x" placeholder="Search term..." />
-											<span class="input-group-btn">
-												<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-											</span>
-										</div>
-									</div>
 								</div>
 
-								<CardDeck className="mt-4">
-									<Card>
-										<Card.Img variant="top" src="holder.js/100px160" />
-										<Card.Body>
-											<Card.Title>Card title</Card.Title>
-											<Card.Text>
-												This is a wider card with supporting text below as a natural lead-in to
-												additional content. This content is a little bit longer.
-      										</Card.Text>
-										</Card.Body>
-										<Card.Footer>
-											<small className="text-muted">Last updated 3 mins ago</small>
-										</Card.Footer>
-									</Card>
-									<Card>
-										<Card.Img variant="top" src="holder.js/100px160" />
-										<Card.Body>
-											<Card.Title>Card title</Card.Title>
-											<Card.Text>
-												This card has supporting text below as a natural lead-in to additional
-      										  content.{' '}
-											</Card.Text>
-										</Card.Body>
-										<Card.Footer>
-											<small className="text-muted">Last updated 3 mins ago</small>
-										</Card.Footer>
-									</Card>
-									<Card>
-										<Card.Img variant="top" src="holder.js/100px160" />
-										<Card.Body>
-											<Card.Title>Card title</Card.Title>
-											<Card.Text>
-												This is a wider card with supporting text below as a natural lead-in to
-												additional content. This card has even longer content than the first to
-												show that equal height action.
-      										</Card.Text>
-										</Card.Body>
-										<Card.Footer>
-											<small className="text-muted">Last updated 3 mins ago</small>
-										</Card.Footer>
-									</Card>
-								</CardDeck>
+								<CardColumns>
+									{doctorsList.map((data, index) => {
+										return (
+											<Card text={"white"}
+												className="mt-4 text-light rounded-border"
+												key={index} >
+												<Card.Img variant="top" src="holder.js/100px160" />
+												<Card.Body>
+													<Card.Title>{data.name}</Card.Title>
+													<Card.Text>
+														{data.description}
+													</Card.Text>
+													<Button variant="outline-warning" onClick={() => bookDoctorAppointment(data)}>Book Now <i className='fa fa-angle-double-right'></i> </Button>
+												</Card.Body>
+												<Card.Footer>
+													<small className="text-white">Experience: <span className="text-success"> {data.experience} years </span> <br />TotalPatientsCount:<span className="text-success"> {data.patientsCount}</span></small>
+												</Card.Footer>
+											</Card>
+										)
+									})}
+								</CardColumns>
 							</div>
 						}
 					</div>
@@ -535,12 +497,12 @@ export default function AppointmentSchedule() {
 								</Toast>
 							</div>
 						) : (
-								<div >
-									<Toast style={{ backgroundColor: "lightpink" }}>
-										<Toast.Body>No appointment Booked!. please Schedule an appointment</Toast.Body>
-									</Toast>
-								</div>
-							)}
+							<div >
+								<Toast style={{ backgroundColor: "lightpink" }}>
+									<Toast.Body>No appointment Booked!. please Schedule an appointment</Toast.Body>
+								</Toast>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

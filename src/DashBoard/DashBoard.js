@@ -9,12 +9,13 @@ import {
 import Navigation from "../Navbar/Navigation";
 import PageNavigation from "../Navbar/pageNavigation";
 import SideBar from "../Navbar/SideBar";
-import { useDispatch, useSelector } from "react-redux";
+import { route } from "../redux/actions"
+import { useDispatch } from "react-redux";
 import { OnScrollEvent } from "../redux/actions";
 
 function DashBoard() {
   const dispatch = useDispatch();
- 
+
   const onUserScrollView = () => {
     dispatch(OnScrollEvent());
   }
@@ -35,11 +36,7 @@ function DashBoard() {
     );
   }
   else {
-    return (
-      <>
-        {this.props.updateRoute("login")}
-      </>
-    )
+    dispatch(route('login'));
   }
 }
 
