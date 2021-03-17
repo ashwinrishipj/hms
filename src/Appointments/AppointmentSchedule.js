@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardDeck, Row, Col, Form, Button, InputGroup, Modal, Toast, CardColumns, Nav } from 'react-bootstrap';
+import { Card, Row, Col, Form, Button, InputGroup, Modal, Toast, CardColumns, Nav, Accordion, ModalFooter } from 'react-bootstrap';
 import { hospitalLIst, ProvinceList, doctorsList } from './HospitalList';
 import ScheduleDoctorAppointment from './ScheduleDoctorAppointment';
 
@@ -78,10 +78,6 @@ export default function AppointmentSchedule() {
 			location: data.location,
 		});
 	};
-
-	const bookDoctorAppointment = (data) => {
-		ScheduleDoctorAppointment(data)
-	}
 
 	const sendAppointmentDetails = () => {
 		var referenceId = JSON.parse(localStorage.getItem("userToken"));
@@ -186,7 +182,7 @@ export default function AppointmentSchedule() {
 										/>
 										<Form.Control.Feedback>
 											Please Enter your symptoms for priority Appointments.
-							</Form.Control.Feedback>
+										</Form.Control.Feedback>
 									</Form.Group>
 									<Form.Group controlId="validationCustomUsername">
 										<Form.Label>Phone Number:</Form.Label>
@@ -204,7 +200,7 @@ export default function AppointmentSchedule() {
 											/>
 											<Form.Control.Feedback type="invalid">
 												Please enter your phone number
-								</Form.Control.Feedback>
+											</Form.Control.Feedback>
 										</InputGroup>
 									</Form.Group>
 
@@ -273,7 +269,7 @@ export default function AppointmentSchedule() {
 									</Form.Group>
 									<Button className="mb-2" type="submit">
 										Submit form
-						</Button>
+								</Button>
 								</Form>
 							</Modal.Body>
 							<Modal.Footer>
@@ -454,31 +450,8 @@ export default function AppointmentSchedule() {
 							</>
 							:
 							<div>
-								<div class="row">
 
-								</div>
-
-								<CardColumns>
-									{doctorsList.map((data, index) => {
-										return (
-											<Card text={"white"}
-												className="mt-4 text-light rounded-border"
-												key={index} >
-												<Card.Img variant="top" src="holder.js/100px160" />
-												<Card.Body>
-													<Card.Title>{data.name}</Card.Title>
-													<Card.Text>
-														{data.description}
-													</Card.Text>
-													<Button variant="outline-warning" onClick={() => bookDoctorAppointment(data)}>Book Now <i className='fa fa-angle-double-right'></i> </Button>
-												</Card.Body>
-												<Card.Footer>
-													<small className="text-white">Experience: <span className="text-success"> {data.experience} years </span> <br />TotalPatientsCount:<span className="text-success"> {data.patientsCount}</span></small>
-												</Card.Footer>
-											</Card>
-										)
-									})}
-								</CardColumns>
+								<ScheduleDoctorAppointment />
 							</div>
 						}
 					</div>
