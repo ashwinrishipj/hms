@@ -41,6 +41,7 @@ export default function ScheduleDoctorAppointment() {
             handleShow();
         }
     };
+    
     const confirmAppointment = () => {
         return (
             <>
@@ -80,6 +81,7 @@ export default function ScheduleDoctorAppointment() {
 
     return (
         <div>
+            {show? confirmAppointment() :""}
             {doctorShow ? <>
                 <Modal
                     show={true}
