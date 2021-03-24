@@ -120,7 +120,7 @@ export default function ScheduleDoctorAppointment() {
                                 />
                                 <Form.Control.Feedback>
                                     Please Enter your symptoms for priority Appointments.
-                    </Form.Control.Feedback>
+                            </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group controlId="validationCustomUsername">
                                 <Form.Label>Phone Number:</Form.Label>
@@ -138,7 +138,7 @@ export default function ScheduleDoctorAppointment() {
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Please enter your phone number
-                        </Form.Control.Feedback>
+                                 </Form.Control.Feedback>
                                 </InputGroup>
                             </Form.Group>
 

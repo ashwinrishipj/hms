@@ -164,7 +164,7 @@ export default function AppointmentSchedule() {
 											sm={12}
 											required
 											type="text"
-											placeholder=" name"
+											placeholder=" name"	
 											name="name"
 											onChange={(e) => onInputChange(e)}
 										/>
@@ -450,7 +450,6 @@ export default function AppointmentSchedule() {
 							</>
 							:
 							<div>
-
 								<ScheduleDoctorAppointment />
 							</div>
 						}
