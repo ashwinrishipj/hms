@@ -43,11 +43,14 @@ const LockScreen = (props) => {
         };
 
         FetchData(requestBody).then((response) => {
-            return response.data.lockScreenValidation === true
-                ? () => dispatch(route("dashBoard"))
-                : response === (null || undefined)
+            if (response.data.lockScreenValidation === true) {
+                dispatch(route("dashBoard"))
+            }
+            else {
+                response === (null || undefined)
                     ? setalert('Server is down!. We are working on it.')
                     : setalert(response);
+            }
         });
     };
     return (
@@ -68,8 +71,8 @@ const LockScreen = (props) => {
                                             <Form.Label className="text-danger">{alert}</Form.Label>
                                         </>
                                     ) : (
-                                            ''
-                                        )}
+                                        ''
+                                    )}
                                 </section>
                                 <Form>
                                     <Form.Group>

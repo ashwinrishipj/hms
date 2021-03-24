@@ -3,6 +3,7 @@ import currentPage from "./currentPage";
 import routePage from "./routePage";
 import onScrollEvent from "./OnScrollEvent";
 import FormRoute from "./FormRoute";
+import ScheduledAppointment from "./ScheduledAppointment"
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
@@ -10,7 +11,8 @@ const allReducers = combineReducers({
     currentPage,
     routePage,
     onScrollEvent,
-    FormRoute
+    FormRoute,
+    ScheduledAppointment,
 });
 
 export default allReducers;

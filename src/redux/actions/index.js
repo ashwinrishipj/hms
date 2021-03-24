@@ -39,3 +39,13 @@ export const FormRoute = (pageName) => {
     }
     return { type: 'null' }
 }
+
+export const ScheduledAppointment = (isBooked, data ) => {
+    if (isBooked) {
+        return {
+            type: 'Appointments',
+            payload: data
+        }
+    }
+    return { type: 'null' }
+}

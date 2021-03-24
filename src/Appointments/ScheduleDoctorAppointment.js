@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Modal, ModalFooter } from "react-bootstrap";
-import { CardColumns, Card, Form, Button, InputGroup, Accordion } from 'react-bootstrap';
+import { CardColumns, Card, Form, Button, InputGroup, Accordion,Toast } from 'react-bootstrap';
 import { doctorsList } from './HospitalList';
+import { useDispatch } from "react-redux";
+import { ScheduledAppointment } from "../redux/actions";
 
 export default function ScheduleDoctorAppointment() {
     const [show, setShow] = useState(false);
@@ -10,6 +12,8 @@ export default function ScheduleDoctorAppointment() {
     const [validated, setValidated] = useState(false);
     const [doctorShow, setdoctorShow] = useState(false);
     const [doctorData, setdoctorData] = useState('');
+    const [isAppointmentScheduled, setisAppointmentScheduled] = useState(false);
+    const dispatch = useDispatch();
 
     const [state, setState] = useState({
         name: '',
@@ -17,8 +21,64 @@ export default function ScheduleDoctorAppointment() {
         time: '',
         phoneNumber: '',
         description: '',
-        dept: '',
     });
+
+    const sendAppointmentDetails = () => {
+        var referenceId = JSON.parse(localStorage.getItem("userToken"));
+        referenceId = referenceId.validateUser.userId;
+
+        let requestBody = {
+            query: `
+			mutation{
+				createDoctorAppointment(input:{
+				  userId:"${referenceId}",
+				  name:"${state.name}",
+				  startDate:"${state.startDate}",
+				  time:"${state.time}",
+				  phoneNumber:"${state.phoneNumber}",
+				  description:"${state.description}",
+				  doctorDetails:{
+					name: "${doctorData.name}",
+                    qualification: "${doctorData.qualification}",
+                    experience: "${doctorData.experience}",
+                    workingOn: "${doctorData.hospitalName}",
+                    description: "${doctorData.description}",
+                    contactDetails: "${doctorData.email}"
+				  }
+				})
+			  }
+			`,
+        };
+
+        let toastDetails = {
+            userId: referenceId,
+            doctorName: doctorData.name,
+            date: state.startDate,
+            time:state.time,
+            location: doctorData.hospitalName,
+            contactDetails: doctorData.email
+        }
+
+        fetch('http://localhost:4000/graphql', {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: {
+                Accept: 'appliction/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJSON) => {
+                if (responseJSON.data.createDoctorAppointment === true) {
+					setisAppointmentScheduled(true);
+					setShow(false);
+                    dispatch(ScheduledAppointment(true,toastDetails));
+				} else {
+					setisAppointmentScheduled(false);
+				}
+            })
+            .catch(err => console.error('error in fetching todo:', err));
+    };
 
     const onInputChange = (event) => {
         const { name, value } = event.target;
@@ -41,7 +101,7 @@ export default function ScheduleDoctorAppointment() {
             handleShow();
         }
     };
-    
+
     const confirmAppointment = () => {
         return (
             <>
@@ -51,10 +111,10 @@ export default function ScheduleDoctorAppointment() {
                     </Modal.Header>
                     <Modal.Body>
                         Are you sure to confirm Appointment. <br />
-                you can't  modify appointments once submitted.
-                <br />
-                Only Hospitals can edit/modify/delete appointments.
-            </Modal.Body>
+                    you can't  modify appointments once submitted.
+                    <br />
+                    Only Hospitals can edit/modify/delete appointments.
+                </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
@@ -63,7 +123,9 @@ export default function ScheduleDoctorAppointment() {
                             variant="primary"
                             onClick={() => {
                                 handleClose();
-                                // sendAppointmentDetails();
+                                sendAppointmentDetails();
+                                setShow(false);
+                                setValidated(true);
                             }}
                         >
                             confirm Appointment
@@ -81,7 +143,7 @@ export default function ScheduleDoctorAppointment() {
 
     return (
         <div>
-            {show? confirmAppointment() :""}
+            {show ? confirmAppointment() : ""}
             {doctorShow ? <>
                 <Modal
                     show={true}
@@ -178,27 +240,27 @@ export default function ScheduleDoctorAppointment() {
                                     </div>
                                 ))}
                             </Form.Group>
-                       
-                        <Accordion defaultActiveKey="0">
-                            <Card>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                        click to know about doctor details
+
+                            <Accordion defaultActiveKey="0">
+                                <Card>
+                                    <Card.Header>
+                                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                            click to know about doctor details
                              </Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey="0">
-                                    <Card.Body>
-                                        Name: {doctorData.name}
+                                    </Card.Header>
+                                    <Accordion.Collapse eventKey="0">
+                                        <Card.Body>
+                                            Name: {doctorData.name}
                                         qualification: {doctorData.qualification}
                                         experience: {doctorData.experience}
                                         working-On: {doctorData.hospitalName}
                                         description: {doctorData.description}
                                         contact-form: {doctorData.email}
-                                    </Card.Body>
-                                </Accordion.Collapse>
-                            </Card>
-                        </Accordion>
-                        <Button variant="warning" type="submit" onClick={()=> confirmAppointment()}>Confirm Appointment </Button>
+                                        </Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+                            </Accordion>
+                            <Button variant="warning" type="submit" onClick={() => confirmAppointment()}>Confirm Appointment </Button>
                         </Form>
                     </Modal.Body>
                 </Modal>

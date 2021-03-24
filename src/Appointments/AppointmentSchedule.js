@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Row, Col, Form, Button, InputGroup, Modal, Toast, CardColumns, Nav, Accordion, ModalFooter } from 'react-bootstrap';
 import { hospitalLIst, ProvinceList, doctorsList } from './HospitalList';
 import ScheduleDoctorAppointment from './ScheduleDoctorAppointment';
+import { SessionAppointments } from './SessionAppointments';
 
 export default function AppointmentSchedule() {
 	const [validated, setValidated] = useState(false);
@@ -119,7 +120,6 @@ export default function AppointmentSchedule() {
 				if (responseJSON.data.createAppointment === true) {
 					setisAppointmentScheduled(true);
 					setisFormSelected(false);
-
 				} else {
 					setisAppointmentScheduled(false);
 				}
@@ -457,24 +457,7 @@ export default function AppointmentSchedule() {
 
 					<div className="col-lg-2 ">
 						<Form.Label className="text-primary">Last Scheduled appointments in this session:</Form.Label>
-						{isAppointmentScheduled ? (
-							<div >
-								<Toast style={{ backgroundColor: "lightpink" }}>
-									<Toast.Header>
-										<img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-										<strong className="mr-auto">{hospitalDetails.name} </strong>
-									</Toast.Header>
-									<Toast.Body>{hospitalDetails.location}</Toast.Body>
-									<Toast.Body>{hospitalDetails.phoneNumber}</Toast.Body>
-								</Toast>
-							</div>
-						) : (
-							<div >
-								<Toast style={{ backgroundColor: "lightpink" }}>
-									<Toast.Body>No appointment Booked!. please Schedule an appointment</Toast.Body>
-								</Toast>
-							</div>
-						)}
+								<SessionAppointments />
 					</div>
 				</div>
 			</div>
