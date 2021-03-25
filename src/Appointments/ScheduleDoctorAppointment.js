@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, ModalFooter } from "react-bootstrap";
-import { CardColumns, Card, Form, Button, InputGroup, Accordion,Toast } from 'react-bootstrap';
+import { CardColumns, Card, Form, Button, InputGroup, Accordion, Toast } from 'react-bootstrap';
 import { doctorsList } from './HospitalList';
 import { useDispatch } from "react-redux";
 import { ScheduledAppointment } from "../redux/actions";
@@ -54,7 +54,7 @@ export default function ScheduleDoctorAppointment() {
             userId: referenceId,
             doctorName: doctorData.name,
             date: state.startDate,
-            time:state.time,
+            time: state.time,
             location: doctorData.hospitalName,
             contactDetails: doctorData.email
         }
@@ -70,12 +70,12 @@ export default function ScheduleDoctorAppointment() {
             .then((response) => response.json())
             .then((responseJSON) => {
                 if (responseJSON.data.createDoctorAppointment === true) {
-					setisAppointmentScheduled(true);
-					setShow(false);
-                    dispatch(ScheduledAppointment(true,toastDetails));
-				} else {
-					setisAppointmentScheduled(false);
-				}
+                    setisAppointmentScheduled(true);
+                    setShow(false);
+                    dispatch(ScheduledAppointment(true, toastDetails));
+                } else {
+                    setisAppointmentScheduled(false);
+                }
             })
             .catch(err => console.error('error in fetching todo:', err));
     };
