@@ -164,7 +164,7 @@ export default function AppointmentSchedule() {
 											sm={12}
 											required
 											type="text"
-											placeholder=" name"	
+											placeholder=" name"
 											name="name"
 											onChange={(e) => onInputChange(e)}
 										/>
@@ -365,14 +365,22 @@ export default function AppointmentSchedule() {
 
 					<div className="col-lg-10">
 						<div>
-							<Nav justify variant="tabs text-white" >
+							<Nav variant="tabs" defaultActiveKey="link-1">
+								<Nav.Item>
+									<Nav.Link onClick={() => setisProvince(true)} eventKey="link-1" >Province Appointments</Nav.Link>
+								</Nav.Item>
+								<Nav.Item>
+									<Nav.Link onClick={() => setisProvince(false)} eventKey="link-2">Doctor Appointments</Nav.Link>
+								</Nav.Item>
+							</Nav>
+							{/* <Nav justify variant="tabs text-white" >
 								<Nav.Item>
 									<Nav.Link onClick={() => setisProvince(true)} >Province Appointments</Nav.Link>
 								</Nav.Item>
 								<Nav.Item>
 									<Nav.Link onClick={() => setisProvince(false)} >Doctor Appointments</Nav.Link>
 								</Nav.Item>
-							</Nav>
+							</Nav> */}
 						</div>
 
 						{isProvince ?
@@ -457,7 +465,7 @@ export default function AppointmentSchedule() {
 
 					<div className="col-lg-2 ">
 						<Form.Label className="text-primary">Last Scheduled appointments in this session:</Form.Label>
-								<SessionAppointments />
+						<SessionAppointments />
 					</div>
 				</div>
 			</div>

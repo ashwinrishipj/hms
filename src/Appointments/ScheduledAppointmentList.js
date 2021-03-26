@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Toast, Breadcrumb, Button } from 'react-bootstrap';
+import { Container, Row, Col, Toast, Breadcrumb, Button, CardColumns, Card, Modal } from 'react-bootstrap';
 import { FetchData } from '../helpers/Fetch';
 import ScheduleDoctorAppointment from "./ScheduleDoctorAppointment";
 
@@ -52,153 +52,176 @@ function AppointmentLists() {
 		setmodifyAppointmentDetails(data);
 	};
 
+	const displayScheduledAppointments = () => {
+		return (
+			<Modal size="lg" show={true} onHide={() => setisModifyAppointment(false)}
+			aria-labelledby="contained-modal-title-vcenter" >
+				<Modal.Header closeButton >
+					<Modal.Title>Modal title</Modal.Title>
+				</Modal.Header>
+
+				<Modal.Body>
+					<div className="row" >
+						<div className="col">
+							{' '}
+							<h5 className="subtitle text-info">Patient Information</h5>{' '}
+							<table className="table table-simple bg-dark">
+								{' '}
+								<tbody>
+									{' '}
+									<tr>
+										{' '}
+										<td className="text-info">Appointment Id:</td>
+										<th className="text-white">
+											{modifyAppointmentDetails._id}
+										</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Patient Name:</td>
+										<th className="text-white">
+											{modifyAppointmentDetails.name}
+										</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Date Of Appointment:</td>
+										<th className="text-white">{modifyAppointmentDetails.startDate}</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Time:</td>
+										<th className="text-white">{modifyAppointmentDetails.time}</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Title:</td>
+										<th className="text-white">{modifyAppointmentDetails.title}</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Patient Symptoms:</td>
+										<th className="text-white">{modifyAppointmentDetails.description}</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Department of Visit:</td>
+										<th className="text-white">{modifyAppointmentDetails.dept}</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Status of Appointment:</td>
+										<th className="text-warning">{modifyAppointmentDetails.status}</th>{' '}
+									</tr>
+								</tbody>{' '}
+							</table>{' '}
+						</div>
+						<div className="col">
+							{' '}
+							<h4 className="subtitle text-info">Hospial Information</h4>{' '}
+							<table className="table table-simple bg-dark">
+								{' '}
+								<tbody>
+									{' '}
+									<tr>
+										{' '}
+										<td className="text-info">Hospital Name:</td>
+										<th className="text-white">{modifyAppointmentDetails.hospital.name}</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Hospital Description:</td>
+										<th className="text-white">{modifyAppointmentDetails.hospital.description}</th>{' '}
+									</tr>
+									<tr>
+										{' '}
+										<td className="text-info">Hospital Location:</td>
+										<th className="text-white">{modifyAppointmentDetails.hospital.location}</th>{' '}
+									</tr>
+
+									<tr>
+										{' '}
+										<td className="text-info">Hospital phoneNumber:</td>
+										<th className="text-white">{modifyAppointmentDetails.hospital.phoneNumber}</th>{' '}
+									</tr>
+
+
+								</tbody>{' '}
+							</table>{' '}
+						</div>
+					</div>
+				</Modal.Body>
+
+				<Modal.Footer >
+					<Button variant="warning ml-2" onClick={() => setisModifyAppointment(false)}>close </Button>
+				</Modal.Footer>
+			</Modal>
+		)
+	}
+
+
 	return (
 		<>
-			<Container>
+			<Container fluid>
+			<h5 className="text-primary"> Appointment Lists:</h5>
 				<Row>
-					<Col lg={3} style={{ borderRight: '1px solid red' }}>
-						<h5 className="text-primary"> Appointment Lists:</h5>
+					<div className="col-lg-9">
 						<ul className="list-unstyled scroll-auto mt-3">
 							{isAppointmentSet ? (
-								appointmentDetails.appointments.map((data, key) => {
-									return (
-										<Toast
-											className="scheduledToast"
-											onClick={() => ModifyAppointment(data)}
-											key={key}
-										>
-											<Toast.Header closeButton={false}>
-												<strong className="mr-auto">{data.name} </strong>
-											</Toast.Header>
-											<Toast.Body>{data.hospital.name}</Toast.Body>
-											<Toast.Body>{data.hospital.phoneNumber}</Toast.Body>
-										</Toast>
-									);
-								})
+								<CardColumns>
+									{appointmentDetails.appointments.map((data, key) => {
+										return (
+											<Card text={"white"}
+												className="mt-4 text-light rounded-border"
+												onClick={() => ModifyAppointment(data)}
+												key={key} >
+												<Card.Img variant="top" src="holder.js/100px160" />
+												<Card.Body>
+													<Card.Title>{data.name}</Card.Title>
+													<Card.Text>
+														{data.hospital.name}
+													</Card.Text>
+													<Card.Text>
+														{data.hospital.phoneNumber}
+													</Card.Text>
+												</Card.Body>
+											</Card>
+										)
+									})}
+								</CardColumns>
 							) : (
-									<div>
-										<Toast style={{ backgroundColor: '#17a2b8' }}>
-											<Toast.Body>No appointment Booked!. please Schedule an appointment</Toast.Body>
-										</Toast>
-									</div>
-								)}
-						</ul>
-					</Col>
-					{isModifyAppointment ? (
-						<>
-							<div className="col-lg-5">
-								{' '}
-								<h5 className="subtitle text-info">Patient Information</h5>{' '}
-								<table className="table table-simple">
-									{' '}
-									<tbody>
-										{' '}
-										<tr>
-											{' '}
-											<td className="text-info">Appointment Id:</td>
-											<th className="text-white">
-
-												{modifyAppointmentDetails._id}
-
-											</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info">Patient Name:</td>
-											<th className="text-white">
-												{modifyAppointmentDetails.name}
-
-											</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info"> Date Of Appointment:</td>
-											<th className="text-white">{modifyAppointmentDetails.startDate}</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info"> Time:</td>
-											<th className="text-white">{modifyAppointmentDetails.time}</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info">Title:</td>
-											<th className="text-white">{modifyAppointmentDetails.title}</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info">Patient Symptoms:</td>
-											<th className="text-white">{modifyAppointmentDetails.description}</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info">Department of Visit:</td>
-											<th className="text-white">{modifyAppointmentDetails.dept}</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info">Status of Appointment:</td>
-											<th className="text-warning">{modifyAppointmentDetails.status}</th>{' '}
-										</tr>
-									</tbody>{' '}
-								</table>{' '}
-							</div>
-							<div className="col-md-4">
-								{' '}
-								<h4 className="subtitle text-info">Hospial Information</h4>{' '}
-								<table className="table table-simple">
-									{' '}
-									<tbody>
-										{' '}
-										<tr>
-											{' '}
-											<td  className="text-info">Hospital Name:</td>
-											<th className="text-white">{modifyAppointmentDetails.hospital.name}</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info">Hospital Description:</td>
-											<th className="text-white">{modifyAppointmentDetails.hospital.description}</th>{' '}
-										</tr>
-										<tr>
-											{' '}
-											<td  className="text-info">Hospitak Location:</td>
-											<th className="text-white">{modifyAppointmentDetails.hospital.location}</th>{' '}
-										</tr>
-
-										<tr>
-											{' '}
-											<td  className="text-info">Hospital phoneNumber:</td>
-											<th className="text-white">{modifyAppointmentDetails.hospital.phoneNumber}</th>{' '}
-										</tr>
-
-
-									</tbody>{' '}
-								</table>{' '}
-								<Button variant="outline-info ml-2" style={{ width: "35%" }} onClick={() => setisModifyAppointment(false)}>Okay </Button>
-							</div>
-						</>
-					) : (
-							<>
 								<div>
-									
-									<Toast variant={"light"}>
-										<Toast.Body>Click on the Appointment list to view the description</Toast.Body>
+									<Toast style={{ backgroundColor: '#17a2b8' }}>
+										<Toast.Body>No appointment Booked!. please Schedule an appointment</Toast.Body>
 									</Toast>
-									
-									<Col>
-									<div className="embed-responsive embed-responsive-16by9 mt-4">
-										<iframe className="embed-responsive-item"
-										width="890" height="515"
-										
-										src="https://youtube.com/embed/fp6UZ_I4zj0" frameborder="0" allowfullscreen></iframe>
-									</div>
-									</Col>
 								</div>
-							</>
+							)}
+						</ul>
+					</div>
+					<div className="col-lg-3">
+					{isModifyAppointment ?
+						<>
+							{displayScheduledAppointments()}
+						</>
+						:
 
-						)}
+						<div>
 
+							<Toast variant={"light"} classNAme="mt-3">
+								<Toast.Body>Click on the Appointment list to view the description</Toast.Body>
+							</Toast>
+
+							<Col>
+								<div className="embed-responsive embed-responsive-16by9 mt-4">
+									<iframe className="embed-responsive-item"
+										width="890" height="515"
+
+										src="https://youtube.com/embed/fp6UZ_I4zj0" frameborder="0" allowfullscreen></iframe>
+								</div>
+							</Col>
+						</div>
+					}
+					</div>
 				</Row>
 			</Container>
 		</>
