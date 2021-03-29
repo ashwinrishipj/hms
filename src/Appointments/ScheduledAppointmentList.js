@@ -144,8 +144,6 @@ function AppointmentLists() {
 										<td className="text-info">Hospital phoneNumber:</td>
 										<th className="text-white">{modifyAppointmentDetails.hospital.phoneNumber}</th>{' '}
 									</tr>
-
-
 								</tbody>{' '}
 							</table>{' '}
 						</div>
