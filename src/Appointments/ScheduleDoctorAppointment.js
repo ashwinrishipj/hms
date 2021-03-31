@@ -126,6 +126,7 @@ export default function ScheduleDoctorAppointment() {
                                 sendAppointmentDetails();
                                 setShow(false);
                                 setValidated(true);
+                                setdoctorShow(false);
                             }}
                         >
                             confirm Appointment
