@@ -5,12 +5,13 @@ import AppointmentLists from "../Appointments/ScheduledAppointmentList";
 import ToDoList from "../Apps&Chat/todoList";
 import EventCalendar from "../Calendar/Calendar";
 import Chat from "../Chat/Chat";
-import MailBox from "../Chat/MailBox";
+import MailBox from "../Chat/Mail";
 import VideoCall from "../Chat/VideoCall";
 import Home from "../Home/home";
 import Notes from "../Notes/Notes";
 import { useSelector } from "react-redux";
 import ProfileSettings from "../ProfileSettings/Profiles";
+import Mail from "../Chat/Mail";
 
 function PageNavigation() {
   const navigateTo = useSelector(state => state.currentPage);
@@ -65,12 +66,12 @@ function PageNavigation() {
                 component={() => (
                   <Chat />
                 )}
-              />)) || (navigateTo === "MailBox" &&
+              />)) || (navigateTo === "mail" &&
                 (
                   <Route
                     path="/"
                     component={() => (
-                      <MailBox />
+                      <Mail />
                     )}
                   />)) ||
           (navigateTo === "VideoCall" &&

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Modal, Row, Col, Card, Container, Toast, Button,Breadcrumb } from "react-bootstrap";
 import { FetchData } from "../helpers/Fetch";
 
-export default function Notes(props) {
+export default function Notes() {
     const [show, setshow] = useState(false)
     const [noteValue, setnoteValue] = useState("");
     const [toastContent, setToastContent] = useState([]);
@@ -102,7 +102,7 @@ export default function Notes(props) {
          <div className="alert alert-success alert-dismissible fade show">
          <strong>{alertContent} </strong>
          <button type="button" className="close" data-dismiss="alert">&times;</button>
-     </div>
+        </div>
         :" "}
         <Container className="mt-4">
                 {show ?
@@ -121,7 +121,7 @@ export default function Notes(props) {
                     </Modal>
                     : ""}
             
-            <Card body style={{ boxShadow: "1px 1px 1px 1px grey", border: "1px gray"}}>
+                <Card body style={{ boxShadow: "1px 1px 1px 1px grey", border: "1px gray"}}>
                 <Row>
                     <Col className="col-border" md={3}>
                         <Row>
@@ -132,7 +132,6 @@ export default function Notes(props) {
                         <Row className="ml border-bottom mt-2">
 
                         </Row>
-                        <Row >
                             <form className="form-inline input-wrapper mt-3 ml-2"><input className="form-control input-wrapper" placeholder="Search Images" aria-label="Search" />
                             </form>
 
@@ -165,7 +164,6 @@ export default function Notes(props) {
                                 }
 
                             </div>
-                        </Row>
                     </Col>
 
                     <Col md={9}>
