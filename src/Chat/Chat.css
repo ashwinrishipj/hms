@@ -21,3 +21,25 @@
     border-radius: 6px;
     background: #87d4da; 
   }
+
+  .mail-sidebar.active{
+    background-color: #2385f5;
+    color: white;
+    border-radius: 5px;
+    z-index: 5;
+    transform: translateY(2px);
+    font-size: large;
+  }
+
+  .mail-sidebar {
+    color: #ebebeb;
+    font-size: medium;
+    font-family: monospace;
+    list-style-type: none;
+    margin-top: 5%;
+    padding: 5px;
+  }
+
+  .mail-sidebar:hover{
+    cursor: pointer;
+  }
