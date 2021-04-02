@@ -43,3 +43,26 @@
   .mail-sidebar:hover{
     cursor: pointer;
   }
+
+  .arrow-down{
+    background-color: inherit;
+    color: red;
+    border: none;
+  }
+
+  .arrow-down :active ,:focus{
+    border: none;
+  }
+  .mail-data >ul {
+    margin: 0; 
+    padding: 0; 
+  }
+  .mail-data >li{
+    margin-left: 0%;
+    margin-right: 5%;
+    text-align: center;
+    font-size: medium;
+    font-family: monospace;
+    list-style-type: none;
+    display: inline-block;
+  }
