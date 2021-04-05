@@ -85,29 +85,29 @@ function LoginForm() {
 
     dispatch(route("dashBoard"));
 
-    let requestBody = {
-      query: ` query{
-        validateUser(input:{
-          emailId:"${emailId}",password :"${password}"
-        }){
-          token,
-          tokenExpiration,
-          userId
-        }
-      }
-      `,
-    };
-    setspinner(true);
-    LoginFetchData(requestBody).then((response) => {
-      {
-        response == true
-          ? dispatch(route("dashBoard"))
-          :
-          setspinner(false)
-        setbuttonDisabled(false)
-        response == false ? setalert("server is down!. we are working on it. Please try after a minute.") : setalert(response);
-      }
-    });
+    // let requestBody = {
+    //   query: ` query{
+    //     validateUser(input:{
+    //       emailId:"${emailId}",password :"${password}"
+    //     }){
+    //       token,
+    //       tokenExpiration,
+    //       userId
+    //     }
+    //   }
+    //   `,
+    // };
+    // setspinner(true);
+    // LoginFetchData(requestBody).then((response) => {
+    //   {
+    //     response == true
+    //       ? dispatch(route("dashBoard"))
+    //       :
+    //       setspinner(false)
+    //     setbuttonDisabled(false)
+    //     response == false ? setalert("server is down!. we are working on it. Please try after a minute.") : setalert(response);
+    //   }
+    // });
   }
 
 

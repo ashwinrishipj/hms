@@ -1,25 +1,32 @@
 import React, { useState } from "react";
-import { Row, Col, Card, Form, Button, Accordion, ListGroup } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button, Accordion, ListGroup, Modal } from 'react-bootstrap';
 import "./Chat.css"
 
 export default function Mail() {
     const [navigateMail, setnavigateMail] = useState(0);
+    const [searchData, setsearchData] = useState("");
+    const [show, setShow] = useState(false);
 
-    const mailData = {
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const [mailData, setmailData] = useState({
         userId: "kjhsfkjhsdjf",
         inbox: [{
+            id: "one",
             name: "ashwin",
             date: "08-02-1988",
             content: "one",
             subject: "kjh",
-
         }, {
+            id: "two",
             name: "rishi",
             date: "08-02-1988",
             content: "two",
             subject: "kjh",
         },
         {
+            id: "three",
             name: "rishi",
             date: "08-02-1988",
             content: "three",
@@ -27,32 +34,88 @@ export default function Mail() {
         }],
         sent: [
             {
+                id: "four",
                 name: "alpha",
                 date: "08-02-1988",
                 content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
                 subject: "kjh",
 
             }, {
+                id: "five",
                 name: "beta",
                 date: "08-02-1988",
                 content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
                 subject: "kjh",
             },
             {
+                id: "six",
                 name: "gamma",
                 date: "08-02-1988",
                 content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
                 subject: "kjh",
             }
-        ]
+        ],
+        starred: [],
+        deleted: []
+    }
+    )
+
+    const composeMail = () => {
+        return (
+            <>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId="exampleForm.ControlInput1">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" required placeholder="To: name@example.com" />
+                                <Form.Control.Feedback type="invalid">
+                                    Please choose a username.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Control size="sm" type="text" placeholder="Subject: " />
+                                <Form.Control.Feedback type="invalid">
+                                    subject is mandatory
+                            </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                                <Form.Label>Example textarea</Form.Label>
+                                <Form.Control as="textarea" rows={3} />
+                            </Form.Group>
+                            <Button variant="secondary" type="submit" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={handleClose}>
+                                Save Changes
+                            </Button>
+                        </Form>
+                    </Modal.Body>
+                </Modal>
+            </>
+        )
     }
 
-    const displayData = (data) => {
-        const mail = mailData[data];
-        
+    const updateMail = (from, to, data) => {
+        var newMailData = mailData;
+        const index = newMailData[from].findIndex(x => x.id === data.id);
+        if (index !== undefined) {
+            newMailData[from].splice(index, 1);
+            newMailData[to].push(data);
+            console.log("newmailData", newMailData)
+            setmailData({ ...mailData, newMailData });
+        }
+    }
+
+    const displayData = (type) => {
+        const mail = mailData[type];
+
         return (
             <ListGroup >
-                {mail && mail.length !== (null || 0 || undefined) ?
+                {mail && mail.length !== (0 || null || undefined) ?
                     <>
                         {mail.map((data, index) => {
                             return (
@@ -60,7 +123,10 @@ export default function Mail() {
                                     <Accordion>
                                         <ul className="mail-data">
                                             <li>
-                                                star
+                                                < >
+                                                    {type === "starred" ? <i className="fa fa-star fa-1x arrow-down" aria-hidden="true" ></i>
+                                                        : <i onClick={() => updateMail(type, "starred", data)} className="fa fa-star-o fa-1x arrow-down" aria-hidden="true"></i>}
+                                                </>
                                             </li>
                                             <li>
                                                 icon
@@ -79,14 +145,14 @@ export default function Mail() {
                                         </ul>
 
                                         <Accordion.Collapse eventKey="0">
-                                            <Card.Body>{data.content}</Card.Body>
+                                            <Card.Body>{data.content} {type !== "deleted" ? <i className="float-right fa fa-trash fa-2x arrow-down" onClick={()=>updateMail(type,"deleted",data) } aria-hidden="true"></i> : ""} </Card.Body>
                                         </Accordion.Collapse>
                                     </Accordion>
                                 </ListGroup.Item>
                             )
                         })}
                     </>
-                    : "No Mail Found"}
+                    : "No Mail Found" }
             </ListGroup>
         )
     }
@@ -100,7 +166,7 @@ export default function Mail() {
             case 2:
                 return displayData("sent")
             case 3:
-                return displayData("social")
+                return displayData("deleted")
             default:
                 break;
         }
@@ -113,14 +179,14 @@ export default function Mail() {
                     <Row>
                         <Col sm={2}>
                             <ul>
-                                <Button variant="info" style={{ borderRadius: "5px" }} size="sm">
+                                <Button variant="info" style={{ borderRadius: "5px" }} size="sm" onClick={handleShow}>
                                     <i className="fa fa-plus-circle" aria-hidden="true"></i> Compose
-                             </Button>{' '}
+                             </Button>{composeMail()}
                             </ul>
                         </Col>
                         <Col sm={6}>
-                            <Form.Group controlId="formGridAddress1">
-                                <Form.Control placeholder="1234 Main St" />
+                            <Form.Group controlId="text">
+                                <Form.Control placeholder="search Email" type="text" onChange={(e) => setsearchData(e.target.value)} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -136,7 +202,6 @@ export default function Mail() {
                         </Col>
 
                         <Col sm={10}>
-
                             {navigateTypeOfMail()}
                         </Col>
                     </Row>
