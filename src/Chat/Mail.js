@@ -6,6 +6,7 @@ export default function Mail() {
     const [navigateMail, setnavigateMail] = useState(0);
     const [searchData, setsearchData] = useState("");
     const [show, setShow] = useState(false);
+    const [search, setsearch] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -60,6 +61,12 @@ export default function Mail() {
     }
     )
 
+    const updateSearchData = (e) => {
+        e.preventDefault();
+        setsearchData(e.target.value);
+        setsearch(true);
+    }
+
     const composeMail = () => {
         return (
             <>
@@ -110,6 +117,41 @@ export default function Mail() {
         }
     }
 
+    const displayList = (data, index, type) => {
+        return (
+            <ListGroup.Item variant="primary" className="mt-2" key={index}>
+                <Accordion>
+                    <ul className="mail-data">
+                        <li>
+                            < >
+                                {type === "starred" ? <i className="fa fa-star fa-1x arrow-down" aria-hidden="true" ></i>
+                                    : <i onClick={() => updateMail(type, "starred", data)} className="fa fa-star-o fa-1x arrow-down" aria-hidden="true"></i>}
+                            </>
+                        </li>
+                        <li>
+                            icon
+                        </li>
+                        <li>
+                            {data.name}: {data.date}
+                        </li>
+                        <li>
+                            {data.subject}
+                        </li>
+                        <li className="float-right">
+                            <Accordion.Toggle className="arrow-down" eventKey="0">
+                                <i className="fa fa-angle-down fa-2x" aria-hidden="true"></i>
+                            </Accordion.Toggle>
+                        </li>
+                    </ul>
+
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body>{data.content} {type !== "deleted" ? <i className="float-right fa fa-trash fa-2x arrow-down" onClick={() => updateMail(type, "deleted", data)} aria-hidden="true"></i> : ""} </Card.Body>
+                    </Accordion.Collapse>
+                </Accordion>
+            </ListGroup.Item>
+        )
+    }
+
     const displayData = (type) => {
         const mail = mailData[type];
 
@@ -117,42 +159,20 @@ export default function Mail() {
             <ListGroup >
                 {mail && mail.length !== (0 || null || undefined) ?
                     <>
+                        {search ?
+                            <>
+                                {mail.map((data, index) => {
+                                    if (`${data.subject || data.content}`.includes(searchData)) {
+                                        return (displayData(data, index, type))
+                                    }
+                                })}
+                            </>
+                            : "No data found"}
                         {mail.map((data, index) => {
-                            return (
-                                <ListGroup.Item variant="primary" className="mt-2" key={index}>
-                                    <Accordion>
-                                        <ul className="mail-data">
-                                            <li>
-                                                < >
-                                                    {type === "starred" ? <i className="fa fa-star fa-1x arrow-down" aria-hidden="true" ></i>
-                                                        : <i onClick={() => updateMail(type, "starred", data)} className="fa fa-star-o fa-1x arrow-down" aria-hidden="true"></i>}
-                                                </>
-                                            </li>
-                                            <li>
-                                                icon
-                                            </li>
-                                            <li>
-                                                {data.name}: {data.date}
-                                            </li>
-                                            <li>
-                                                {data.subject}
-                                            </li>
-                                            <li className="float-right">
-                                                <Accordion.Toggle className="arrow-down" eventKey="0">
-                                                    <i className="fa fa-angle-down fa-2x" aria-hidden="true"></i>
-                                                </Accordion.Toggle>
-                                            </li>
-                                        </ul>
-
-                                        <Accordion.Collapse eventKey="0">
-                                            <Card.Body>{data.content} {type !== "deleted" ? <i className="float-right fa fa-trash fa-2x arrow-down" onClick={()=>updateMail(type,"deleted",data) } aria-hidden="true"></i> : ""} </Card.Body>
-                                        </Accordion.Collapse>
-                                    </Accordion>
-                                </ListGroup.Item>
-                            )
+                            return (displayList(data, index, type))
                         })}
                     </>
-                    : "No Mail Found" }
+                    : "No Mail Found"}
             </ListGroup>
         )
     }
@@ -186,7 +206,7 @@ export default function Mail() {
                         </Col>
                         <Col sm={6}>
                             <Form.Group controlId="text">
-                                <Form.Control placeholder="search Email" type="text" onChange={(e) => setsearchData(e.target.value)} />
+                                <Form.Control placeholder="search Email" type="text" onChange={(e) => updateSearchData(e)} />
                             </Form.Group>
                         </Col>
                     </Row>
