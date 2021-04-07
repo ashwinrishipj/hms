@@ -64,43 +64,49 @@ export default function Mail() {
     const updateSearchData = (e) => {
         e.preventDefault();
 
-        if (e.target.value !== "" && e.target.value.length !== 0) {
+        if (e.target.value !== "" ) {
             setsearchData(e.target.value);
             setsearch(true);
+        }else{
+            setsearchData("");
+            setsearch(false);
         }
     }
 
+    const handleMail = () =>{
+
+    }
     const composeMail = () => {
         return (
             <>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Compose Mail</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
                             <Form.Group controlId="exampleForm.ControlInput1">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" required placeholder="To: name@example.com" />
+                                <Form.Control type="text" name="mailAddress" required placeholder="To: name" />
                                 <Form.Control.Feedback type="invalid">
                                     Please choose a username.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group>
-                                <Form.Control size="sm" type="text" placeholder="Subject: " />
+                                <Form.Control size="sm" name="mailSubject" required type="text" placeholder="Subject: " />
                                 <Form.Control.Feedback type="invalid">
                                     subject is mandatory
                             </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>Example textarea</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
+                                <Form.Control required as="textarea" name="mailContent" rows={3} />
                             </Form.Group>
-                            <Button variant="secondary" type="submit" onClick={handleClose}>
+                            <Button variant="secondary" onClick={handleClose}>
                                 Close
                             </Button>
-                            <Button variant="primary" onClick={handleClose}>
-                                Save Changes
+                            <Button className="ml-4" type="submit" variant="primary" onClick={handleMail}>
+                                Send Mail
                             </Button>
                         </Form>
                     </Modal.Body>
@@ -120,7 +126,7 @@ export default function Mail() {
         }
     }
 
-    const displayList = (data, index, type) => {
+    const displayList = (data, index, type ,searchData="") => {
         return (
             <li style={{ listStyleType: "none" }} className="mt-4 bg-info" key={index}>
                 <Accordion className="mt-3">
@@ -137,7 +143,7 @@ export default function Mail() {
                         <li>
                             {data.name}: {data.date}
                         </li>
-                        <li>
+                        <li className= { `${searchData === "" ? '' :'text-warning'}`}>
                             {data.subject}
                         </li>
                         <li className="float-right">
@@ -148,7 +154,8 @@ export default function Mail() {
                     </ul>
 
                     <Accordion.Collapse eventKey="0">
-                        <Card.Body>{data.content} {type !== "deleted" ? <i className="float-right fa fa-trash fa-2x arrow-down" onClick={() => updateMail(type, "deleted", data)} aria-hidden="true"></i> : ""} </Card.Body>
+                        <Card.Body >
+                            {data.content} {type !== "deleted" ? <i className="float-right fa fa-trash fa-2x arrow-down" onClick={() => updateMail(type, "deleted", data)} aria-hidden="true"></i> : ""} </Card.Body>
                     </Accordion.Collapse>
                 </Accordion>
             </li>
@@ -166,11 +173,7 @@ export default function Mail() {
                             <>
                                 {mail.map((data, index) => {
                                     if (`${data.subject}`.includes(searchData) || `${data.content}`.includes(searchData)) {
-                                        return (
-                                           displayList(data,index,type)
-                                        )
-                                    } else {
-                                        return ("no data found ")
+                                       return displayList(data,index,type,searchData)
                                     }
                                 })}
                             </>
