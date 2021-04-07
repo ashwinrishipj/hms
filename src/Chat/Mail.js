@@ -63,8 +63,11 @@ export default function Mail() {
 
     const updateSearchData = (e) => {
         e.preventDefault();
-        setsearchData(e.target.value);
-        setsearch(true);
+
+        if (e.target.value !== "" && e.target.value.length !== 0) {
+            setsearchData(e.target.value);
+            setsearch(true);
+        }
     }
 
     const composeMail = () => {
@@ -119,8 +122,8 @@ export default function Mail() {
 
     const displayList = (data, index, type) => {
         return (
-            <ListGroup.Item variant="primary" className="mt-2" key={index}>
-                <Accordion>
+            <li style={{ listStyleType: "none" }} className="mt-4 bg-info" key={index}>
+                <Accordion className="mt-3">
                     <ul className="mail-data">
                         <li>
                             < >
@@ -148,7 +151,7 @@ export default function Mail() {
                         <Card.Body>{data.content} {type !== "deleted" ? <i className="float-right fa fa-trash fa-2x arrow-down" onClick={() => updateMail(type, "deleted", data)} aria-hidden="true"></i> : ""} </Card.Body>
                     </Accordion.Collapse>
                 </Accordion>
-            </ListGroup.Item>
+            </li>
         )
     }
 
@@ -162,15 +165,23 @@ export default function Mail() {
                         {search ?
                             <>
                                 {mail.map((data, index) => {
-                                    if (`${data.subject || data.content}`.includes(searchData)) {
-                                        return (displayData(data, index, type))
+                                    if (`${data.subject}`.includes(searchData) || `${data.content}`.includes(searchData)) {
+                                        return (
+                                           displayList(data,index,type)
+                                        )
+                                    } else {
+                                        return ("no data found ")
                                     }
                                 })}
                             </>
-                            : "No data found"}
-                        {mail.map((data, index) => {
-                            return (displayList(data, index, type))
-                        })}
+                            :
+                            <>
+                                {mail.map((data, index) => {
+                                    return (displayList(data, index, type))
+                                })}
+
+                            </>}
+
                     </>
                     : "No Mail Found"}
             </ListGroup>
