@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Row, Col, Card, Form, Button, Accordion, ListGroup, Modal ,Badge} from 'react-bootstrap';
 import { useLocation } from "react-router";
 import { addressList } from "../Appointments/HospitalList";
@@ -8,9 +8,10 @@ export default function Mail() {
     const [navigateMail, setnavigateMail] = useState(0);
     const [searchData, setsearchData] = useState("");
     const [address, setaddress] = useState(addressList);
+    var inputRef = useRef();
     const [show, setShow] = useState(false);
     const [search, setsearch] = useState(false);
-    const [email, setemail] = useState([""]);
+    const [isMailSet, setisMailSet] = useState(false);
     const [mailMessage, setmailMessage] = useState({
         to: '',
         subject: '',
@@ -86,6 +87,10 @@ export default function Mail() {
         e.preventDefault();
         const { name, value } = e.target;
 
+        if(name === "to"){
+            setisMailSet(true);
+        }
+
         setmailMessage({
             ...mailMessage,
             [name]: value
@@ -93,7 +98,8 @@ export default function Mail() {
     }
 
     const onEmailSelect = (data) => {
-        setemail([...email, data]);
+        inputRef.current.value = data;
+        setisMailSet(false);
     }
 
     const composeMail = () => {
@@ -107,17 +113,14 @@ export default function Mail() {
                         <Form>
                             <Form.Group controlId="exampleForm.ControlInput1">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="text" name="to" autocomplete="off" required placeholder="To: name" onChange={(e) => validateInput(e)} >
-                                         {email.map((data, index) => {
-                                            return <Badge key={index} variant="light">{data}</Badge>
-                                        })}  
+                                <Form.Control type="text"  ref={inputRef} name="to" autocomplete="off" required placeholder="To: name" onChange={(e) => validateInput(e)} >
                                 </Form.Control>
-                                {mailMessage.to !== '' ?
+                                {isMailSet ?
                                     <>
                                         <ListGroup style={{ listStyleType: "none" }}>
                                             {address.map((data, index) => {
                                                 if (`${data}`.includes(mailMessage.to)) {
-                                                    return <ListGroup.Item action onClick={(data) => onEmailSelect(data)} key={index}>
+                                                    return <ListGroup.Item action onClick={() => onEmailSelect(`${data}`)} key={index}>
                                                         {data}
                                                     </ListGroup.Item>
                                                 }
