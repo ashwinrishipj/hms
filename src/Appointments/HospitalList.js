@@ -1,3 +1,5 @@
+import { getDefaultNormalizer } from "@testing-library/dom";
+
 export const hospitalLIst = {
 	Alberta: [
 		{
@@ -359,4 +361,8 @@ export const doctorsList = [
 		consultationFees: 600,
 		patientsCount: 100
 	}
+]
+
+export const addressList = [
+	"alpha@gmail.com","beta@gmail.com","gamma@gmail.com","theta@gmail.com"
 ]

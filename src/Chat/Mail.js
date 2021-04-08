@@ -1,12 +1,21 @@
 import React, { useState } from "react";
-import { Row, Col, Card, Form, Button, Accordion, ListGroup, Modal } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button, Accordion, ListGroup, Modal ,Badge} from 'react-bootstrap';
+import { useLocation } from "react-router";
+import { addressList } from "../Appointments/HospitalList";
 import "./Chat.css"
 
 export default function Mail() {
     const [navigateMail, setnavigateMail] = useState(0);
     const [searchData, setsearchData] = useState("");
+    const [address, setaddress] = useState(addressList);
     const [show, setShow] = useState(false);
     const [search, setsearch] = useState(false);
+    const [email, setemail] = useState([""]);
+    const [mailMessage, setmailMessage] = useState({
+        to: '',
+        subject: '',
+        content: '',
+    });
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -64,18 +73,29 @@ export default function Mail() {
     const updateSearchData = (e) => {
         e.preventDefault();
 
-        if (e.target.value !== "" ) {
+        if (e.target.value !== "") {
             setsearchData(e.target.value);
             setsearch(true);
-        }else{
+        } else {
             setsearchData("");
             setsearch(false);
         }
     }
 
-    const handleMail = () =>{
+    const validateInput = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
 
+        setmailMessage({
+            ...mailMessage,
+            [name]: value
+        })
     }
+
+    const onEmailSelect = (data) => {
+        setemail([...email, data]);
+    }
+
     const composeMail = () => {
         return (
             <>
@@ -87,13 +107,33 @@ export default function Mail() {
                         <Form>
                             <Form.Group controlId="exampleForm.ControlInput1">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="text" name="mailAddress" required placeholder="To: name" />
+                                <Form.Control type="text" name="to" autocomplete="off" required placeholder="To: name" onChange={(e) => validateInput(e)} >
+                                         {email.map((data, index) => {
+                                            return <Badge key={index} variant="light">{data}</Badge>
+                                        })}  
+                                </Form.Control>
+                                {mailMessage.to !== '' ?
+                                    <>
+                                        <ListGroup style={{ listStyleType: "none" }}>
+                                            {address.map((data, index) => {
+                                                if (`${data}`.includes(mailMessage.to)) {
+                                                    return <ListGroup.Item action onClick={(data) => onEmailSelect(data)} key={index}>
+                                                        {data}
+                                                    </ListGroup.Item>
+                                                }
+                                            })}
+                                        </ListGroup>
+                                    </>
+                                    :
+                                    ""
+                                }
                                 <Form.Control.Feedback type="invalid">
                                     Please choose a username.
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group>
-                                <Form.Control size="sm" name="mailSubject" required type="text" placeholder="Subject: " />
+                                <Form.Label>Subject</Form.Label>
+                                <Form.Control size="sm" name="subject" required type="text" placeholder="Subject: " onChange={(e) => validateInput(e)} />
                                 <Form.Control.Feedback type="invalid">
                                     subject is mandatory
                             </Form.Control.Feedback>
@@ -105,7 +145,7 @@ export default function Mail() {
                             <Button variant="secondary" onClick={handleClose}>
                                 Close
                             </Button>
-                            <Button className="ml-4" type="submit" variant="primary" onClick={handleMail}>
+                            <Button className="ml-4" type="submit" variant="primary">
                                 Send Mail
                             </Button>
                         </Form>
@@ -126,7 +166,7 @@ export default function Mail() {
         }
     }
 
-    const displayList = (data, index, type ,searchData="") => {
+    const displayList = (data, index, type, searchData = "") => {
         return (
             <li style={{ listStyleType: "none" }} className="mt-4 bg-info" key={index}>
                 <Accordion className="mt-3">
@@ -143,7 +183,7 @@ export default function Mail() {
                         <li>
                             {data.name}: {data.date}
                         </li>
-                        <li className= { `${searchData === "" ? '' :'text-warning'}`}>
+                        <li className={`${searchData === "" ? '' : 'text-warning'}`}>
                             {data.subject}
                         </li>
                         <li className="float-right">
@@ -173,7 +213,7 @@ export default function Mail() {
                             <>
                                 {mail.map((data, index) => {
                                     if (`${data.subject}`.includes(searchData) || `${data.content}`.includes(searchData)) {
-                                       return displayList(data,index,type,searchData)
+                                        return displayList(data, index, type, searchData)
                                     }
                                 })}
                             </>
