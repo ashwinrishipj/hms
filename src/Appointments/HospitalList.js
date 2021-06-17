@@ -364,5 +364,66 @@ export const doctorsList = [
 ]
 
 export const addressList = [
-	"alpha@gmail.com","beta@gmail.com","gamma@gmail.com","theta@gmail.com"
+	"alpha@gmail.com", "beta@gmail.com", "gamma@gmail.com", "theta@gmail.com","gamma@yahoo.com"
 ]
+
+export const sampleMailData = {
+	userId: "kjhsfkjhsdjf",
+	inbox: [{
+		id: "one",
+		emailId: "ashwin",
+		date: "08-02-1988",
+		content: "one",
+		subject: "kjh",
+	}, {
+		id: "two",
+		emailId: "rishi",
+		date: "08-02-1988",
+		content: "two",
+		subject: "kjh",
+	},
+	{
+		id: "three",
+		emailId: "rishi",
+		date: "08-02-1988",
+		content: "three",
+		subject: "kjh",
+	}],
+	sent: [
+		{
+			id: "four",
+			emailId: "alpha",
+			date: "08-02-1988",
+			content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
+			subject: "kjh",
+
+		}, {
+			id: "five",
+			emailId: "beta",
+			date: "08-02-1988",
+			content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
+			subject: "kjh",
+		},
+		{
+			id: "six",
+			emailId: "gamma",
+			date: "08-02-1988",
+			content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
+			subject: "kjh",
+		}
+	],
+	starred: [],
+	deleted: []
+}
+
+export const defaultMailData = {
+	inbox: [
+
+	],
+	starred: [
+
+	],
+	sent: [],
+	social: [],
+	deleted: []
+}

@@ -160,7 +160,7 @@ export default function Chat() {
                                     </Button>
                                     </Form.Group>
                                 </Form></Card.Footer>
-                            </Card>
+                        </Card>
                     </Col>
                 </Row>
             </Card>

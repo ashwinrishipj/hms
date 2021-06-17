@@ -1,17 +1,20 @@
-import React, { useState, useRef } from "react";
-import { Row, Col, Card, Form, Button, Accordion, ListGroup, Modal ,Badge} from 'react-bootstrap';
-import { useLocation } from "react-router";
-import { addressList } from "../Appointments/HospitalList";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Card, Form, Button, Accordion, ListGroup, Modal, Badge } from 'react-bootstrap';
+import { addressList, defaultMailData } from "../Appointments/HospitalList";
 import "./Chat.css"
+import { fetchMail, sendEmail } from "./MailOperations";
 
 export default function Mail() {
-    const [navigateMail, setnavigateMail] = useState(0);
+    const [navigateMail, setnavigateMail] = useState();
     const [searchData, setsearchData] = useState("");
     const [address, setaddress] = useState(addressList);
-    var inputRef = useRef();
     const [show, setShow] = useState(false);
     const [search, setsearch] = useState(false);
     const [isMailSet, setisMailSet] = useState(false);
+    const [toAddress, settoAddress] = useState([]);
+    const [mailSent, setmailSent] = useState(false);
+    const [showA, setShowA] = useState(true);
+
     const [mailMessage, setmailMessage] = useState({
         to: '',
         subject: '',
@@ -20,56 +23,63 @@ export default function Mail() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const toggleShowA = () => setShowA(false);
 
-    const [mailData, setmailData] = useState({
-        userId: "kjhsfkjhsdjf",
-        inbox: [{
-            id: "one",
-            name: "ashwin",
-            date: "08-02-1988",
-            content: "one",
-            subject: "kjh",
-        }, {
-            id: "two",
-            name: "rishi",
-            date: "08-02-1988",
-            content: "two",
-            subject: "kjh",
-        },
-        {
-            id: "three",
-            name: "rishi",
-            date: "08-02-1988",
-            content: "three",
-            subject: "kjh",
-        }],
-        sent: [
-            {
-                id: "four",
-                name: "alpha",
-                date: "08-02-1988",
-                content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
-                subject: "kjh",
+    const [mailData, setmailData] = useState([defaultMailData]);
 
-            }, {
-                id: "five",
-                name: "beta",
-                date: "08-02-1988",
-                content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
-                subject: "kjh",
-            },
-            {
-                id: "six",
-                name: "gamma",
-                date: "08-02-1988",
-                content: "kjkjfjhlsidfkskfksdhflsdjkfkjsf",
-                subject: "kjh",
+    const body = {
+        query: ` query{
+            getMailData(emailId:"${localStorage.getItem("emailId")}"){
+              emailId,
+              inbox{
+                _id,
+                emailId,
+                date,
+                subject,
+                content
+              },
+              sent{
+                _id,
+                emailId,
+                date,
+                subject,
+                content
+              },
+              starred{
+                _id,
+                emailId,
+                date,
+                subject,
+                content
+              },
+              deleted{
+                _id,
+                emailId,
+                date,
+                subject,
+                content
+              },
+              social{
+                _id,
+                emailId,
+                date,
+                subject,
+                content
+              },
             }
-        ],
-        starred: [],
-        deleted: []
-    }
-    )
+              }
+              `,
+    };
+
+    useEffect(() => {
+        fetchMail(body).then(response => {
+            if (!response.message) {
+                setmailData(response);
+                setnavigateMail(0);
+                localStorage.setItem("mailData", JSON.stringify(response));
+            }
+        }).catch(err => console.log(err));
+    }, []);
 
     const updateSearchData = (e) => {
         e.preventDefault();
@@ -87,7 +97,7 @@ export default function Mail() {
         e.preventDefault();
         const { name, value } = e.target;
 
-        if(name === "to"){
+        if (name === "to") {
             setisMailSet(true);
         }
 
@@ -98,8 +108,87 @@ export default function Mail() {
     }
 
     const onEmailSelect = (data) => {
-        inputRef.current.value = data;
         setisMailSet(false);
+        settoAddress([...toAddress, data]);
+    }
+
+    const removeMail = (toBeRemoved) => {
+        if (toAddress.length === 1) {
+            settoAddress([]);
+        } else {
+            const newAddress = toAddress.filter(email => email !== toBeRemoved);
+            settoAddress([newAddress]);
+        }
+    }
+
+    const sendMail = (e) => {
+        e.preventDefault();
+        var date = new Date().getUTCDate();
+
+        console.log("inside sendmail");
+
+        const send = {
+            query: ` 
+            mutation{
+                sendMail(input:{
+                  emailId:"${localStorage.getItem("emailId")}",
+                  sent:[
+                    {
+                      emailId:"${toAddress.pop()}",
+                      date:"${date}",
+                      subject:"${mailMessage.subject}",
+                      content:"${mailMessage.content}",
+                    }
+                  ]
+                })
+              }
+                  `,
+        };
+
+        console.log("sendMail Body", send);
+
+        sendEmail(send).then(response => {
+            console.log("sent mail response:", response);
+
+            if (response === true) {
+                setmailSent(true);
+                handleClose();
+                fetchMail(body).then(response => {
+                    if (!response.message) {
+                        setmailData(response);
+                        setnavigateMail(0);
+                        localStorage.setItem("mailData", JSON.stringify(response));
+                    }
+                }).catch(err => console.log(err));
+            }
+        })
+    }
+
+    const mailConfirmation = () => {
+        return (
+            <>
+                {
+                    mailSent ?
+                        <Modal
+                            show={showA}
+                            onHide={toggleShowA}
+                            backdrop="static"
+                            keyboard={false}
+                        >
+
+                            <Modal.Body>
+                                Congratulations!!!. Mail Has been sent..
+                             </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={toggleShowA}>
+                                    Close
+                             </Button>
+                            </Modal.Footer>
+                        </Modal>
+                        : ""
+                }
+            </>
+        )
     }
 
     const composeMail = () => {
@@ -112,15 +201,22 @@ export default function Mail() {
                     <Modal.Body>
                         <Form>
                             <Form.Group controlId="exampleForm.ControlInput1">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control type="text"  ref={inputRef} name="to" autocomplete="off" required placeholder="To: name" onChange={(e) => validateInput(e)} >
+                                <Form.Label className="md-2" >Email address:</Form.Label>
+                                {
+                                    toAddress.length !== 0 ? <>
+                                        {toAddress.map((data, index) => {
+                                            return <Badge variant="info" className="text-dark" key={index}>{data} <i className="fa fa-close" onClick={() => removeMail(data)}></i> </Badge>
+                                        })}
+                                    </> : ""
+                                }
+                                <Form.Control type="text" name="to" autocomplete="off" required placeholder="To: ford@domainName.com" onChange={(e) => validateInput(e)} >
                                 </Form.Control>
                                 {isMailSet ?
                                     <>
                                         <ListGroup style={{ listStyleType: "none" }}>
                                             {address.map((data, index) => {
                                                 if (`${data}`.includes(mailMessage.to)) {
-                                                    return <ListGroup.Item action onClick={() => onEmailSelect(`${data}`)} key={index}>
+                                                    return <ListGroup.Item action variant="primary" onClick={() => onEmailSelect(`${data}`)} key={index}>
                                                         {data}
                                                     </ListGroup.Item>
                                                 }
@@ -143,12 +239,12 @@ export default function Mail() {
                             </Form.Group>
                             <Form.Group controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>Example textarea</Form.Label>
-                                <Form.Control required as="textarea" name="mailContent" rows={3} />
+                                <Form.Control required as="textarea" onChange={(e) => validateInput(e)} name="content" rows={3} />
                             </Form.Group>
                             <Button variant="secondary" onClick={handleClose}>
                                 Close
                             </Button>
-                            <Button className="ml-4" type="submit" variant="primary">
+                            <Button className="ml-4" onClick={(e) => sendMail(e)} variant="primary">
                                 Send Mail
                             </Button>
                         </Form>
@@ -183,8 +279,8 @@ export default function Mail() {
                         <li>
                             icon
                         </li>
-                        <li>
-                            {data.name}: {data.date}
+                        <li className={`${searchData === "" ? '' : 'text-warning'}`}>
+                            {data.emailId}: {data.date}
                         </li>
                         <li className={`${searchData === "" ? '' : 'text-warning'}`}>
                             {data.subject}
@@ -197,7 +293,7 @@ export default function Mail() {
                     </ul>
 
                     <Accordion.Collapse eventKey="0">
-                        <Card.Body >
+                        <Card.Body className={`${searchData === "" ? '' : 'text-warning'}`}>
                             {data.content} {type !== "deleted" ? <i className="float-right fa fa-trash fa-2x arrow-down" onClick={() => updateMail(type, "deleted", data)} aria-hidden="true"></i> : ""} </Card.Body>
                     </Accordion.Collapse>
                 </Accordion>
@@ -229,7 +325,9 @@ export default function Mail() {
                             </>}
 
                     </>
-                    : "No Mail Found"}
+                    :
+                    <span className="text-danger">No mail Found </span>
+                }
             </ListGroup>
         )
     }
@@ -250,8 +348,10 @@ export default function Mail() {
     }
 
     return (
+
         <>
             <div className="mt-4">
+                {mailConfirmation()}
                 <Card body style={{ border: '1px gray', backgroundColor: "#0d1117" }}>
                     <Row>
                         <Col sm={2}>
@@ -287,5 +387,3 @@ export default function Mail() {
         </>
     )
 }
-
-

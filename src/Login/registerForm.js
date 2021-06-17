@@ -26,7 +26,7 @@ function RegisterUser() {
 		let requestBody = {
 			query: `
         mutation{
-          registerUser(input:{emailId:"${this.state.emailId}",password:"${this.state.password}"}){
+          registerUser(input:{emailId:"${emailId}",password:"${password}"}){
             token,
             tokenExpiration,
             userId
